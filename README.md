@@ -4,9 +4,11 @@ An intelligent, automated candidate sourcing system that uses AI to find, match,
 
 ## ✨ Features
 
+- 🎨 **Beautiful Web UI**: Modern, responsive interface with light blue and white theme
 - 🔍 **Multi-Portal Scraping**: Automatically scrapes candidates from LinkedIn, StackOverflow, Indeed, Glassdoor, and GitHub Jobs
 - 🧠 **AI-Powered Matching**: Uses embeddings and LLM reasoning to match candidates to job requirements
 - 📊 **Intelligent Ranking**: Multi-factor scoring based on skills, experience, and AI analysis
+- 💡 **Motivational Facts**: Display inspiring HR facts while processing jobs
 - 🚀 **REST API**: Easy-to-use API for job submission and candidate retrieval
 - 💰 **FREE AI**: Uses Groq (free) for LLM operations - no OpenAI costs!
 - 🐳 **Docker Ready**: Production-ready Docker configuration
@@ -52,10 +54,25 @@ LINKEDIN_PASSWORD=your_password
 ```bash
 make run
 # or
-python -m src
+python run_api.py
 ```
 
-The API will be available at `http://localhost:8000`
+The API and Web UI will be available at `http://localhost:8000`
+
+### 🎨 Using the Web UI
+
+1. Open your browser and go to `http://localhost:8000`
+2. Fill out the job creation form with:
+   - Job title
+   - Location
+   - Required experience
+   - Skills (comma-separated)
+   - Job description
+3. Click "🚀 Start Sourcing Candidates"
+4. Enjoy motivational HR facts while AI finds candidates!
+5. View all candidates in the table below with search functionality
+
+See [UI_GUIDE.md](UI_GUIDE.md) for detailed UI documentation.
 
 ## 📖 API Documentation
 
