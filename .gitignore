@@ -56,10 +56,6 @@ data/*.db-journal
 *.sqlite
 *.sqlite3
 
-# Scraped Data
-*.html
-*.json
-
 # OS
 .DS_Store
 Thumbs.db

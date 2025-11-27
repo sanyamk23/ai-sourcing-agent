@@ -552,12 +552,13 @@ body {
     display: flex;
 }
 
-.modal-content {
+/* Workflow Modal */
+.workflow-modal {
     background: var(--bg-card);
-    padding: 60px 50px;
+    padding: 50px 40px;
     border-radius: 24px;
-    text-align: center;
-    max-width: 520px;
+    max-width: 700px;
+    width: 100%;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
     animation: slideIn 0.4s ease;
 }
@@ -573,59 +574,243 @@ body {
     }
 }
 
-.loader {
-    width: 70px;
-    height: 70px;
-    border: 6px solid var(--border);
-    border-top: 6px solid var(--primary);
-    border-right: 6px solid var(--accent);
+.workflow-title {
+    font-size: 32px;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 12px;
+    background: var(--gradient-1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.workflow-subtitle {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 16px;
+    margin-bottom: 40px;
+}
+
+.workflow-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 40px;
+}
+
+.workflow-step {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: var(--bg-main);
+    border-radius: 16px;
+    border: 2px solid var(--border);
+    transition: all 0.4s ease;
+    position: relative;
+}
+
+.workflow-step.active {
+    background: rgba(5, 85, 200, 0.05);
+    border-color: var(--primary);
+    box-shadow: 0 4px 20px rgba(5, 85, 200, 0.15);
+    transform: scale(1.02);
+}
+
+.workflow-step.completed {
+    background: rgba(16, 185, 129, 0.05);
+    border-color: var(--success);
+}
+
+.step-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--gradient-1);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.4s ease;
+}
+
+.workflow-step.active .step-icon {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.workflow-step.completed .step-icon {
+    background: var(--success);
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(5, 85, 200, 0.7);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(5, 85, 200, 0);
+    }
+}
+
+.step-icon svg {
+    color: white;
+}
+
+.step-content {
+    flex: 1;
+}
+
+.step-content h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.step-content p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.step-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.status-spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid var(--border);
+    border-top: 3px solid var(--primary);
     border-radius: 50%;
     animation: spin 1s linear infinite;
-    margin: 0 auto 24px;
+    display: none;
+}
+
+.workflow-step.active .status-spinner {
+    display: block;
 }
 
 @keyframes spin {
     to { transform: rotate(360deg); }
 }
 
-.modal-content h3 {
-    font-size: 26px;
-    margin-bottom: 16px;
-    color: var(--text-primary);
-    font-weight: 700;
+.status-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-light);
 }
 
-.fact-text {
-    font-size: 17px;
-    color: var(--text-secondary);
-    line-height: 1.7;
-    margin: 24px 0;
-    font-style: italic;
-    min-height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.workflow-step.active .status-text {
+    color: var(--primary);
 }
 
-.progress-bar {
-    width: 100%;
-    height: 8px;
+.workflow-step.completed .status-text {
+    color: var(--success);
+}
+
+.workflow-step.completed .status-text::before {
+    content: '✓ ';
+    font-weight: 800;
+}
+
+.workflow-connector {
+    width: 4px;
+    height: 20px;
     background: var(--border);
-    border-radius: 4px;
-    overflow: hidden;
-    margin-top: 28px;
+    margin: 0 auto;
+    margin-left: 49px;
+    transition: all 0.4s ease;
 }
 
-.progress-fill {
+.workflow-connector.active {
+    background: var(--primary);
+    animation: flowDown 0.6s ease;
+}
+
+@keyframes flowDown {
+    from {
+        height: 0;
+        opacity: 0;
+    }
+    to {
+        height: 20px;
+        opacity: 1;
+    }
+}
+
+.overall-progress {
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 2px solid var(--border);
+}
+
+.progress-bar-new {
+    width: 100%;
+    height: 12px;
+    background: var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.progress-fill-new {
     height: 100%;
     background: var(--gradient-1);
-    animation: progress 3s ease-in-out infinite;
+    border-radius: 6px;
+    transition: width 0.6s ease;
+    box-shadow: 0 0 10px rgba(5, 85, 200, 0.5);
 }
 
-@keyframes progress {
-    0% { width: 0%; }
-    50% { width: 70%; }
-    100% { width: 100%; }
+.progress-text {
+    text-align: center;
+    font-size: 15px;
+    color: var(--text-secondary);
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Notification Toast */
+.notification-toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    padding: 16px 24px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    font-size: 15px;
+    font-weight: 600;
+    z-index: 10000;
+    transform: translateX(400px);
+    opacity: 0;
+    transition: all 0.3s ease;
+    border-left: 4px solid var(--primary);
+    max-width: 400px;
+}
+
+.notification-toast.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.notification-toast.success {
+    border-left-color: var(--success);
+    color: var(--success);
+}
+
+.notification-toast.error {
+    border-left-color: #EF4444;
+    color: #EF4444;
+}
+
+.notification-toast.warning {
+    border-left-color: var(--warning);
+    color: var(--warning);
 }
 
 /* Jobs Section */
@@ -695,6 +880,39 @@ body {
 
 .job-header-left {
     flex: 1;
+}
+
+.job-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.btn-rerun {
+    padding: 10px 18px;
+    background: var(--bg-card);
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-rerun:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-rerun svg {
+    width: 16px;
+    height: 16px;
 }
 
 .job-toggle {
@@ -1170,6 +1388,48 @@ body {
         padding: 24px;
     }
     
+    .workflow-modal {
+        padding: 30px 20px;
+        max-width: 95%;
+    }
+    
+    .workflow-title {
+        font-size: 24px;
+    }
+    
+    .workflow-subtitle {
+        font-size: 14px;
+    }
+    
+    .workflow-step {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+    }
+    
+    .step-icon {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .step-icon svg {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .step-content h3 {
+        font-size: 16px;
+    }
+    
+    .step-content p {
+        font-size: 13px;
+    }
+    
+    .workflow-connector {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
     .candidate-modal {
         padding: 24px;
         max-height: 95vh;
@@ -1186,5 +1446,26 @@ body {
     .exp-header {
         flex-direction: column;
         gap: 8px;
+    }
+    
+    .job-header {
+        flex-direction: column;
+        gap: 16px;
+    }
+    
+    .job-header-actions {
+        width: 100%;
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .btn-rerun {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .job-toggle {
+        width: 100%;
+        justify-content: center;
     }
 }

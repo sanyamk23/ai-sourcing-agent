@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Candidate Sourcing - Find Top Talent Automatically</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230555C8'/><path d='M35 50L45 60L65 40' stroke='white' stroke-width='8' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>">
+    <link rel="stylesheet" href="/static/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Landing Section -->
+    <section id="landingSection" class="landing-section">
+        <div class="wave-container">
+            <div class="wave"></div>
+            <div class="wave"></div>
+        </div>
+        <div class="container">
+            <div class="landing-content">
+                <div class="landing-hero">
+                    <div class="hero-badge">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="currentColor"/>
+                        </svg>
+                        <span>AI-Powered Recruitment</span>
+                    </div>
+                    <h1 class="hero-title">Find the Best Candidates<br/>Automatically</h1>
+                    <p class="hero-description">We solve your sourcing problem by searching across multiple platforms and using AI to match the perfect candidates for your roles.</p>
+                    
+                    <div class="platforms-showcase">
+                        <p class="platforms-label">We search across popular platforms:</p>
+                        <div class="platform-logos">
+                            <div class="platform-logo" title="LinkedIn">
+                                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/linkedin.svg" alt="LinkedIn">
+                                <span>LinkedIn</span>
+                            </div>
+                            <div class="platform-logo" title="Indeed">
+                                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/indeed.svg" alt="Indeed">
+                                <span>Indeed</span>
+                            </div>
+                            <div class="platform-logo" title="Stack Overflow">
+                                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/stackoverflow.svg" alt="Stack Overflow">
+                                <span>Stack Overflow</span>
+                            </div>
+                            <div class="platform-logo" title="Glassdoor">
+                                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/glassdoor.svg" alt="Glassdoor">
+                                <span>Glassdoor</span>
+                            </div>
+                            <div class="platform-logo" title="GitHub">
+                                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/github.svg" alt="GitHub">
+                                <span>GitHub</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn-hero" onclick="scrollToDashboard()">
+                        <span>Get Started Now</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🔍</div>
+                        <h3>Multi-Platform Search</h3>
+                        <p>Automatically search across LinkedIn, Indeed, Stack Overflow, and more</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🤖</div>
+                        <h3>AI Matching</h3>
+                        <p>Smart algorithms match candidates to your exact requirements</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Save Time</h3>
+                        <p>Get results in minutes, not days of manual searching</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>Ranked Results</h3>
+                        <p>Candidates ranked by relevance with detailed reasoning</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <div id="dashboardSection" class="dashboard-section">
+        <div class="container">
+            <!-- Header -->
+            <header class="header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 17L12 22L22 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 12L12 17L22 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h1>AI Candidate Sourcing</h1>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-card">
+                        <span class="stat-value" id="totalCandidates">0</span>
+                        <span class="stat-label">Total Candidates</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value" id="totalJobs">0</span>
+                        <span class="stat-label">Active Jobs</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Job Creation Form -->
+                <section class="form-section">
+                    <h2>Create New Job</h2>
+                    <form id="jobForm" class="job-form">
+                        <div class="form-group">
+                            <label for="jobTitle">Job Title *</label>
+                            <input type="text" id="jobTitle" required placeholder="e.g., Senior Software Engineer">
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="location">Location *</label>
+                                <input type="text" id="location" required placeholder="e.g., San Francisco, CA">
+                            </div>
+                            <div class="form-group">
+                                <label for="experience">Experience (years) *</label>
+                                <input type="number" id="experience" required min="0" placeholder="e.g., 5">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="skills">Required Skills (comma-separated) *</label>
+                            <input type="text" id="skills" required placeholder="e.g., Python, React, AWS, Docker">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Job Description *</label>
+                            <textarea id="description" required rows="6" placeholder="Describe the role, responsibilities, and requirements..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-primary" id="submitBtn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>Start Sourcing Candidates</span>
+                        </button>
+                    </form>
+                </section>
+
+                <!-- AI Workflow Animation Modal -->
+                <div id="factsModal" class="modal">
+                    <div class="workflow-modal">
+                        <h2 class="workflow-title">🤖 AI Agents Working</h2>
+                        <p class="workflow-subtitle">Our intelligent agents are finding the perfect candidates for you</p>
+                        
+                        <div class="workflow-container">
+                            <!-- Step 1: Extractor Agent -->
+                            <div class="workflow-step" id="step1">
+                                <div class="step-icon">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <polyline points="3.27 6.96 12 12.01 20.73 6.96" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <line x1="12" y1="22.08" x2="12" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <div class="step-content">
+                                    <h3>Extractor Agent</h3>
+                                    <p>Analyzing job requirements</p>
+                                </div>
+                                <div class="step-status">
+                                    <div class="status-spinner"></div>
+                                    <span class="status-text">Waiting...</span>
+                                </div>
+                            </div>
+
+                            <!-- Connector -->
+                            <div class="workflow-connector" id="connector1"></div>
+
+                            <!-- Step 2: Search Agent -->
+                            <div class="workflow-step" id="step2">
+                                <div class="step-icon">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                                        <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <div class="step-content">
+                                    <h3>Search Agent</h3>
+                                    <p>Scanning multiple platforms</p>
+                                </div>
+                                <div class="step-status">
+                                    <div class="status-spinner"></div>
+                                    <span class="status-text">Waiting...</span>
+                                </div>
+                            </div>
+
+                            <!-- Connector -->
+                            <div class="workflow-connector" id="connector2"></div>
+
+                            <!-- Step 3: Data Builder -->
+                            <div class="workflow-step" id="step3">
+                                <div class="step-icon">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                                        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <div class="step-content">
+                                    <h3>Data Builder</h3>
+                                    <p>Enriching candidate profiles</p>
+                                </div>
+                                <div class="step-status">
+                                    <div class="status-spinner"></div>
+                                    <span class="status-text">Waiting...</span>
+                                </div>
+                            </div>
+
+                            <!-- Connector -->
+                            <div class="workflow-connector" id="connector3"></div>
+
+                            <!-- Step 4: Matching & Ranking -->
+                            <div class="workflow-step" id="step4">
+                                <div class="step-icon">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <div class="step-content">
+                                    <h3>AI Matching</h3>
+                                    <p>Ranking best candidates</p>
+                                </div>
+                                <div class="step-status">
+                                    <div class="status-spinner"></div>
+                                    <span class="status-text">Waiting...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Overall Progress -->
+                        <div class="overall-progress">
+                            <div class="progress-bar-new">
+                                <div class="progress-fill-new" id="overallProgress"></div>
+                            </div>
+                            <p class="progress-text" id="progressText">Initializing AI agents...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Jobs List -->
+                <section class="jobs-section">
+                    <div class="section-header">
+                        <h2>Your Jobs</h2>
+                        <button class="btn-secondary" onclick="refreshJobs()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                <path d="M1 4V10H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M23 20V14H17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10M23 14L18.36 18.36A9 9 0 0 1 3.51 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>Refresh</span>
+                        </button>
+                    </div>
+                    <div id="jobsList" class="jobs-list">
+                        <p class="no-data">No jobs yet. Create your first job above!</p>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
