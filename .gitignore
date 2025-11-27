@@ -67,3 +67,6 @@ Thumbs.db
 *.tmp
 *.temp
 .cache/
+
+chroma_db
+chrome_profile_linkedin

@@ -33,8 +33,22 @@ class BasePortalScraper:
         self.timeout = config['scraping']['timeout_seconds']
         self.rate_limit_delay = config['scraping'].get('rate_limit_delay', 2)
     
-    def _get_driver(self, headless: bool = True):
-        """Create Selenium WebDriver with anti-detection"""
+    def _get_driver(self, headless: bool = True, use_profile: bool = False):
+        """Create Selenium WebDriver with anti-detection and optional profile"""
+        if use_profile and not headless:
+            # Use saved Chrome profile with LinkedIn cookies
+            try:
+                from src.browser_profile_manager import BrowserProfileManager
+                driver = BrowserProfileManager.create_custom_profile_driver(
+                    "./chrome_profile_linkedin",
+                    headless=False
+                )
+                logger.info("Using Chrome profile with saved session")
+                return driver
+            except Exception as e:
+                logger.warning(f"Could not load profile: {e}")
+        
+        # Regular driver
         options = uc.ChromeOptions()
         if headless:
             options.add_argument('--headless=new')
@@ -118,12 +132,20 @@ class LinkedInScraper(BasePortalScraper):
         candidates = []
         
         try:
-            # Get or reuse existing browser
-            driver = self._get_or_create_driver()
+            # Use non-headless mode with saved profile for LinkedIn
+            driver = self._get_driver(headless=False, use_profile=True)
             
-            # Login only if not already logged in
-            if not LinkedInScraper._is_logged_in:
-                logger.info("Logging into LinkedIn...")
+            # Check if already logged in (from saved cookies)
+            logger.info("Checking LinkedIn login status...")
+            driver.get("https://www.linkedin.com/feed")
+            await asyncio.sleep(3)
+            
+            # If already logged in, skip login
+            if "feed" in driver.current_url or "mynetwork" in driver.current_url:
+                logger.info("✅ Already logged in to LinkedIn (using saved cookies)")
+            else:
+                # Need to login
+                logger.info("Not logged in, attempting login...")
                 
                 if not self.linkedin_username or not self.linkedin_password:
                     logger.error("LinkedIn credentials not provided in .env file")
@@ -148,18 +170,14 @@ class LinkedInScraper(BasePortalScraper):
                     
                     # Check if login successful
                     if "feed" in driver.current_url or "mynetwork" in driver.current_url:
-                        LinkedInScraper._is_logged_in = True
-                        logger.info("✓ LinkedIn login successful - session will be reused")
+                        logger.info("✓ LinkedIn login successful")
                     else:
                         logger.warning("LinkedIn login may have failed - check for CAPTCHA")
                         await asyncio.sleep(10)  # Give time to solve CAPTCHA manually
-                        LinkedInScraper._is_logged_in = True  # Assume logged in after wait
                     
                 except Exception as e:
                     logger.error(f"LinkedIn login error: {e}")
                     return candidates
-            else:
-                logger.info("✓ Already logged in - reusing session")
             
             # Search for people with relevant skills
             logger.info(f"Searching for: {job_description.title}")
