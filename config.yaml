@@ -1,0 +1,53 @@
+job_portals:
+  - name: linkedin
+    enabled: true
+    base_url: https://www.linkedin.com
+    api_enabled: true
+    search_url: https://www.linkedin.com/jobs/search/
+  - name: indeed
+    enabled: true
+    base_url: https://www.indeed.com
+    search_url: https://www.indeed.com/jobs
+  - name: glassdoor
+    enabled: true
+    base_url: https://www.glassdoor.com
+    search_url: https://www.glassdoor.com/Job/jobs.htm
+  - name: github_jobs
+    enabled: true
+    base_url: https://github.com
+    search_url: https://github.com/search
+  - name: stackoverflow
+    enabled: true
+    base_url: https://stackoverflow.com/jobs
+
+llm:
+  provider: groq  # Options: groq, openai
+  groq_api_key: ${GROQ_API_KEY}
+  groq_model: llama-3.3-70b-versatile  # Latest Groq model (fast and free)
+  openai_api_key: ${OPENAI_API_KEY}
+  openai_model: gpt-4
+  embedding_model: sentence-transformers  # Local embeddings (free)
+
+linkedin:
+  username: ${LINKEDIN_USERNAME}
+  password: ${LINKEDIN_PASSWORD}
+  use_api: true
+
+database:
+  url: sqlite:///./candidates.db
+
+ranking:
+  weights:
+    skills_match: 0.35
+    experience_match: 0.25
+    education_match: 0.15
+    location_match: 0.10
+    availability: 0.15
+
+scraping:
+  max_candidates_per_portal: 100
+  timeout_seconds: 30
+  retry_attempts: 3
+  headless: true
+  use_proxy: false
+  rate_limit_delay: 2
