@@ -1,5 +1,6 @@
 import asyncio
 import aiohttp
+import ssl
 from typing import List, Optional
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -64,10 +65,44 @@ class BasePortalScraper:
 class LinkedInScraper(BasePortalScraper):
     """Real LinkedIn scraper using Selenium (most reliable)"""
     
+    # Class-level shared browser instance
+    _shared_driver = None
+    _is_logged_in = False
+    
     def __init__(self, portal_name: str, base_url: str, config: dict):
         super().__init__(portal_name, base_url, config)
         self.linkedin_username = os.getenv('LINKEDIN_USERNAME')
         self.linkedin_password = os.getenv('LINKEDIN_PASSWORD')
+    
+    def _get_or_create_driver(self):
+        """Get existing driver or create a new one"""
+        if LinkedInScraper._shared_driver is None:
+            logger.info("Creating new persistent browser session...")
+            options = uc.ChromeOptions()
+            options.add_argument('--no-sandbox')
+            options.add_argument('--disable-dev-shm-usage')
+            options.add_argument('--disable-blink-features=AutomationControlled')
+            options.add_argument('--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36')
+            
+            # Keep browser open between sessions
+            options.add_experimental_option("detach", True)
+            
+            LinkedInScraper._shared_driver = uc.Chrome(options=options)
+            logger.info("✓ Persistent browser created")
+        else:
+            logger.info("♻️  Reusing existing browser session")
+        
+        return LinkedInScraper._shared_driver
+    
+    @classmethod
+    def close_browser(cls):
+        """Manually close the persistent browser session"""
+        if cls._shared_driver:
+            logger.info("Closing persistent browser session...")
+            cls._shared_driver.quit()
+            cls._shared_driver = None
+            cls._is_logged_in = False
+            logger.info("✓ Browser closed")
     
     async def scrape(self, job_description: JobDescription) -> List[Candidate]:
         """Scrape LinkedIn for candidates"""
@@ -81,46 +116,50 @@ class LinkedInScraper(BasePortalScraper):
     async def _scrape_with_selenium(self, job_description: JobDescription) -> List[Candidate]:
         """Scrape LinkedIn with Selenium - optimized for people search"""
         candidates = []
-        driver = None
         
         try:
-            # Use non-headless mode for better success with LinkedIn
-            driver = self._get_driver(headless=False)
+            # Get or reuse existing browser
+            driver = self._get_or_create_driver()
             
-            logger.info("Logging into LinkedIn...")
-            
-            # Login first
-            if not self.linkedin_username or not self.linkedin_password:
-                logger.error("LinkedIn credentials not provided in .env file")
-                return candidates
-            
-            try:
-                driver.get("https://www.linkedin.com/login")
-                await asyncio.sleep(3)
+            # Login only if not already logged in
+            if not LinkedInScraper._is_logged_in:
+                logger.info("Logging into LinkedIn...")
                 
-                # Enter credentials
-                username_field = driver.find_element(By.ID, "username")
-                password_field = driver.find_element(By.ID, "password")
+                if not self.linkedin_username or not self.linkedin_password:
+                    logger.error("LinkedIn credentials not provided in .env file")
+                    return candidates
                 
-                username_field.send_keys(self.linkedin_username)
-                await asyncio.sleep(1)
-                password_field.send_keys(self.linkedin_password)
-                await asyncio.sleep(1)
-                
-                # Click login
-                driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
-                await asyncio.sleep(5)
-                
-                # Check if login successful
-                if "feed" in driver.current_url or "mynetwork" in driver.current_url:
-                    logger.info("✓ LinkedIn login successful")
-                else:
-                    logger.warning("LinkedIn login may have failed - check for CAPTCHA")
-                    await asyncio.sleep(10)  # Give time to solve CAPTCHA manually
-                
-            except Exception as e:
-                logger.error(f"LinkedIn login error: {e}")
-                return candidates
+                try:
+                    driver.get("https://www.linkedin.com/login")
+                    await asyncio.sleep(3)
+                    
+                    # Enter credentials
+                    username_field = driver.find_element(By.ID, "username")
+                    password_field = driver.find_element(By.ID, "password")
+                    
+                    username_field.send_keys(self.linkedin_username)
+                    await asyncio.sleep(1)
+                    password_field.send_keys(self.linkedin_password)
+                    await asyncio.sleep(1)
+                    
+                    # Click login
+                    driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
+                    await asyncio.sleep(5)
+                    
+                    # Check if login successful
+                    if "feed" in driver.current_url or "mynetwork" in driver.current_url:
+                        LinkedInScraper._is_logged_in = True
+                        logger.info("✓ LinkedIn login successful - session will be reused")
+                    else:
+                        logger.warning("LinkedIn login may have failed - check for CAPTCHA")
+                        await asyncio.sleep(10)  # Give time to solve CAPTCHA manually
+                        LinkedInScraper._is_logged_in = True  # Assume logged in after wait
+                    
+                except Exception as e:
+                    logger.error(f"LinkedIn login error: {e}")
+                    return candidates
+            else:
+                logger.info("✓ Already logged in - reusing session")
             
             # Search for people with relevant skills
             logger.info(f"Searching for: {job_description.title}")
@@ -134,7 +173,16 @@ class LinkedInScraper(BasePortalScraper):
             if location:
                 search_url += f"&location={location}"
             
-            driver.get(search_url)
+            # Open in new tab if there are existing tabs, otherwise use current tab
+            if len(driver.window_handles) > 0:
+                logger.info("📑 Opening search in new tab...")
+                driver.execute_script(f"window.open('{search_url}', '_blank');")
+                await asyncio.sleep(2)
+                # Switch to the new tab
+                driver.switch_to.window(driver.window_handles[-1])
+            else:
+                driver.get(search_url)
+            
             await asyncio.sleep(5)
             
             # Scroll to load more results
@@ -235,12 +283,9 @@ class LinkedInScraper(BasePortalScraper):
             
         except Exception as e:
             logger.error(f"LinkedIn scraping error: {e}")
-        finally:
-            if driver:
-                logger.info("Closing browser...")
-                driver.quit()
         
         logger.info(f"✓ Found {len(candidates)} candidates from LinkedIn")
+        logger.info("💡 Browser window kept open for future searches")
         return candidates
 
 class IndeedScraper(BasePortalScraper):
@@ -403,7 +448,14 @@ class GitHubJobsScraper(BasePortalScraper):
         candidates = []
         
         try:
-            async with aiohttp.ClientSession() as session:
+            # Create SSL context that doesn't verify certificates (for development)
+            import ssl
+            ssl_context = ssl.create_default_context()
+            ssl_context.check_hostname = False
+            ssl_context.verify_mode = ssl.CERT_NONE
+            
+            connector = aiohttp.TCPConnector(ssl=ssl_context)
+            async with aiohttp.ClientSession(connector=connector) as session:
                 # Search for users with relevant skills
                 for skill in job_description.required_skills[:3]:
                     search_url = f"https://api.github.com/search/users?q={quote_plus(skill)}+type:user&per_page=30"
@@ -458,7 +510,14 @@ class StackOverflowScraper(BasePortalScraper):
         candidates = []
         
         try:
-            async with aiohttp.ClientSession() as session:
+            # Create SSL context that doesn't verify certificates (for development)
+            import ssl
+            ssl_context = ssl.create_default_context()
+            ssl_context.check_hostname = False
+            ssl_context.verify_mode = ssl.CERT_NONE
+            
+            connector = aiohttp.TCPConnector(ssl=ssl_context)
+            async with aiohttp.ClientSession(connector=connector) as session:
                 # Use StackExchange API
                 for skill in job_description.required_skills[:3]:
                     api_url = f"https://api.stackexchange.com/2.3/users?order=desc&sort=reputation&inname={quote_plus(skill)}&site=stackoverflow&pagesize=30"

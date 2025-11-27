@@ -94,25 +94,81 @@ async function handleJobSubmit(e) {
     }
 }
 
-// Show Facts Modal
+// Show Workflow Animation Modal
 function showFactsModal() {
     const modal = document.getElementById('factsModal');
     modal.classList.add('active');
     
-    currentFactIndex = 0;
-    document.getElementById('motivationalFact').textContent = hrFacts[currentFactIndex];
+    // Reset all steps
+    for (let i = 1; i <= 4; i++) {
+        const step = document.getElementById(`step${i}`);
+        step.classList.remove('active', 'completed');
+        step.querySelector('.status-text').textContent = 'Waiting...';
+        
+        if (i < 4) {
+            document.getElementById(`connector${i}`).classList.remove('active');
+        }
+    }
     
-    factInterval = setInterval(() => {
-        currentFactIndex = (currentFactIndex + 1) % hrFacts.length;
-        document.getElementById('motivationalFact').textContent = hrFacts[currentFactIndex];
-    }, 4000);
+    // Reset progress
+    document.getElementById('overallProgress').style.width = '0%';
+    document.getElementById('progressText').textContent = 'Initializing AI agents...';
+    
+    // Start workflow animation
+    animateWorkflow();
+}
+
+// Animate Workflow Steps
+function animateWorkflow() {
+    const steps = [
+        { id: 1, name: 'Extractor Agent', duration: 3000, progress: 25, text: 'Analyzing job requirements...' },
+        { id: 2, name: 'Search Agent', duration: 8000, progress: 50, text: 'Scanning LinkedIn, Indeed, GitHub...' },
+        { id: 3, name: 'Data Builder', duration: 5000, progress: 75, text: 'Enriching candidate profiles...' },
+        { id: 4, name: 'AI Matching', duration: 4000, progress: 100, text: 'Ranking best candidates...' }
+    ];
+    
+    let currentStep = 0;
+    
+    function activateStep(stepIndex) {
+        if (stepIndex >= steps.length) return;
+        
+        const step = steps[stepIndex];
+        const stepElement = document.getElementById(`step${step.id}`);
+        const progressBar = document.getElementById('overallProgress');
+        const progressText = document.getElementById('progressText');
+        
+        // Activate current step
+        stepElement.classList.add('active');
+        stepElement.querySelector('.status-text').textContent = 'Processing...';
+        
+        // Update progress
+        progressBar.style.width = `${step.progress}%`;
+        progressText.textContent = step.text;
+        
+        // Complete step after duration
+        setTimeout(() => {
+            stepElement.classList.remove('active');
+            stepElement.classList.add('completed');
+            stepElement.querySelector('.status-text').textContent = 'Done';
+            
+            // Activate connector
+            if (step.id < 4) {
+                document.getElementById(`connector${step.id}`).classList.add('active');
+            }
+            
+            // Move to next step
+            activateStep(stepIndex + 1);
+        }, step.duration);
+    }
+    
+    // Start with first step
+    activateStep(0);
 }
 
 // Hide Facts Modal
 function hideFactsModal() {
     const modal = document.getElementById('factsModal');
     modal.classList.remove('active');
-    clearInterval(factInterval);
 }
 
 // Poll Job Status
@@ -126,14 +182,28 @@ async function pollJobStatus(jobId) {
             const job = await response.json();
 
             if (job.status === 'completed') {
-                hideFactsModal();
-                alert(`✅ Success! Found ${job.candidates?.length || 0} candidates for this position.`);
-                document.getElementById('jobForm').reset();
-                await loadJobs();
+                // Update progress to 100% before closing
+                document.getElementById('overallProgress').style.width = '100%';
+                document.getElementById('progressText').textContent = `✅ Complete! Found ${job.candidates?.length || 0} candidates`;
+                
+                // Wait a moment to show completion
+                setTimeout(async () => {
+                    hideFactsModal();
+                    document.getElementById('jobForm').reset();
+                    await loadJobs(true); // Auto-expand latest job
+                    
+                    // Scroll to results
+                    setTimeout(() => {
+                        document.querySelector('.jobs-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 300);
+                    
+                    // Show success notification
+                    showNotification(`🎉 Found ${job.candidates?.length || 0} candidates!`, 'success');
+                }, 1500);
                 return;
             } else if (job.status === 'failed') {
                 hideFactsModal();
-                alert('❌ Job processing failed. Please try again.');
+                showNotification('❌ Job processing failed. Please try again.', 'error');
                 return;
             }
 
@@ -142,19 +212,42 @@ async function pollJobStatus(jobId) {
                 setTimeout(poll, 5000);
             } else {
                 hideFactsModal();
-                alert('⏱️ Job is taking longer than expected. Check back later.');
+                showNotification('⏱️ Job is taking longer than expected. Check back later.', 'warning');
             }
         } catch (error) {
             console.error('Polling error:', error);
             hideFactsModal();
+            showNotification('❌ Error checking job status', 'error');
         }
     };
 
     poll();
 }
 
+// Show Notification (Toast)
+function showNotification(message, type = 'success') {
+    // Remove existing notification
+    const existing = document.querySelector('.notification-toast');
+    if (existing) existing.remove();
+    
+    // Create notification
+    const notification = document.createElement('div');
+    notification.className = `notification-toast ${type}`;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    // Show with animation
+    setTimeout(() => notification.classList.add('show'), 100);
+    
+    // Hide after 4 seconds
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    }, 4000);
+}
+
 // Load Jobs from Database
-async function loadJobs() {
+async function loadJobs(autoExpandLatest = false) {
     try {
         const response = await fetch(`${API_BASE_URL}/api/jobs/all`);
         
@@ -163,6 +256,12 @@ async function loadJobs() {
         }
 
         allJobs = await response.json();
+        
+        // Auto-expand the latest job if requested
+        if (autoExpandLatest && allJobs.length > 0) {
+            expandedJobId = allJobs[0].id;
+        }
+        
         displayJobs(allJobs);
         updateStats();
     } catch (error) {
@@ -218,11 +317,21 @@ function displayJobs(jobs) {
                             </div>
                         </div>
                     </div>
-                    <div class="job-toggle">
-                        <span>${isExpanded ? 'Hide' : 'Show'} Details</span>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+                    <div class="job-header-actions">
+                        <button class="btn-rerun" onclick="event.stopPropagation(); rerunJobSearch('${job.id}')" title="Re-run this search">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                <path d="M1 4V10H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M23 20V14H17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10M23 14L18.36 18.36A9 9 0 0 1 3.51 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>Re-run Search</span>
+                        </button>
+                        <div class="job-toggle">
+                            <span>${isExpanded ? 'Hide' : 'Show'} Details</span>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
                     </div>
                 </div>
                 
@@ -527,4 +636,50 @@ function getPlatformIcon(platform) {
 // Refresh Jobs
 function refreshJobs() {
     loadJobs();
+}
+
+// Re-run Job Search
+async function rerunJobSearch(jobId) {
+    const job = allJobs.find(j => j.id === jobId);
+    if (!job) {
+        alert('Job not found');
+        return;
+    }
+    
+    const confirmed = confirm(`Re-run search for "${job.title}"?\n\nThis will search for new candidates using the same job criteria.`);
+    if (!confirmed) return;
+    
+    const jobData = {
+        title: job.title,
+        description: job.description,
+        required_skills: Array.isArray(job.required_skills) ? job.required_skills : JSON.parse(job.required_skills),
+        experience_years: job.experience_years,
+        location: job.location
+    };
+    
+    try {
+        showFactsModal();
+        
+        const response = await fetch(`${API_BASE_URL}/jobs`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(jobData)
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to re-run job search');
+        }
+
+        const newJob = await response.json();
+        console.log('Job re-run started:', newJob);
+
+        await pollJobStatus(newJob.id);
+        
+    } catch (error) {
+        console.error('Error:', error);
+        hideFactsModal();
+        alert('Error re-running job search. Please try again.');
+    }
 }
