@@ -7,14 +7,17 @@ import os
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-# Now import and run
-from src.api_server import app
+# Now import and run - USING NOSQL VERSION
+from src.api_server_nosql import app
 import uvicorn
 
 if __name__ == "__main__":
     print("="*80)
-    print("AI CANDIDATE SOURCING API SERVER")
+    print("AI CANDIDATE SOURCING API SERVER (NoSQL + Vector DB)")
     print("="*80)
+    print("\n🚀 Using MongoDB + ChromaDB")
+    print("📊 Automatic embedding creation enabled")
+    print("🔍 Vector search for existing candidates enabled")
     print("\nStarting server on http://localhost:8000")
     print("API Documentation: http://localhost:8000/docs")
     print("Alternative docs: http://localhost:8000/redoc")
