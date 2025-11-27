@@ -280,6 +280,38 @@ Edit `config.yaml` to customize:
 - Ranking weights
 - Portal priorities
 
+## 🌐 Persistent Browser Session (LinkedIn)
+
+The LinkedIn scraper now uses a **persistent browser session** that stays open between searches:
+
+### How it works:
+- ✅ **First search**: Opens browser, logs into LinkedIn once
+- ✅ **Subsequent searches**: Reuses the same browser, opens new tabs
+- ✅ **No repeated logins**: Stay logged in across multiple job searches
+- ✅ **Faster searches**: Skip login time on every search
+
+### Benefits:
+- 🚀 **Faster**: No need to login every time
+- 🔐 **More reliable**: Avoid repeated CAPTCHA challenges
+- 💻 **Better UX**: Browser stays open, you can monitor searches
+
+### Manual browser control:
+
+**To close the browser manually:**
+```bash
+python close_browser.py
+```
+
+**Browser behavior:**
+- Browser window stays open after searches complete
+- New searches open in new tabs automatically
+- Browser closes when you stop the API server or run `close_browser.py`
+
+### Tips:
+- If you see a CAPTCHA, solve it in the browser window - it will be reused
+- The browser window can be minimized while running
+- Multiple job searches will open multiple tabs in the same window
+
 ## 🔒 Security
 
 - Never commit `.env` file
@@ -300,8 +332,10 @@ Edit `config.yaml` to customize:
 ### LinkedIn not working
 
 - Check credentials in `.env`
-- Solve CAPTCHA if prompted
+- Solve CAPTCHA if prompted (browser stays open for this)
 - LinkedIn may block automated access
+- Browser session is reused - login once, use multiple times
+- If browser gets stuck, run `python close_browser.py` and try again
 
 ### Groq API errors
 
