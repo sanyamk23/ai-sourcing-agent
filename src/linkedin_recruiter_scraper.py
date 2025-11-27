@@ -144,19 +144,47 @@ class LinkedInRecruiterScraper:
         try:
             logger.info(f"Adding job title filter: {title}")
             
-            # Click on "Job titles" button
-            job_title_button = self.driver.find_element(By.XPATH, "//button[contains(text(), 'Job titles')]")
-            job_title_button.click()
-            await asyncio.sleep(1)
+            # Click the facet edit button for job titles
+            button_texts = [
+                "Job titles or boolean",
+                "Add a Job title",
+                "Job titles"
+            ]
             
-            # Find input field and enter title
-            input_field = self.driver.find_element(By.CSS_SELECTOR, "input[placeholder*='job title']")
-            input_field.send_keys(title)
-            await asyncio.sleep(1)
-            input_field.send_keys(Keys.RETURN)
-            await asyncio.sleep(1)
+            for text in button_texts:
+                try:
+                    add_button = self.driver.find_element(
+                        By.XPATH, 
+                        f"//button[contains(@class, 'facet-edit-button')]//span[contains(text(), '{text}')]/.."
+                    )
+                    add_button.click()
+                    await asyncio.sleep(1)
+                    break
+                except:
+                    continue
             
-            logger.info("✓ Job title filter added")
+            # Find input field - try multiple selectors
+            input_selectors = [
+                "//input[@placeholder='Job titles or boolean']",
+                "//input[contains(@placeholder, 'job title')]",
+                "//input[contains(@placeholder, 'Job title')]"
+            ]
+            
+            for selector in input_selectors:
+                try:
+                    input_field = self.driver.find_element(By.XPATH, selector)
+                    input_field.clear()
+                    input_field.send_keys(title)
+                    await asyncio.sleep(1)
+                    input_field.send_keys(Keys.RETURN)
+                    await asyncio.sleep(1)
+                    logger.info("✓ Job title filter added")
+                    return
+                except:
+                    continue
+            
+            logger.warning("Could not find job title input field")
+            
         except Exception as e:
             logger.warning(f"Could not add job title filter: {e}")
     
@@ -165,23 +193,55 @@ class LinkedInRecruiterScraper:
         try:
             logger.info(f"Adding skills filter: {skills}")
             
-            # Click on "Skills and Assessments" or "Skill keywords"
-            skills_button = self.driver.find_element(By.XPATH, "//button[contains(text(), 'Skill keywords')]")
-            skills_button.click()
-            await asyncio.sleep(1)
+            # Click the facet edit button for skills
+            button_texts = [
+                "Skill keywords anywhere on profile",
+                "Add a Skill keyword",
+                "Skills",
+                "Skill keywords"
+            ]
             
-            # Add each skill
-            for skill in skills[:5]:  # Limit to 5 skills
+            for text in button_texts:
                 try:
-                    input_field = self.driver.find_element(By.CSS_SELECTOR, "input[placeholder*='skill']")
-                    input_field.send_keys(skill)
-                    await asyncio.sleep(0.5)
-                    input_field.send_keys(Keys.RETURN)
-                    await asyncio.sleep(0.5)
+                    add_button = self.driver.find_element(
+                        By.XPATH, 
+                        f"//button[contains(@class, 'facet-edit-button')]//span[contains(text(), '{text}')]/.."
+                    )
+                    add_button.click()
+                    await asyncio.sleep(1)
+                    break
                 except:
                     continue
             
-            logger.info("✓ Skills filter added")
+            # Find input field
+            input_selectors = [
+                "//input[@placeholder='Skill keywords anywhere on profile']",
+                "//input[contains(@placeholder, 'Skill keyword')]",
+                "//input[contains(@placeholder, 'skill')]"
+            ]
+            
+            for selector in input_selectors:
+                try:
+                    input_field = self.driver.find_element(By.XPATH, selector)
+                    
+                    # Add each skill
+                    for skill in skills[:5]:  # Limit to 5 skills
+                        try:
+                            input_field.clear()
+                            input_field.send_keys(skill)
+                            await asyncio.sleep(0.5)
+                            input_field.send_keys(Keys.RETURN)
+                            await asyncio.sleep(0.5)
+                        except:
+                            continue
+                    
+                    logger.info("✓ Skills filter added")
+                    return
+                except:
+                    continue
+            
+            logger.warning("Could not find skills input field")
+            
         except Exception as e:
             logger.warning(f"Could not add skills filter: {e}")
     
@@ -190,19 +250,49 @@ class LinkedInRecruiterScraper:
         try:
             logger.info(f"Adding location filter: {location}")
             
-            # Click on "Locations" button
-            location_button = self.driver.find_element(By.XPATH, "//button[contains(text(), 'Locations')]")
-            location_button.click()
-            await asyncio.sleep(1)
+            # Click the facet edit button for locations
+            button_texts = [
+                "Candidate geographic locations",
+                "Add a Candidate geographic location",
+                "Locations"
+            ]
             
-            # Find input and enter location
-            input_field = self.driver.find_element(By.CSS_SELECTOR, "input[placeholder*='location']")
-            input_field.send_keys(location)
-            await asyncio.sleep(1)
-            input_field.send_keys(Keys.RETURN)
-            await asyncio.sleep(1)
+            for text in button_texts:
+                try:
+                    add_button = self.driver.find_element(
+                        By.XPATH, 
+                        f"//button[contains(@class, 'facet-edit-button')]//span[contains(text(), '{text}')]/.."
+                    )
+                    add_button.click()
+                    await asyncio.sleep(1)
+                    break
+                except:
+                    continue
             
-            logger.info("✓ Location filter added")
+            # Find input field
+            input_selectors = [
+                "//input[@placeholder='Candidate geographic locations']",
+                "//input[contains(@placeholder, 'geographic location')]",
+                "//input[contains(@placeholder, 'location')]"
+            ]
+            
+            for selector in input_selectors:
+                try:
+                    input_field = self.driver.find_element(By.XPATH, selector)
+                    input_field.clear()
+                    input_field.send_keys(location)
+                    await asyncio.sleep(2)  # Wait for dropdown
+                    input_field.send_keys(Keys.ARROW_DOWN)
+                    await asyncio.sleep(0.5)
+                    input_field.send_keys(Keys.RETURN)
+                    await asyncio.sleep(1)
+                    logger.info("✓ Location filter added")
+                    return
+                except:
+                    continue
+            
+            logger.warning("Could not find location input field")
+            
         except Exception as e:
             logger.warning(f"Could not add location filter: {e}")
     
@@ -211,27 +301,89 @@ class LinkedInRecruiterScraper:
         try:
             logger.info(f"Adding experience filter: {years}+ years")
             
-            # Click on "Years of experience"
-            exp_button = self.driver.find_element(By.XPATH, "//button[contains(text(), 'Years of experience')]")
-            exp_button.click()
-            await asyncio.sleep(1)
+            # Click the facet edit button for experience
+            button_texts = [
+                "Years of experience",
+                "Add Years of experience",
+                "Experience"
+            ]
+            
+            clicked = False
+            for text in button_texts:
+                try:
+                    add_button = self.driver.find_element(
+                        By.XPATH, 
+                        f"//button[contains(@class, 'facet-edit-button')]//span[contains(text(), '{text}')]/.."
+                    )
+                    add_button.click()
+                    await asyncio.sleep(1)
+                    clicked = True
+                    break
+                except:
+                    continue
+            
+            if not clicked:
+                logger.warning("Could not find experience button")
+                return
             
             # Select appropriate range based on years
+            checkbox_texts = []
             if years >= 10:
-                checkbox = self.driver.find_element(By.XPATH, "//label[contains(text(), '10+')]")
+                checkbox_texts = ["10+", "10 or more", "10+ years"]
             elif years >= 5:
-                checkbox = self.driver.find_element(By.XPATH, "//label[contains(text(), '5-10')]")
+                checkbox_texts = ["5-10", "5 to 10", "5-10 years"]
             elif years >= 2:
-                checkbox = self.driver.find_element(By.XPATH, "//label[contains(text(), '2-5')]")
+                checkbox_texts = ["2-5", "2 to 5", "2-5 years"]
             else:
-                checkbox = self.driver.find_element(By.XPATH, "//label[contains(text(), '0-2')]")
+                checkbox_texts = ["0-2", "0 to 2", "0-2 years", "1-2"]
             
-            checkbox.click()
-            await asyncio.sleep(1)
+            for text in checkbox_texts:
+                try:
+                    checkbox = self.driver.find_element(By.XPATH, f"//label[contains(text(), '{text}')]")
+                    checkbox.click()
+                    await asyncio.sleep(1)
+                    logger.info("✓ Experience filter added")
+                    return
+                except:
+                    continue
             
-            logger.info("✓ Experience filter added")
+            logger.warning("Could not find experience checkbox")
+            
         except Exception as e:
             logger.warning(f"Could not add experience filter: {e}")
+    
+    def _calculate_total_experience(self, experience_items) -> int:
+        """Calculate total years of experience from experience items"""
+        import re
+        from datetime import datetime
+        
+        total_years = 0
+        current_year = datetime.now().year
+        
+        for item in experience_items:
+            try:
+                text = item.text
+                
+                # Look for date patterns like "2024 – Present", "2023 – 2024", etc.
+                # Pattern: YYYY – YYYY or YYYY – Present
+                date_pattern = r'(\d{4})\s*[–-]\s*(Present|\d{4})'
+                matches = re.findall(date_pattern, text)
+                
+                for match in matches:
+                    start_year = int(match[0])
+                    end_year = current_year if match[1] == "Present" else int(match[1])
+                    
+                    years = end_year - start_year
+                    if years < 0:
+                        years = 0
+                    
+                    total_years += years
+                    
+            except Exception as e:
+                logger.debug(f"Error parsing experience date: {e}")
+                continue
+        
+        return total_years
     
     async def _click_search(self):
         """Click the Search button or wait for auto-search"""
@@ -275,57 +427,146 @@ class LinkedInRecruiterScraper:
         try:
             logger.info("Extracting candidates from results...")
             
+            # Wait for results to load
+            await asyncio.sleep(3)
+            
             # Scroll to load more results
             for i in range(3):
                 self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
                 await asyncio.sleep(2)
+                logger.info(f"Scrolled {i+1}/3")
             
-            # Find all candidate cards
-            candidate_cards = self.driver.find_elements(By.CSS_SELECTOR, "[data-test-search-result]")
+            # Try multiple selectors for candidate cards
+            candidate_cards = []
+            selectors = [
+                "article.profile-list-item",  # LinkedIn Recruiter Lite profile cards
+                "li.artdeco-list__item",
+                "[data-test-search-result]",
+                ".search-results__result-item",
+                "div.entity-result",
+                "li[class*='search-result']"
+            ]
+            
+            for selector in selectors:
+                candidate_cards = self.driver.find_elements(By.CSS_SELECTOR, selector)
+                if candidate_cards:
+                    logger.info(f"✓ Found {len(candidate_cards)} candidate cards using: {selector}")
+                    break
+                else:
+                    logger.warning(f"No cards with selector: {selector}")
             
             if not candidate_cards:
-                # Try alternative selector
-                candidate_cards = self.driver.find_elements(By.CSS_SELECTOR, ".search-results__result-item")
+                logger.error("❌ Could not find any candidate cards!")
+                logger.info("Page source preview:")
+                logger.info(self.driver.page_source[:1000])
+                return candidates
             
-            logger.info(f"Found {len(candidate_cards)} candidate cards")
+            logger.info(f"Processing {min(len(candidate_cards), max_candidates)} candidates...")
             
             for i, card in enumerate(candidate_cards[:max_candidates]):
                 try:
-                    # Extract name
+                    # Extract name - try multiple approaches
                     name = "LinkedIn User"
-                    try:
-                        name_elem = card.find_element(By.CSS_SELECTOR, "[data-test-search-result-person-name]")
-                        name = name_elem.text.strip()
-                    except:
-                        try:
-                            name_elem = card.find_element(By.CSS_SELECTOR, "a[data-control-name='view_profile']")
-                            name = name_elem.text.strip()
-                        except:
-                            pass
+                    name_selectors = [
+                        "div.artdeco-entity-lockup__title a",  # Main name link
+                        "span[data-test-row-lockup-full-name] a",
+                        "a[data-test-link-to-profile-link]",
+                        "span.artdeco-entity-lockup__title",
+                        "a.app-aware-link span[aria-hidden='true']",
+                        "[data-test-search-result-person-name]",
+                        "a[data-control-name='view_profile']"
+                    ]
                     
-                    # Extract title
+                    for selector in name_selectors:
+                        try:
+                            name_elem = card.find_element(By.CSS_SELECTOR, selector)
+                            name_text = name_elem.text.strip()
+                            if name_text and len(name_text) > 2:
+                                name = name_text
+                                break
+                        except:
+                            continue
+                    
+                    # Extract title/headline
                     title = ""
-                    try:
-                        title_elem = card.find_element(By.CSS_SELECTOR, "[data-test-search-result-person-headline]")
-                        title = title_elem.text.strip()
-                    except:
-                        pass
+                    title_selectors = [
+                        "span[data-test-row-lockup-headline]",  # Main headline
+                        "div.artdeco-entity-lockup__subtitle span",
+                        "span.artdeco-entity-lockup__subtitle",
+                        "div.artdeco-entity-lockup__subtitle",
+                        "[data-test-search-result-person-headline]"
+                    ]
+                    
+                    for selector in title_selectors:
+                        try:
+                            title_elem = card.find_element(By.CSS_SELECTOR, selector)
+                            title = title_elem.text.strip()
+                            if title:
+                                break
+                        except:
+                            continue
                     
                     # Extract location
                     location = ""
-                    try:
-                        location_elem = card.find_element(By.CSS_SELECTOR, "[data-test-search-result-person-location]")
-                        location = location_elem.text.strip()
-                    except:
-                        pass
+                    location_selectors = [
+                        "div[data-test-row-lockup-location]",  # Main location
+                        "div.artdeco-entity-lockup__metadata div",
+                        "span.artdeco-entity-lockup__caption",
+                        "div.artdeco-entity-lockup__caption",
+                        "[data-test-search-result-person-location]"
+                    ]
+                    
+                    for selector in location_selectors:
+                        try:
+                            location_elem = card.find_element(By.CSS_SELECTOR, selector)
+                            location = location_elem.text.strip()
+                            if location and "·" not in location:  # Skip if it contains separator
+                                break
+                        except:
+                            continue
                     
                     # Extract profile URL
                     profile_url = ""
+                    url_selectors = [
+                        "a[href*='/talent/profile/']",  # Recruiter profile URL
+                        "div.artdeco-entity-lockup__title a",
+                        "a[data-test-link-to-profile-link]",
+                        "a[href*='/in/']",
+                        "a.app-aware-link"
+                    ]
+                    
+                    for selector in url_selectors:
+                        try:
+                            link_elem = card.find_element(By.CSS_SELECTOR, selector)
+                            profile_url = link_elem.get_attribute("href")
+                            if profile_url and ("/talent/profile/" in profile_url or "/in/" in profile_url):
+                                break
+                        except:
+                            continue
+                    
+                    # Extract experience years
+                    experience_years = 0
+                    experience_text = ""
                     try:
-                        link_elem = card.find_element(By.CSS_SELECTOR, "a[href*='/talent/profile/']")
-                        profile_url = link_elem.get_attribute("href")
-                    except:
-                        pass
+                        # Look for the experience section in the history
+                        experience_section = card.find_element(By.CSS_SELECTOR, "div[data-test-history]")
+                        
+                        # Get all experience entries
+                        experience_items = experience_section.find_elements(
+                            By.CSS_SELECTOR, 
+                            "li[data-test-description-description]"
+                        )
+                        
+                        # Calculate total years from all experience entries
+                        experience_years = self._calculate_total_experience(experience_items)
+                        
+                        # Store experience text for reference
+                        if experience_items:
+                            experience_text = " | ".join([item.text.strip() for item in experience_items[:3]])
+                        
+                        logger.info(f"  → Experience: {experience_years} years")
+                    except Exception as e:
+                        logger.debug(f"Could not extract experience for {name}: {e}")
                     
                     # Create candidate
                     if name and name != "LinkedIn User":
@@ -339,11 +580,12 @@ class LinkedInRecruiterScraper:
                             profile_url=profile_url,
                             source_portal="LinkedIn Recruiter",
                             skills=[],  # Will be enriched later
-                            experience_years=0  # Will be enriched later
+                            experience_years=experience_years,
+                            experience=experience_text if experience_text else None
                         )
                         
                         candidates.append(candidate)
-                        logger.info(f"✓ Extracted: {name} - {title}")
+                        logger.info(f"✓ Extracted: {name} - {title} ({experience_years} yrs exp)")
                 
                 except Exception as e:
                     logger.warning(f"Error extracting candidate {i}: {e}")
