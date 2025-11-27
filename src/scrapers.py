@@ -32,8 +32,22 @@ class BasePortalScraper:
         self.timeout = config['scraping']['timeout_seconds']
         self.rate_limit_delay = config['scraping'].get('rate_limit_delay', 2)
     
-    def _get_driver(self, headless: bool = True):
-        """Create Selenium WebDriver with anti-detection"""
+    def _get_driver(self, headless: bool = True, use_profile: bool = False):
+        """Create Selenium WebDriver with anti-detection and optional profile"""
+        if use_profile and not headless:
+            # Use saved Chrome profile with LinkedIn cookies
+            try:
+                from src.browser_profile_manager import BrowserProfileManager
+                driver = BrowserProfileManager.create_custom_profile_driver(
+                    "./chrome_profile_linkedin",
+                    headless=False
+                )
+                logger.info("Using Chrome profile with saved session")
+                return driver
+            except Exception as e:
+                logger.warning(f"Could not load profile: {e}")
+        
+        # Regular driver
         options = uc.ChromeOptions()
         if headless:
             options.add_argument('--headless=new')
@@ -84,43 +98,52 @@ class LinkedInScraper(BasePortalScraper):
         driver = None
         
         try:
-            # Use non-headless mode for better success with LinkedIn
-            driver = self._get_driver(headless=False)
+            # Use non-headless mode with saved profile for LinkedIn
+            driver = self._get_driver(headless=False, use_profile=True)
             
-            logger.info("Logging into LinkedIn...")
+            # Check if already logged in (from saved cookies)
+            logger.info("Checking LinkedIn login status...")
+            driver.get("https://www.linkedin.com/feed")
+            await asyncio.sleep(3)
             
-            # Login first
-            if not self.linkedin_username or not self.linkedin_password:
-                logger.error("LinkedIn credentials not provided in .env file")
-                return candidates
-            
-            try:
-                driver.get("https://www.linkedin.com/login")
-                await asyncio.sleep(3)
+            # If already logged in, skip login
+            if "feed" in driver.current_url or "mynetwork" in driver.current_url:
+                logger.info("✅ Already logged in to LinkedIn (using saved cookies)")
+            else:
+                # Need to login
+                logger.info("Not logged in, attempting login...")
                 
-                # Enter credentials
-                username_field = driver.find_element(By.ID, "username")
-                password_field = driver.find_element(By.ID, "password")
+                if not self.linkedin_username or not self.linkedin_password:
+                    logger.error("LinkedIn credentials not provided in .env file")
+                    return candidates
                 
-                username_field.send_keys(self.linkedin_username)
-                await asyncio.sleep(1)
-                password_field.send_keys(self.linkedin_password)
-                await asyncio.sleep(1)
-                
-                # Click login
-                driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
-                await asyncio.sleep(5)
-                
-                # Check if login successful
-                if "feed" in driver.current_url or "mynetwork" in driver.current_url:
-                    logger.info("✓ LinkedIn login successful")
-                else:
-                    logger.warning("LinkedIn login may have failed - check for CAPTCHA")
-                    await asyncio.sleep(10)  # Give time to solve CAPTCHA manually
-                
-            except Exception as e:
-                logger.error(f"LinkedIn login error: {e}")
-                return candidates
+                try:
+                    driver.get("https://www.linkedin.com/login")
+                    await asyncio.sleep(3)
+                    
+                    # Enter credentials
+                    username_field = driver.find_element(By.ID, "username")
+                    password_field = driver.find_element(By.ID, "password")
+                    
+                    username_field.send_keys(self.linkedin_username)
+                    await asyncio.sleep(1)
+                    password_field.send_keys(self.linkedin_password)
+                    await asyncio.sleep(1)
+                    
+                    # Click login
+                    driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
+                    await asyncio.sleep(5)
+                    
+                    # Check if login successful
+                    if "feed" in driver.current_url or "mynetwork" in driver.current_url:
+                        logger.info("✓ LinkedIn login successful")
+                    else:
+                        logger.warning("LinkedIn login may have failed - check for CAPTCHA")
+                        await asyncio.sleep(10)  # Give time to solve CAPTCHA manually
+                    
+                except Exception as e:
+                    logger.error(f"LinkedIn login error: {e}")
+                    return candidates
             
             # Search for people with relevant skills
             logger.info(f"Searching for: {job_description.title}")

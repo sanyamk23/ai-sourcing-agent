@@ -71,24 +71,28 @@ class CandidateSourcingAgentNoSQL:
         """Main entry point with vector DB lookup and automatic storage"""
         logger.info(f"🚀 Starting candidate sourcing for: {job_description.title}")
         
-        # Step 1: Check existing candidates in vector DB
+        # Step 1: Always scrape fresh candidates
+        logger.info(f"📡 Scraping fresh candidates from all platforms...")
+        scraped_candidates = await self.scraper_manager.scrape_all(job_description)
+        logger.info(f"Found {len(scraped_candidates)} new candidates")
+        
+        # Step 2: Store ALL scraped candidates in MongoDB and Vector DB
+        if scraped_candidates:
+            await self.store_scraped_candidates(scraped_candidates)
+            logger.info(f"✅ Stored all {len(scraped_candidates)} scraped candidates with embeddings")
+        
+        # Step 3: Optionally check existing candidates from vector DB for additional matches
+        # (This gives you more candidates to choose from)
         existing_candidates = await self.check_existing_candidates(job_description, min_results=10)
         
-        # Step 2: Scrape new candidates if needed
-        if len(existing_candidates) < 10:
-            logger.info(f"📡 Scraping new candidates (have {len(existing_candidates)}, need 10+)")
-            scraped_candidates = await self.scraper_manager.scrape_all(job_description)
-            logger.info(f"Found {len(scraped_candidates)} new candidates")
-            
-            # Store ALL scraped candidates in MongoDB and Vector DB
-            if scraped_candidates:
-                await self.store_scraped_candidates(scraped_candidates)
-            
-            # Combine with existing
-            all_candidates = existing_candidates + scraped_candidates
+        if existing_candidates:
+            logger.info(f"📚 Found {len(existing_candidates)} additional candidates from vector DB")
+            # Combine: fresh scraped + existing from DB
+            all_candidates = scraped_candidates + existing_candidates
+            logger.info(f"Total candidates: {len(all_candidates)} ({len(scraped_candidates)} fresh + {len(existing_candidates)} from DB)")
         else:
-            logger.info(f"✅ Using {len(existing_candidates)} existing candidates from vector DB")
-            all_candidates = existing_candidates
+            logger.info(f"Using {len(scraped_candidates)} fresh scraped candidates")
+            all_candidates = scraped_candidates
         
         if not all_candidates:
             logger.warning("No candidates found")
@@ -110,6 +114,17 @@ class CandidateSourcingAgentNoSQL:
         # Step 4: Match candidates using NLP (correct order: job, candidates)
         matched_candidates = self.matcher.match_candidates(job_description, all_candidates)
         logger.info(f"Matched {len(matched_candidates)} candidates")
+        
+        # If no matches, lower the threshold and try again
+        if len(matched_candidates) == 0 and len(all_candidates) > 0:
+            logger.warning("No candidates matched with threshold 0.6, trying with 0.4")
+            matched_candidates = self.matcher.match_candidates(job_description, all_candidates, threshold=0.4)
+            logger.info(f"Matched {len(matched_candidates)} candidates with lower threshold")
+        
+        # If still no matches, use all candidates
+        if len(matched_candidates) == 0 and len(all_candidates) > 0:
+            logger.warning("Still no matches, using all candidates")
+            matched_candidates = all_candidates
         
         # Step 5: Rank candidates (correct order: job, candidates)
         ranked_candidates = self.ranker.rank_candidates(job_description, matched_candidates)
