@@ -180,38 +180,54 @@ class LinkedInScraper(BasePortalScraper):
                     return candidates
             
             # Search for people with relevant skills
-            logger.info(f"Searching for: {job_description.title}")
+            logger.info(f"Searching LinkedIn for: {job_description.title}")
             
-            # Build people search URL
+            # Build people search URL directly
             keywords = quote_plus(job_description.title)
             location = quote_plus(job_description.location) if job_description.location else ""
             
-            # Use LinkedIn's people search
+            # Use LinkedIn's people search URL
             search_url = f"https://www.linkedin.com/search/results/people/?keywords={keywords}"
             if location:
                 search_url += f"&location={location}"
             
-            # Open in new tab if there are existing tabs, otherwise use current tab
-            if len(driver.window_handles) > 0:
-                logger.info("📑 Opening search in new tab...")
-                driver.execute_script(f"window.open('{search_url}', '_blank');")
-                await asyncio.sleep(2)
-                # Switch to the new tab
-                driver.switch_to.window(driver.window_handles[-1])
-            else:
-                driver.get(search_url)
+            logger.info(f"Navigating to: {search_url}")
             
-            await asyncio.sleep(5)
+            # Navigate directly to search results
+            driver.get(search_url)
+            await asyncio.sleep(5)  # Wait for results to load
+            
+            logger.info(f"Current URL: {driver.current_url}")
             
             # Scroll to load more results
-            for _ in range(3):
+            logger.info("Scrolling to load more results...")
+            for i in range(3):
                 driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
                 await asyncio.sleep(2)
+                logger.info(f"Scroll {i+1}/3 complete")
             
-            # Find all profile cards - LinkedIn changed their structure
-            profile_cards = driver.find_elements(By.CSS_SELECTOR, "[data-chameleon-result-urn]")
+            # Find all profile cards - try multiple selectors
+            profile_cards = []
+            selectors = [
+                "[data-chameleon-result-urn]",
+                ".reusable-search__result-container",
+                ".entity-result",
+                "li.reusable-search__result-container"
+            ]
             
-            logger.info(f"Found {len(profile_cards)} profile cards")
+            for selector in selectors:
+                profile_cards = driver.find_elements(By.CSS_SELECTOR, selector)
+                if profile_cards:
+                    logger.info(f"✓ Found {len(profile_cards)} profile cards using selector: {selector}")
+                    break
+                else:
+                    logger.warning(f"No results with selector: {selector}")
+            
+            if not profile_cards:
+                logger.error("❌ No profile cards found with any selector!")
+                logger.info("Page source preview:")
+                logger.info(driver.page_source[:500])
+                return candidates
             
             for i, card in enumerate(profile_cards[:self.max_candidates]):
                 try:
@@ -574,8 +590,12 @@ class PortalScraperManager:
     
     def _initialize_scrapers(self) -> List[BasePortalScraper]:
         scrapers = []
+        
+        # Use LinkedIn Recruiter Lite for better results
+        use_recruiter = self.config.get('linkedin', {}).get('use_recruiter', True)
+        
         scraper_classes = {
-            'linkedin': LinkedInScraper,
+            'linkedin': LinkedInScraper,  # Will be replaced if use_recruiter=True
             'indeed': IndeedScraper,
             'glassdoor': GlassdoorScraper,
             'github_jobs': GitHubJobsScraper,
@@ -583,14 +603,20 @@ class PortalScraperManager:
         }
         
         for portal in self.config['job_portals']:
-            if portal['enabled'] and portal['name'] in scraper_classes:
-                scraper_class = scraper_classes[portal['name']]
-                scrapers.append(scraper_class(
-                    portal['name'],
-                    portal['base_url'],
-                    self.config
-                ))
-                logger.info(f"Initialized scraper: {portal['name']}")
+            if portal['enabled']:
+                # Use LinkedIn Recruiter Lite if enabled
+                if portal['name'] == 'linkedin' and use_recruiter:
+                    from src.linkedin_recruiter_scraper import LinkedInRecruiterScraper
+                    scrapers.append(LinkedInRecruiterScraper(self.config))
+                    logger.info(f"✓ Initialized LinkedIn Recruiter Lite scraper")
+                elif portal['name'] in scraper_classes:
+                    scraper_class = scraper_classes[portal['name']]
+                    scrapers.append(scraper_class(
+                        portal['name'],
+                        portal['base_url'],
+                        self.config
+                    ))
+                    logger.info(f"Initialized scraper: {portal['name']}")
         
         return scrapers
     
