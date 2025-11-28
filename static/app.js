@@ -1,6 +1,135 @@
 // API Configuration
 const API_BASE_URL = 'http://localhost:8000';
 
+// ============================================
+// THEME TOGGLE
+// ============================================
+
+// Initialize theme from localStorage or default to light
+function initTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.body.setAttribute('data-theme', savedTheme);
+}
+
+// Toggle theme
+function toggleTheme() {
+    const currentTheme = document.body.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    
+    document.body.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    
+    // Add a little animation
+    const toggle = document.getElementById('themeToggle');
+    if (toggle) {
+        toggle.style.transform = 'scale(0.9) rotate(360deg)';
+        setTimeout(() => {
+            toggle.style.transform = '';
+        }, 300);
+    }
+}
+
+// Setup theme toggle button
+function setupThemeToggle() {
+    const toggle = document.getElementById('themeToggle');
+    if (toggle) {
+        toggle.addEventListener('click', toggleTheme);
+    }
+}
+
+// Initialize theme on page load
+initTheme();
+
+// ============================================
+// CURSOR SPOTLIGHT EFFECT
+// ============================================
+
+function initCursorSpotlight() {
+    const spotlight = document.createElement('div');
+    spotlight.className = 'cursor-spotlight';
+    document.body.appendChild(spotlight);
+    
+    let mouseX = 0;
+    let mouseY = 0;
+    let spotlightX = 0;
+    let spotlightY = 0;
+    
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        spotlight.style.opacity = '1';
+    });
+    
+    document.addEventListener('mouseleave', () => {
+        spotlight.style.opacity = '0';
+    });
+    
+    // Smooth follow animation
+    function animateSpotlight() {
+        spotlightX += (mouseX - spotlightX) * 0.1;
+        spotlightY += (mouseY - spotlightY) * 0.1;
+        
+        spotlight.style.left = spotlightX + 'px';
+        spotlight.style.top = spotlightY + 'px';
+        
+        requestAnimationFrame(animateSpotlight);
+    }
+    
+    animateSpotlight();
+}
+
+// ============================================
+// FLOATING DOTS
+// ============================================
+
+function createFloatingDots() {
+    const dotCount = 20;
+    
+    for (let i = 0; i < dotCount; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'floating-dot';
+        
+        // Random position
+        dot.style.left = Math.random() * 100 + '%';
+        dot.style.top = Math.random() * 100 + '%';
+        
+        // Random delay
+        dot.style.animationDelay = Math.random() * 20 + 's';
+        
+        // Random duration
+        dot.style.animationDuration = (15 + Math.random() * 10) + 's';
+        
+        document.body.appendChild(dot);
+    }
+}
+
+// ============================================
+// SMOOTH SCROLL ANIMATIONS
+// ============================================
+
+function initScrollAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+    
+    // Observe elements
+    const animatedElements = document.querySelectorAll('.feature-card, .job-card, .stat-card');
+    animatedElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+}
+
 // Platform logos mapping
 const platformLogos = {
     'LinkedIn': 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/linkedin.svg',
@@ -45,6 +174,10 @@ function scrollToDashboard() {
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
+    setupThemeToggle();
+    initCursorSpotlight();
+    createFloatingDots();
+    initScrollAnimations();
     loadJobs();
     setupEventListeners();
     createParticles();
@@ -683,3 +816,5 @@ async function rerunJobSearch(jobId) {
         alert('Error re-running job search. Please try again.');
     }
 }
+
+
