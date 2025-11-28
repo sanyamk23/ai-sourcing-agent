@@ -26,8 +26,8 @@ class CandidateSourcingAgent:
         """Main entry point for candidate sourcing"""
         logger.info(f"Starting candidate sourcing for: {job_description.title}")
         
-        # Step 1: Scrape candidates from all portals
-        candidates = await self.scraper_manager.scrape_all(job_description)
+        # Step 1: Scrape candidates from all portals (sequential to reuse browsers)
+        candidates = await self.scraper_manager.scrape_all_sequential(job_description)
         logger.info(f"Found {len(candidates)} raw candidates")
         
         if not candidates:

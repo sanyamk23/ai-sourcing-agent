@@ -1,0 +1,33 @@
+=== Essential Naukri Scraper Files ===
+
+1. naukri_persistent_browser.py
+   - Browser manager for persistent sessions
+   - Handles Naukri and LinkedIn browsers separately
+   - Saves login permanently
+
+2. run_naukri_complete_test.py
+   - Main test script (RECOMMENDED)
+   - Fully automated - no manual steps
+   - Scrapes 100 candidates (2 pages)
+   - Saves to vector database
+   - Run: python3 run_naukri_complete_test.py
+
+3. setup_naukri_session.py
+   - Setup script for first-time login
+   - Opens browser and saves session
+   - Run once if needed
+
+4. test_naukri_session.py
+   - Quick test using existing session
+   - Fast scraping without setup
+   - Run: python3 test_naukri_session.py
+
+=== Usage ===
+
+First time:
+  python3 run_naukri_complete_test.py
+
+After that:
+  python3 test_naukri_session.py
+
+=== All unnecessary files removed ===
