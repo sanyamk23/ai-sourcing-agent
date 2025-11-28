@@ -31,6 +31,14 @@ class Candidate(BaseModel):
     source_portal: str
     summary: Optional[str] = None
     
+    # Matching scores (added dynamically during matching)
+    keyword_match_score: Optional[float] = None
+    semantic_match_score: Optional[float] = None
+    combined_match_score: Optional[float] = None
+    
+    class Config:
+        arbitrary_types_allowed = True
+    
 class RankedCandidate(BaseModel):
     candidate: Candidate
     match_score: float = Field(ge=0.0, le=1.0)

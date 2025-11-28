@@ -254,6 +254,53 @@
                     </div>
                 </div>
 
+                <!-- AI Matching Modal (Phase 2) -->
+                <div id="matchingModal" class="modal">
+                    <div class="matching-modal">
+                        <div class="matching-header">
+                            <div class="matching-icon-large">
+                                <svg width="80" height="80" viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <h2 class="matching-title">🎯 AI Matching in Progress</h2>
+                            <p class="matching-subtitle" id="matchingSubtitle">Analyzing <span id="candidateCount">0</span> candidates against job requirements</p>
+                        </div>
+
+                        <div class="matching-animation">
+                            <div class="matching-circles">
+                                <div class="circle circle-1"></div>
+                                <div class="circle circle-2"></div>
+                                <div class="circle circle-3"></div>
+                            </div>
+                            <div class="matching-text" id="matchingText">Extracting keywords from job description...</div>
+                        </div>
+
+                        <div class="matching-stats">
+                            <div class="stat-item">
+                                <div class="stat-number" id="keywordsExtracted">0</div>
+                                <div class="stat-label">Keywords Extracted</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" id="candidatesMatched">0</div>
+                                <div class="stat-label">Candidates Matched</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" id="topCandidates">0</div>
+                                <div class="stat-label">Top Candidates</div>
+                            </div>
+                        </div>
+
+                        <div class="matching-progress">
+                            <div class="progress-bar-new">
+                                <div class="progress-fill-new" id="matchingProgress"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Jobs List -->
                 <section class="jobs-section">
                     <div class="section-header">

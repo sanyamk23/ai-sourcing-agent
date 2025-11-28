@@ -69,11 +69,15 @@ Provide a brief 2-3 sentence reasoning for this match."""
         return self.llm_provider.chat_completion(messages, max_tokens=150)
     
     def rank_candidates(self, job: JobDescription, candidates: List[Candidate], top_n: int = 20) -> List[RankedCandidate]:
-        """Rank candidates and return top N"""
+        """Rank candidates and return top N using enhanced scoring"""
         logger.info(f"Ranking {len(candidates)} candidates")
         
         ranked = []
         for candidate in candidates:
+            # Use keyword and semantic scores from matcher if available
+            keyword_score = getattr(candidate, 'keyword_match_score', None)
+            semantic_score = getattr(candidate, 'semantic_match_score', None)
+            
             scores = {
                 'skills_match': self._calculate_skills_match(job, candidate),
                 'experience_match': self._calculate_experience_match(job, candidate),
@@ -82,8 +86,17 @@ Provide a brief 2-3 sentence reasoning for this match."""
                 'availability': 0.8  # Simplified
             }
             
+            # Add keyword and semantic scores if available
+            if keyword_score is not None:
+                scores['keyword_match'] = keyword_score
+            if semantic_score is not None:
+                scores['semantic_match'] = semantic_score
+            
             # Calculate weighted score
-            total_score = sum(scores[k] * self.weights[k] for k in scores.keys())
+            total_score = sum(scores[k] * self.weights.get(k, 0.1) for k in scores.keys())
+            
+            # Normalize to 0-1 range
+            total_score = min(1.0, total_score)
             
             # Get AI reasoning
             reasoning = self._get_ai_reasoning(job, candidate, scores)
@@ -100,4 +113,6 @@ Provide a brief 2-3 sentence reasoning for this match."""
         ranked.sort(key=lambda x: x.match_score, reverse=True)
         
         logger.info(f"Returning top {top_n} candidates")
+        if ranked:
+            logger.info(f"Top 3 scores: {[f'{r.candidate.name}: {r.match_score:.2f}' for r in ranked[:3]]}")
         return ranked[:top_n]

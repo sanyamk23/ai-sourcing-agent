@@ -190,19 +190,64 @@ async def create_job(job_description: JobDescription):
     return job
 
 async def process_job(job_id: str):
-    """Background task to process job"""
+    """Background task to process job - Two phase approach"""
     try:
         job = jobs_db[job_id]
         job.status = JobStatus.PROCESSING
         
         logger.info(f"Starting candidate sourcing for job {job_id}")
         
-        # Source candidates
-        candidates = await agent.source_candidates(job.description)
+        # PHASE 1: Scrape candidates from all portals
+        logger.info(f"Phase 1: Scraping candidates...")
+        raw_candidates = await agent.scraper_manager.scrape_all(job.description)
+        logger.info(f"Found {len(raw_candidates)} raw candidates")
         
-        job.candidates = candidates
+        if not raw_candidates:
+            logger.warning("No candidates found from any portal")
+            job.status = JobStatus.FAILED
+            return
+        
+        # Skip enrichment for speed (can be enabled later if needed)
+        # Enrichment adds 10-20 seconds but provides minimal value
+        logger.info(f"Skipping enrichment for faster processing")
+        
+        # Convert to RankedCandidate with basic info (for display)
+        from src.models import RankedCandidate
+        initial_candidates = []
+        for candidate in raw_candidates:
+            initial_candidates.append(RankedCandidate(
+                candidate=candidate,
+                match_score=0.5,  # Placeholder
+                match_breakdown={},
+                reasoning="Candidate found, matching in progress..."
+            ))
+        
+        # Update job with initial candidates (so frontend can show them)
+        job.candidates = initial_candidates
+        logger.info(f"Phase 1 complete: {len(initial_candidates)} candidates ready for matching")
+        
+        # Small delay to let frontend detect the candidates
+        await asyncio.sleep(1)  # Reduced from 2s to 1s
+        
+        # PHASE 2: Match and rank candidates
+        logger.info(f"Phase 2: Matching and ranking candidates...")
+        matched = agent.matcher.match_candidates(job.description, raw_candidates)
+        logger.info(f"Matched {len(matched)} candidates above threshold")
+        
+        if not matched:
+            logger.warning("No candidates matched the job requirements")
+            # Keep the raw candidates but mark as completed
+            job.status = JobStatus.COMPLETED
+            return
+        
+        # Rank candidates
+        ranked = agent.ranker.rank_candidates(job.description, matched)
+        logger.info(f"Ranked top {len(ranked)} candidates")
+        
+        # Update with final ranked candidates
+        job.candidates = ranked
         job.status = JobStatus.COMPLETED
-        logger.info(f"Job {job_id} completed with {len(candidates)} candidates")
+        logger.info(f"Job {job_id} completed with {len(ranked)} candidates")
         
         # Save to database
         from src.database import SessionLocal
@@ -216,12 +261,12 @@ async def process_job(job_id: str):
                 experience_years=job.description.experience_years,
                 location=job.description.location,
                 status=job.status.value,
-                candidates=[c.dict() for c in candidates]
+                candidates=[c.dict() for c in ranked]
             )
             db.merge(job_db)
             
             # Save candidates
-            for ranked_candidate in candidates:
+            for ranked_candidate in ranked:
                 candidate = ranked_candidate.candidate
                 candidate_db = CandidateDB(
                     id=candidate.id,
