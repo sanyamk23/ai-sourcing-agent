@@ -1,0 +1,751 @@
+/**
+ * PREMIUM MOTION DESIGN SYSTEM
+ * Ultra-polished, futuristic animation framework
+ * Optimized for performance with GPU acceleration
+ * Version: 2.0
+ */
+
+/* ============================================
+   ADVANCED MOTION TOKENS
+   ============================================ */
+
+:root {
+    /* Premium Easing Curves */
+    --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-fluid: cubic-bezier(0.45, 0, 0.15, 1);
+    --ease-snappy: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --ease-dramatic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --ease-silk: cubic-bezier(0.33, 1, 0.68, 1);
+    
+    /* Micro-interaction Timings */
+    --micro-instant: 80ms;
+    --micro-quick: 150ms;
+    --micro-smooth: 250ms;
+    
+    /* Macro Transitions */
+    --macro-enter: 400ms;
+    --macro-exit: 300ms;
+    --macro-complex: 600ms;
+}
+
+/* ============================================
+   ADVANCED PAGE TRANSITIONS
+   ============================================ */
+
+/* Blur Fade In */
+@keyframes blurFadeIn {
+    from {
+        opacity: 0;
+        filter: blur(20px);
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        filter: blur(0);
+        transform: scale(1);
+    }
+}
+
+.blur-fade-in {
+    animation: blurFadeIn 600ms var(--ease-premium) forwards;
+}
+
+/* Slide Rotate */
+@keyframes slideRotate {
+    from {
+        opacity: 0;
+        transform: translateY(40px) rotate(-5deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) rotate(0);
+    }
+}
+
+.slide-rotate {
+    animation: slideRotate 500ms var(--ease-premium) forwards;
+}
+
+/* Elastic Scale */
+@keyframes elasticScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.97);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.elastic-scale {
+    animation: elasticScale 700ms var(--ease-dramatic) forwards;
+}
+
+/* Perspective Flip */
+@keyframes perspectiveFlip {
+    from {
+        opacity: 0;
+        transform: perspective(1000px) rotateX(-90deg);
+        transform-origin: center top;
+    }
+    to {
+        opacity: 1;
+        transform: perspective(1000px) rotateX(0);
+    }
+}
+
+.perspective-flip {
+    animation: perspectiveFlip 600ms var(--ease-premium) forwards;
+}
+
+/* ============================================
+   PREMIUM BUTTON EFFECTS
+   ============================================ */
+
+/* Magnetic Button */
+.btn-magnetic {
+    position: relative;
+    transition: transform var(--micro-smooth) var(--ease-premium);
+}
+
+.btn-magnetic:hover {
+    transform: scale(1.05);
+}
+
+.btn-magnetic::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    background: linear-gradient(45deg, #0555C8, #00D9FF);
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity var(--micro-smooth) var(--ease-premium);
+    z-index: -1;
+    filter: blur(10px);
+}
+
+.btn-magnetic:hover::before {
+    opacity: 0.6;
+}
+
+/* Liquid Button */
+@keyframes liquidMorph {
+    0%, 100% {
+        border-radius: 12px;
+    }
+    25% {
+        border-radius: 20px 12px 20px 12px;
+    }
+    50% {
+        border-radius: 12px 20px 12px 20px;
+    }
+    75% {
+        border-radius: 20px 12px 20px 12px;
+    }
+}
+
+.btn-liquid:hover {
+    animation: liquidMorph 2s var(--ease-silk) infinite;
+}
+
+/* Shimmer Effect */
+@keyframes shimmerSweep {
+    0% {
+        background-position: -200% center;
+    }
+    100% {
+        background-position: 200% center;
+    }
+}
+
+.btn-shimmer {
+    background: linear-gradient(
+        90deg,
+        #0555C8 0%,
+        #00D9FF 50%,
+        #0555C8 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmerSweep 3s linear infinite;
+}
+
+/* Neon Glow */
+@keyframes neonPulse {
+    0%, 100% {
+        box-shadow: 
+            0 0 5px rgba(5, 85, 200, 0.5),
+            0 0 10px rgba(5, 85, 200, 0.3),
+            inset 0 0 10px rgba(5, 85, 200, 0.2);
+    }
+    50% {
+        box-shadow: 
+            0 0 20px rgba(5, 85, 200, 0.8),
+            0 0 40px rgba(5, 85, 200, 0.5),
+            0 0 60px rgba(5, 85, 200, 0.3),
+            inset 0 0 20px rgba(5, 85, 200, 0.4);
+    }
+}
+
+.btn-neon {
+    animation: neonPulse 2s var(--ease-silk) infinite;
+}
+
+/* ============================================
+   ADVANCED CARD EFFECTS
+   ============================================ */
+
+/* Holographic Card */
+.card-holographic {
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--macro-enter) var(--ease-premium);
+}
+
+.card-holographic::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        135deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.1) 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.1) 75%,
+        transparent 100%
+    );
+    background-size: 200% 200%;
+    opacity: 0;
+    transition: opacity var(--micro-smooth) var(--ease-premium);
+}
+
+.card-holographic:hover::before {
+    opacity: 1;
+    animation: shimmerSweep 2s linear infinite;
+}
+
+.card-holographic:hover {
+    transform: translateY(-10px) scale(1.02);
+}
+
+/* Glassmorphism Card */
+.card-glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all var(--macro-enter) var(--ease-premium);
+}
+
+.card-glass:hover {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(30px) saturate(200%);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-8px);
+}
+
+/* Parallax Card */
+.card-parallax {
+    transform-style: preserve-3d;
+    transition: transform var(--micro-smooth) var(--ease-premium);
+}
+
+.card-parallax:hover {
+    transform: perspective(1000px) rotateX(5deg) rotateY(5deg);
+}
+
+.card-parallax-content {
+    transform: translateZ(50px);
+}
+
+/* Morphing Border */
+@keyframes borderMorph {
+    0%, 100% {
+        border-radius: 20px;
+        border-width: 2px;
+    }
+    50% {
+        border-radius: 40px;
+        border-width: 4px;
+    }
+}
+
+.card-morph-border:hover {
+    animation: borderMorph 2s var(--ease-silk) infinite;
+}
+
+/* ============================================
+   PREMIUM MODAL ANIMATIONS
+   ============================================ */
+
+/* Cinematic Reveal */
+@keyframes cinematicReveal {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(100px);
+        filter: blur(10px);
+    }
+    60% {
+        transform: scale(1.02) translateY(-10px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        filter: blur(0);
+    }
+}
+
+.modal-cinematic {
+    animation: cinematicReveal 800ms var(--ease-premium) forwards;
+}
+
+/* Curtain Reveal */
+@keyframes curtainReveal {
+    from {
+        clip-path: inset(0 50% 0 50%);
+        opacity: 0;
+    }
+    to {
+        clip-path: inset(0 0 0 0);
+        opacity: 1;
+    }
+}
+
+.modal-curtain {
+    animation: curtainReveal 600ms var(--ease-premium) forwards;
+}
+
+/* Iris Open */
+@keyframes irisOpen {
+    from {
+        clip-path: circle(0% at 50% 50%);
+        opacity: 0;
+    }
+    to {
+        clip-path: circle(100% at 50% 50%);
+        opacity: 1;
+    }
+}
+
+.modal-iris {
+    animation: irisOpen 700ms var(--ease-premium) forwards;
+}
+
+/* ============================================
+   ADVANCED LOADING STATES
+   ============================================ */
+
+/* Orbital Loader */
+@keyframes orbit {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loader-orbital {
+    position: relative;
+    width: 60px;
+    height: 60px;
+}
+
+.loader-orbital::before,
+.loader-orbital::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+}
+
+.loader-orbital::before {
+    width: 60px;
+    height: 60px;
+    border: 3px solid rgba(5, 85, 200, 0.2);
+}
+
+.loader-orbital::after {
+    width: 12px;
+    height: 12px;
+    background: #0555C8;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: orbit 1.2s linear infinite;
+    transform-origin: center 30px;
+}
+
+/* Quantum Dots */
+@keyframes quantumDot {
+    0%, 100% {
+        transform: scale(0.5);
+        opacity: 0.3;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+}
+
+.loader-quantum {
+    display: flex;
+    gap: 12px;
+}
+
+.loader-quantum span {
+    width: 14px;
+    height: 14px;
+    background: linear-gradient(135deg, #0555C8, #00D9FF);
+    border-radius: 50%;
+    animation: quantumDot 1.4s ease-in-out infinite;
+}
+
+.loader-quantum span:nth-child(1) { animation-delay: 0s; }
+.loader-quantum span:nth-child(2) { animation-delay: 0.2s; }
+.loader-quantum span:nth-child(3) { animation-delay: 0.4s; }
+
+/* Morphing Loader */
+@keyframes morphLoader {
+    0%, 100% {
+        border-radius: 50%;
+        transform: rotate(0deg);
+    }
+    25% {
+        border-radius: 20%;
+        transform: rotate(90deg);
+    }
+    50% {
+        border-radius: 0%;
+        transform: rotate(180deg);
+    }
+    75% {
+        border-radius: 20%;
+        transform: rotate(270deg);
+    }
+}
+
+.loader-morph {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #0555C8, #00D9FF);
+    animation: morphLoader 2s var(--ease-silk) infinite;
+}
+
+/* ============================================
+   SUCCESS/ERROR MICRO-ANIMATIONS
+   ============================================ */
+
+/* Success Burst */
+@keyframes successBurst {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.3);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.success-burst {
+    animation: successBurst 600ms var(--ease-dramatic) forwards;
+}
+
+/* Confetti Explosion */
+@keyframes confetti {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(200px) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+.confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #10B981;
+    animation: confetti 1.5s var(--ease-premium) forwards;
+}
+
+/* Error Pulse */
+@keyframes errorPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 20px rgba(239, 68, 68, 0);
+    }
+}
+
+.error-pulse {
+    animation: errorPulse 1s var(--ease-silk) infinite;
+}
+
+/* ============================================
+   SCROLL-TRIGGERED ANIMATIONS
+   ============================================ */
+
+/* Reveal with Blur */
+.scroll-reveal-blur {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(50px);
+    transition: all 800ms var(--ease-premium);
+}
+
+.scroll-reveal-blur.visible {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+}
+
+/* Stagger Cascade */
+.scroll-stagger-cascade {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    transition: all 600ms var(--ease-premium);
+}
+
+.scroll-stagger-cascade.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.scroll-stagger-cascade:nth-child(1) { transition-delay: 0ms; }
+.scroll-stagger-cascade:nth-child(2) { transition-delay: 100ms; }
+.scroll-stagger-cascade:nth-child(3) { transition-delay: 200ms; }
+.scroll-stagger-cascade:nth-child(4) { transition-delay: 300ms; }
+.scroll-stagger-cascade:nth-child(5) { transition-delay: 400ms; }
+
+/* Parallax Layers */
+.parallax-layer-1 {
+    transform: translateZ(0);
+    transition: transform 0.5s var(--ease-premium);
+}
+
+.parallax-layer-2 {
+    transform: translateZ(50px);
+    transition: transform 0.5s var(--ease-premium);
+}
+
+.parallax-layer-3 {
+    transform: translateZ(100px);
+    transition: transform 0.5s var(--ease-premium);
+}
+
+/* ============================================
+   NAVIGATION MICRO-INTERACTIONS
+   ============================================ */
+
+/* Liquid Underline */
+.nav-liquid-underline {
+    position: relative;
+}
+
+.nav-liquid-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #0555C8, #00D9FF);
+    border-radius: 2px;
+    transform: translateX(-50%);
+    transition: width var(--micro-smooth) var(--ease-premium);
+}
+
+.nav-liquid-underline:hover::after {
+    width: 100%;
+}
+
+/* Bubble Pop */
+@keyframes bubblePop {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.nav-bubble-pop:hover {
+    animation: bubblePop 400ms var(--ease-dramatic);
+}
+
+/* Slide Background */
+.nav-slide-bg {
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-slide-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #0555C8, #00D9FF);
+    transform: translateX(-100%);
+    transition: transform var(--micro-smooth) var(--ease-premium);
+    z-index: -1;
+}
+
+.nav-slide-bg:hover::before {
+    transform: translateX(0);
+}
+
+/* ============================================
+   ADVANCED HOVER EFFECTS
+   ============================================ */
+
+/* Magnetic Pull */
+.hover-magnetic {
+    transition: transform var(--micro-smooth) var(--ease-premium);
+}
+
+.hover-magnetic:hover {
+    transform: scale(1.08) translateY(-4px);
+}
+
+/* Glitch Effect */
+@keyframes glitch {
+    0%, 100% {
+        transform: translate(0);
+    }
+    20% {
+        transform: translate(-2px, 2px);
+    }
+    40% {
+        transform: translate(-2px, -2px);
+    }
+    60% {
+        transform: translate(2px, 2px);
+    }
+    80% {
+        transform: translate(2px, -2px);
+    }
+}
+
+.hover-glitch:hover {
+    animation: glitch 300ms var(--ease-snappy);
+}
+
+/* Ripple Expand */
+@keyframes rippleExpand {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+.hover-ripple-expand {
+    position: relative;
+    overflow: hidden;
+}
+
+.hover-ripple-expand::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, rgba(5, 85, 200, 0.3) 0%, transparent 70%);
+    transform: scale(0);
+    pointer-events: none;
+}
+
+.hover-ripple-expand:hover::after {
+    animation: rippleExpand 800ms var(--ease-premium);
+}
+
+/* ============================================
+   TEXT ANIMATIONS
+   ============================================ */
+
+/* Gradient Text Flow */
+@keyframes gradientFlow {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.text-gradient-flow {
+    background: linear-gradient(90deg, #0555C8, #00D9FF, #0555C8);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientFlow 3s ease infinite;
+}
+
+/* Type Writer */
+@keyframes typeWriter {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+.text-typewriter {
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid #0555C8;
+    animation: typeWriter 2s steps(40) forwards,
+               blink 0.75s step-end infinite;
+}
+
+@keyframes blink {
+    50% {
+        border-color: transparent;
+    }
+}
+
+/* ============================================
+   PERFORMANCE OPTIMIZATIONS
+   ============================================ */
+
+/* Force GPU Acceleration */
+.gpu-boost {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* Contain Layout Shifts */
+.contain-layout {
+    contain: layout style paint;
+}
+
+/* Optimize Repaints */
+.optimize-repaint {
+    will-change: transform;
+    transform: translateZ(0);
+}

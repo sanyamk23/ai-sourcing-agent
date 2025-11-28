@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animation System Demo</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/animations.css">
+    <link rel="stylesheet" href="/static/motion-system.css">
+    <link rel="stylesheet" href="/static/ripple-effects.css">
+    <style>
+        body {
+            padding: 40px 20px;
+            background: #F8FAFC;
+        }
+        .demo-section {
+            max-width: 1200px;
+            margin: 0 auto 60px;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        .demo-section h2 {
+            margin-bottom: 30px;
+            color: #1E293B;
+            font-size: 28px;
+        }
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .demo-item {
+            padding: 30px;
+            background: #F8FAFC;
+            border-radius: 16px;
+            text-align: center;
+            border: 2px solid #E2E8F0;
+        }
+        .demo-item h3 {
+            font-size: 14px;
+            color: #64748B;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .code-block {
+            background: #1E293B;
+            color: #E2E8F0;
+            padding: 20px;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+        .hero-demo {
+            min-height: 400px;
+            background: linear-gradient(135deg, #0555C8 0%, #043A8F 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 60px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="demo-section blur-fade-in">
+        <h1 style="font-size: 48px; text-align: center; margin-bottom: 20px;" class="text-gradient-flow">
+            🎨 Animation System Demo
+        </h1>
+        <p style="text-align: center; color: #64748B; font-size: 18px;">
+            Explore all available animations and effects
+        </p>
+    </div>
+
+    <!-- Page Transitions -->
+    <div class="demo-section slide-up stagger-1">
+        <h2>📄 Page Transitions</h2>
+        <div class="demo-grid">
+            <div class="demo-item fade-in">
+                <h3>Fade In</h3>
+                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #0555C8, #00D9FF); border-radius: 12px; margin: 0 auto;"></div>
+            </div>
+            <div class="demo-item slide-up">
+                <h3>Slide Up</h3>
+                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #10B981, #34D399); border-radius: 12px; margin: 0 auto;"></div>
+            </div>
+            <div class="demo-item blur-fade-in">
+                <h3>Blur Fade</h3>
+                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #F59E0B, #FBBF24); border-radius: 12px; margin: 0 auto;"></div>
+            </div>
+            <div class="demo-item elastic-scale">
+                <h3>Elastic Scale</h3>
+                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #EF4444, #F87171); border-radius: 12px; margin: 0 auto;"></div>
+            </div>
+        </div>
+        <div class="code-block">
+&lt;div class="fade-in"&gt;Content&lt;/div&gt;
+&lt;div class="slide-up"&gt;Content&lt;/div&gt;
+&lt;div class="blur-fade-in"&gt;Content&lt;/div&gt;
+&lt;div class="elastic-scale"&gt;Content&lt;/div&gt;
+        </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="demo-section slide-up stagger-2">
+        <h2>🔘 Button Effects</h2>
+        <div class="demo-grid">
+            <div class="demo-item">
+                <h3>Magnetic</h3>
+                <button class="btn-animated btn-magnetic" style="padding: 12px 24px; border-radius: 10px; border: none; background: linear-gradient(135deg, #0555C8, #00D9FF); color: white; font-weight: 600; cursor: pointer;">
+                    Hover Me
+                </button>
+            </div>
+            <div class="demo-item">
+                <h3>Ripple</h3>
+                <button class="btn-animated btn-ripple" style="padding: 12px 24px; border-radius: 10px; border: none; background: linear-gradient(135deg, #10B981, #34D399); color: white; font-weight: 600; cursor: pointer;">
+                    Click Me
+                </button>
+            </div>
+            <div class="demo-item">
+                <h3>Neon Glow</h3>
+                <button class="btn-animated btn-neon" style="padding: 12px 24px; border-radius: 10px; border: none; background: linear-gradient(135deg, #8B5CF6, #A78BFA); color: white; font-weight: 600; cursor: pointer;">
+                    Glow
+                </button>
+            </div>
+            <div class="demo-item">
+                <h3>Shimmer</h3>
+                <button class="btn-animated btn-shimmer" style="padding: 12px 24px; border-radius: 10px; border: none; color: white; font-weight: 600; cursor: pointer;">
+                    Shimmer
+                </button>
+            </div>
+        </div>
+        <div class="code-block">
+&lt;button class="btn-animated btn-magnetic"&gt;Hover Me&lt;/button&gt;
+&lt;button class="btn-animated btn-ripple"&gt;Click Me&lt;/button&gt;
+&lt;button class="btn-animated btn-neon"&gt;Glow&lt;/button&gt;
+&lt;button class="btn-animated btn-shimmer"&gt;Shimmer&lt;/button&gt;
+        </div>
+    </div>
+
+    <!-- Cards -->
+    <div class="demo-section slide-up stagger-3">
+        <h2>🎴 Card Effects</h2>
+        <div class="demo-grid">
+            <div class="card-animated card-lift" style="padding: 30px; background: white; border-radius: 16px; border: 2px solid #E2E8F0;">
+                <h3 style="margin-bottom: 10px;">Lift Effect</h3>
+                <p style="color: #64748B; font-size: 14px;">Hover to elevate</p>
+            </div>
+            <div class="card-animated card-holographic" style="padding: 30px; background: white; border-radius: 16px; border: 2px solid #E2E8F0;">
+                <h3 style="margin-bottom: 10px;">Holographic</h3>
+                <p style="color: #64748B; font-size: 14px;">Shimmer effect</p>
+            </div>
+            <div class="card-animated card-glass" style="padding: 30px; border-radius: 16px;">
+                <h3 style="margin-bottom: 10px; color: white;">Glassmorphism</h3>
+                <p style="color: rgba(255,255,255,0.8); font-size: 14px;">Frosted glass</p>
+            </div>
+            <div class="card-animated card-parallax" style="padding: 30px; background: white; border-radius: 16px; border: 2px solid #E2E8F0;">
+                <h3 style="margin-bottom: 10px;">Parallax Tilt</h3>
+                <p style="color: #64748B; font-size: 14px;">3D depth effect</p>
+            </div>
+        </div>
+        <div class="code-block">
+&lt;div class="card-animated card-lift"&gt;Content&lt;/div&gt;
+&lt;div class="card-animated card-holographic"&gt;Content&lt;/div&gt;
+&lt;div class="card-animated card-glass"&gt;Content&lt;/div&gt;
+&lt;div class="card-animated card-parallax"&gt;Content&lt;/div&gt;
+        </div>
+    </div>
+
+    <!-- Loading States -->
+    <div class="demo-section slide-up stagger-4">
+        <h2>⏳ Loading States</h2>
+        <div class="demo-grid">
+            <div class="demo-item">
+                <h3>Spinner</h3>
+                <div class="spinner" style="margin: 0 auto;"></div>
+            </div>
+            <div class="demo-item">
+                <h3>Dots</h3>
+                <div class="loading-dots" style="justify-content: center;">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+            <div class="demo-item">
+                <h3>Orbital</h3>
+                <div class="loader-orbital" style="margin: 0 auto;"></div>
+            </div>
+            <div class="demo-item">
+                <h3>Quantum</h3>
+                <div class="loader-quantum" style="justify-content: center;">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        </div>
+        <div class="code-block">
+&lt;div class="spinner"&gt;&lt;/div&gt;
+&lt;div class="loading-dots"&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div class="loader-orbital"&gt;&lt;/div&gt;
+&lt;div class="loader-quantum"&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+        </div>
+    </div>
+
+    <!-- Interactive Elements -->
+    <div class="demo-section slide-up stagger-5">
+        <h2>🎯 Interactive Elements</h2>
+        <div class="demo-grid">
+            <div class="demo-item">
+                <h3>Toggle Switch</h3>
+                <div class="toggle-switch" onclick="this.classList.toggle('active')" style="margin: 0 auto;"></div>
+            </div>
+            <div class="demo-item">
+                <h3>Checkbox</h3>
+                <div class="checkbox-animated" onclick="this.classList.toggle('checked')" style="margin: 0 auto;"></div>
+            </div>
+            <div class="demo-item">
+                <h3>Badge</h3>
+                <span class="badge-animated" style="background: #0555C8; color: white;">New</span>
+            </div>
+            <div class="demo-item">
+                <h3>Notification</h3>
+                <div style="position: relative; display: inline-block;">
+                    <button style="padding: 12px 24px; border-radius: 10px; border: none; background: #F8FAFC; cursor: pointer;">
+                        Inbox
+                    </button>
+                    <span class="notification-badge">5</span>
+                </div>
+            </div>
+        </div>
+        <div class="code-block">
+&lt;div class="toggle-switch" onclick="this.classList.toggle('active')"&gt;&lt;/div&gt;
+&lt;div class="checkbox-animated" onclick="this.classList.toggle('checked')"&gt;&lt;/div&gt;
+&lt;span class="badge-animated"&gt;New&lt;/span&gt;
+&lt;span class="notification-badge"&gt;5&lt;/span&gt;
+        </div>
+    </div>
+
+    <!-- JavaScript Demos -->
+    <div class="demo-section slide-up stagger-6">
+        <h2>💻 JavaScript Utilities</h2>
+        <div class="demo-grid">
+            <div class="demo-item">
+                <h3>Toast</h3>
+                <button onclick="MotionSystem.showToast('Success!', 'success')" style="padding: 12px 24px; border-radius: 10px; border: none; background: #10B981; color: white; font-weight: 600; cursor: pointer;">
+                    Show Toast
+                </button>
+            </div>
+            <div class="demo-item">
+                <h3>Shake</h3>
+                <button onclick="MotionSystem.shake(this)" style="padding: 12px 24px; border-radius: 10px; border: none; background: #EF4444; color: white; font-weight: 600; cursor: pointer;">
+                    Shake Me
+                </button>
+            </div>
+            <div class="demo-item">
+                <h3>Bounce</h3>
+                <button onclick="MotionSystem.bounce(this)" style="padding: 12px 24px; border-radius: 10px; border: none; background: #F59E0B; color: white; font-weight: 600; cursor: pointer;">
+                    Bounce Me
+                </button>
+            </div>
+            <div class="demo-item">
+                <h3>Confetti</h3>
+                <button onclick="MotionSystem.confettiBurst(event.clientX, event.clientY, 30)" style="padding: 12px 24px; border-radius: 10px; border: none; background: #8B5CF6; color: white; font-weight: 600; cursor: pointer;">
+                    🎉 Celebrate
+                </button>
+            </div>
+        </div>
+        <div class="code-block">
+MotionSystem.showToast('Success!', 'success');
+MotionSystem.shake(element);
+MotionSystem.bounce(element);
+MotionSystem.confettiBurst(x, y, 30);
+        </div>
+    </div>
+
+    <!-- Hero Demo -->
+    <div class="demo-section">
+        <h2>🎬 Complete Hero Example</h2>
+        <div class="hero-demo blur-fade-in">
+            <div>
+                <h1 style="font-size: 48px; margin-bottom: 20px;" class="text-gradient-flow">
+                    Build Amazing Experiences
+                </h1>
+                <p style="font-size: 20px; margin-bottom: 30px; opacity: 0.9;" class="slide-up stagger-1">
+                    With our premium animation system
+                </p>
+                <button class="btn-animated btn-magnetic btn-neon stagger-2" style="padding: 16px 40px; border-radius: 12px; border: none; background: white; color: #0555C8; font-size: 18px; font-weight: 700; cursor: pointer;">
+                    Get Started
+                </button>
+            </div>
+        </div>
+        <div class="code-block">
+&lt;div class="hero blur-fade-in"&gt;
+    &lt;h1 class="text-gradient-flow"&gt;Build Amazing Experiences&lt;/h1&gt;
+    &lt;p class="slide-up stagger-1"&gt;With our premium animation system&lt;/p&gt;
+    &lt;button class="btn-animated btn-magnetic btn-neon stagger-2"&gt;Get Started&lt;/button&gt;
+&lt;/div&gt;
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="demo-section slide-up" style="text-align: center;">
+        <h2>🎉 Ready to Use!</h2>
+        <p style="color: #64748B; margin-bottom: 20px;">
+            All animations are ready to use in your application. Just add the CSS classes!
+        </p>
+        <button onclick="MotionSystem.confettiBurst(window.innerWidth/2, window.innerHeight/2, 50)" style="padding: 16px 40px; background: linear-gradient(135deg, #0555C8, #00D9FF); color: white; border: none; border-radius: 12px; font-size: 18px; font-weight: 700; cursor: pointer;" class="btn-animated btn-magnetic">
+            🎊 Celebrate!
+        </button>
+    </div>
+
+    <script src="/static/motion-utils.js"></script>
+</body>
+</html>

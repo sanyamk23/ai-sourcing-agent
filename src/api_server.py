@@ -50,6 +50,9 @@ agent = CandidateSourcingAgent(config)
 # In-memory storage for job status (use database for persistence)
 jobs_db = {}
 
+# In-memory storage for job progress tracking
+job_progress = {}
+
 # API Routes - specific routes MUST come before parameterized routes
 @app.get("/health")
 async def health_check():
@@ -195,7 +198,26 @@ async def process_job(job_id: str):
         job = jobs_db[job_id]
         job.status = JobStatus.PROCESSING
         
+        # Initialize progress tracking
+        job_progress[job_id] = {
+            "step": 1,
+            "step_name": "extracting",
+            "message": "Analyzing job requirements...",
+            "progress": 10,
+            "candidates_found": 0
+        }
+        
         logger.info(f"Starting candidate sourcing for job {job_id}")
+        
+        # Step 1: Extract requirements (simulated)
+        await asyncio.sleep(1)
+        job_progress[job_id] = {
+            "step": 2,
+            "step_name": "searching",
+            "message": "Searching across multiple platforms...",
+            "progress": 25,
+            "candidates_found": 0
+        }
         
         # PHASE 1: Scrape candidates from all portals
         logger.info(f"Phase 1: Scraping candidates...")
@@ -205,7 +227,23 @@ async def process_job(job_id: str):
         if not raw_candidates:
             logger.warning("No candidates found from any portal")
             job.status = JobStatus.FAILED
+            job_progress[job_id] = {
+                "step": 2,
+                "step_name": "searching",
+                "message": "No candidates found",
+                "progress": 50,
+                "candidates_found": 0
+            }
             return
+        
+        # Update progress - candidates found
+        job_progress[job_id] = {
+            "step": 3,
+            "step_name": "building",
+            "message": f"Found {len(raw_candidates)} candidates! Building profiles...",
+            "progress": 60,
+            "candidates_found": len(raw_candidates)
+        }
         
         # Skip enrichment for speed (can be enabled later if needed)
         # Enrichment adds 10-20 seconds but provides minimal value
@@ -226,6 +264,15 @@ async def process_job(job_id: str):
         job.candidates = initial_candidates
         logger.info(f"Phase 1 complete: {len(initial_candidates)} candidates ready for matching")
         
+        # Update progress - ready for matching
+        job_progress[job_id] = {
+            "step": 4,
+            "step_name": "matching",
+            "message": "AI matching candidates to job requirements...",
+            "progress": 75,
+            "candidates_found": len(initial_candidates)
+        }
+        
         # Small delay to let frontend detect the candidates
         await asyncio.sleep(1)  # Reduced from 2s to 1s
         
@@ -243,6 +290,15 @@ async def process_job(job_id: str):
         # Rank candidates
         ranked = agent.ranker.rank_candidates(job.description, matched)
         logger.info(f"Ranked top {len(ranked)} candidates")
+        
+        # Update progress - completed
+        job_progress[job_id] = {
+            "step": 4,
+            "step_name": "completed",
+            "message": f"✅ Matched {len(ranked)} top candidates!",
+            "progress": 100,
+            "candidates_found": len(ranked)
+        }
         
         # Update with final ranked candidates
         job.candidates = ranked
@@ -292,6 +348,13 @@ async def process_job(job_id: str):
     except Exception as e:
         logger.error(f"Error processing job {job_id}: {e}", exc_info=True)
         jobs_db[job_id].status = JobStatus.FAILED
+        job_progress[job_id] = {
+            "step": 0,
+            "step_name": "failed",
+            "message": f"Error: {str(e)}",
+            "progress": 0,
+            "candidates_found": 0
+        }
 
 @app.get("/jobs/{job_id}", response_model=Job)
 async def get_job(job_id: str):
@@ -299,6 +362,19 @@ async def get_job(job_id: str):
     if job_id not in jobs_db:
         raise HTTPException(status_code=404, detail="Job not found")
     return jobs_db[job_id]
+
+@app.get("/jobs/{job_id}/progress")
+async def get_job_progress(job_id: str):
+    """Get real-time job progress"""
+    if job_id not in job_progress:
+        return {
+            "step": 0,
+            "step_name": "initializing",
+            "message": "Initializing...",
+            "progress": 0,
+            "candidates_found": 0
+        }
+    return job_progress[job_id]
 
 @app.get("/jobs/{job_id}/candidates", response_model=List[RankedCandidate])
 async def get_candidates(job_id: str):
