@@ -546,10 +546,19 @@ body {
     z-index: 1000;
     align-items: center;
     justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .modal.active {
     display: flex;
+    animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
 }
 
 /* Workflow Modal */
@@ -560,7 +569,8 @@ body {
     max-width: 700px;
     width: 100%;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-    animation: slideIn 0.4s ease;
+    animation: slideIn 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 @keyframes slideIn {
@@ -772,6 +782,180 @@ body {
     color: var(--text-secondary);
     font-weight: 600;
     margin: 0;
+}
+
+/* Matching Modal (Phase 2) */
+.matching-modal {
+    background: var(--bg-card);
+    padding: 60px 50px;
+    border-radius: 24px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    animation: zoomIn 0.3s ease;
+    text-align: center;
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.matching-header {
+    margin-bottom: 40px;
+}
+
+.matching-icon-large {
+    width: 100px;
+    height: 100px;
+    background: var(--gradient-1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.matching-icon-large svg {
+    color: white;
+}
+
+.matching-title {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 12px;
+    background: var(--gradient-1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.matching-subtitle {
+    font-size: 16px;
+    color: var(--text-secondary);
+}
+
+.matching-subtitle span {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.matching-animation {
+    margin: 40px 0;
+    position: relative;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.matching-circles {
+    position: relative;
+    width: 120px;
+    height: 120px;
+}
+
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    border: 3px solid var(--primary);
+    opacity: 0.3;
+}
+
+.circle-1 {
+    width: 40px;
+    height: 40px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: ripple 2s ease-out infinite;
+}
+
+.circle-2 {
+    width: 70px;
+    height: 70px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: ripple 2s ease-out infinite 0.5s;
+}
+
+.circle-3 {
+    width: 100px;
+    height: 100px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: ripple 2s ease-out infinite 1s;
+}
+
+@keyframes ripple {
+    0% {
+        transform: translate(-50%, -50%) scale(0.5);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0;
+    }
+}
+
+.matching-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-size: 15px;
+    color: var(--text-secondary);
+    font-weight: 600;
+    animation: fadeInOut 3s ease-in-out infinite;
+}
+
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+.matching-stats {
+    display: flex;
+    justify-content: space-around;
+    margin: 40px 0;
+    padding: 30px 0;
+    border-top: 2px solid var(--border);
+    border-bottom: 2px solid var(--border);
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 36px;
+    font-weight: 800;
+    background: var(--gradient-1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.matching-progress {
+    margin-top: 30px;
 }
 
 /* Notification Toast */

@@ -118,13 +118,13 @@ function showFactsModal() {
     animateWorkflow();
 }
 
-// Animate Workflow Steps
+// Animate Workflow Steps (FASTER)
 function animateWorkflow() {
     const steps = [
-        { id: 1, name: 'Extractor Agent', duration: 3000, progress: 25, text: 'Analyzing job requirements...' },
-        { id: 2, name: 'Search Agent', duration: 8000, progress: 50, text: 'Scanning LinkedIn, Indeed, GitHub...' },
-        { id: 3, name: 'Data Builder', duration: 5000, progress: 75, text: 'Enriching candidate profiles...' },
-        { id: 4, name: 'AI Matching', duration: 4000, progress: 100, text: 'Ranking best candidates...' }
+        { id: 1, name: 'Extractor Agent', duration: 2000, progress: 25, text: 'Analyzing job requirements...' },
+        { id: 2, name: 'Search Agent', duration: 5000, progress: 50, text: 'Scanning LinkedIn, Indeed, GitHub...' },
+        { id: 3, name: 'Data Builder', duration: 3000, progress: 75, text: 'Building candidate profiles...' },
+        { id: 4, name: 'AI Matching', duration: 2000, progress: 100, text: 'Ranking best candidates...' }
     ];
     
     let currentStep = 0;
@@ -175,53 +175,150 @@ function hideFactsModal() {
 async function pollJobStatus(jobId) {
     const maxAttempts = 60;
     let attempts = 0;
+    let scrapingComplete = false;
+    let previousCandidateCount = 0;
 
     const poll = async () => {
         try {
             const response = await fetch(`${API_BASE_URL}/jobs/${jobId}`);
             const job = await response.json();
 
-            if (job.status === 'completed') {
-                // Update progress to 100% before closing
-                document.getElementById('overallProgress').style.width = '100%';
-                document.getElementById('progressText').textContent = `✅ Complete! Found ${job.candidates?.length || 0} candidates`;
+            // Check if scraping is done (candidates found but still processing)
+            if (!scrapingComplete && job.candidates && job.candidates.length > 0 && job.status === 'processing') {
+                const currentCount = job.candidates.length;
                 
-                // Wait a moment to show completion
-                setTimeout(async () => {
-                    hideFactsModal();
-                    document.getElementById('jobForm').reset();
-                    await loadJobs(true); // Auto-expand latest job
+                // Only trigger once when candidates first appear
+                if (currentCount > previousCandidateCount) {
+                    scrapingComplete = true;
+                    previousCandidateCount = currentCount;
                     
-                    // Scroll to results
+                    // Show candidates immediately
+                    document.getElementById('overallProgress').style.width = '75%';
+                    document.getElementById('progressText').textContent = `✅ Found ${currentCount} candidates! Now matching...`;
+                    
+                    // Wait a moment, then show matching modal with smooth transition
                     setTimeout(() => {
-                        document.querySelector('.jobs-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }, 300);
-                    
-                    // Show success notification
-                    showNotification(`🎉 Found ${job.candidates?.length || 0} candidates!`, 'success');
-                }, 1500);
+                        hideFactsModal();
+                        setTimeout(() => showMatchingModal(currentCount), 200);
+                    }, 800);
+                }
+            }
+
+            if (job.status === 'completed') {
+                // Close matching modal if open
+                hideMatchingModal();
+                
+                // Reset form and load jobs
+                document.getElementById('jobForm').reset();
+                await loadJobs(true); // Auto-expand latest job
+                
+                // Scroll to results
+                setTimeout(() => {
+                    document.querySelector('.jobs-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 300);
+                
+                // Show success notification
+                showNotification(`🎉 Matched ${job.candidates?.length || 0} top candidates!`, 'success');
                 return;
             } else if (job.status === 'failed') {
                 hideFactsModal();
+                hideMatchingModal();
                 showNotification('❌ Job processing failed. Please try again.', 'error');
                 return;
             }
 
             attempts++;
             if (attempts < maxAttempts) {
-                setTimeout(poll, 5000);
+                // Poll very frequently (every 1 second) for instant updates
+                setTimeout(poll, 1000);
             } else {
                 hideFactsModal();
+                hideMatchingModal();
                 showNotification('⏱️ Job is taking longer than expected. Check back later.', 'warning');
             }
         } catch (error) {
             console.error('Polling error:', error);
             hideFactsModal();
+            hideMatchingModal();
             showNotification('❌ Error checking job status', 'error');
         }
     };
 
     poll();
+}
+
+// Show Matching Modal (Phase 2)
+function showMatchingModal(candidateCount) {
+    const modal = document.getElementById('matchingModal');
+    modal.classList.add('active');
+    
+    // Set candidate count
+    document.getElementById('candidateCount').textContent = candidateCount;
+    
+    // Animate the matching process
+    animateMatching(candidateCount);
+}
+
+// Animate Matching Process (FASTER & MORE INTERACTIVE)
+function animateMatching(candidateCount) {
+    const messages = [
+        'Extracting keywords from job description...',
+        'Analyzing candidate skills and experience...',
+        'Calculating semantic similarity scores...',
+        'Ranking candidates by match quality...',
+        'Generating AI insights for top matches...'
+    ];
+    
+    let messageIndex = 0;
+    let progress = 0;
+    
+    // Update message every 1 second (faster)
+    const messageInterval = setInterval(() => {
+        if (messageIndex < messages.length) {
+            document.getElementById('matchingText').textContent = messages[messageIndex];
+            messageIndex++;
+        }
+    }, 1000);
+    
+    // Animate stats (faster)
+    animateCounter('keywordsExtracted', 0, Math.min(15, candidateCount), 1500);
+    animateCounter('candidatesMatched', 0, candidateCount, 2000);
+    animateCounter('topCandidates', 0, Math.min(20, candidateCount), 2500);
+    
+    // Animate progress bar (faster, smoother)
+    const progressInterval = setInterval(() => {
+        progress += 3;  // Faster increment
+        document.getElementById('matchingProgress').style.width = `${Math.min(progress, 100)}%`;
+        
+        if (progress >= 100) {
+            clearInterval(progressInterval);
+            clearInterval(messageInterval);
+        }
+    }, 80);  // Smoother animation
+}
+
+// Animate Counter
+function animateCounter(elementId, start, end, duration) {
+    const element = document.getElementById(elementId);
+    const range = end - start;
+    const increment = range / (duration / 50);
+    let current = start;
+    
+    const timer = setInterval(() => {
+        current += increment;
+        if (current >= end) {
+            element.textContent = Math.round(end);
+            clearInterval(timer);
+        } else {
+            element.textContent = Math.round(current);
+        }
+    }, 50);
+}
+
+// Hide Matching Modal
+function hideMatchingModal() {
+    const modal = document.getElementById('matchingModal');
+    modal.classList.remove('active');
 }
 
 // Show Notification (Toast)
