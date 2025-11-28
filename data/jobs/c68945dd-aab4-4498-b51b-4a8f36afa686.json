@@ -1,0 +1,360 @@
+{
+  "id": "c68945dd-aab4-4498-b51b-4a8f36afa686",
+  "description": {
+    "title": "frontend developer",
+    "description": "can do it",
+    "required_skills": [
+      "react",
+      "html",
+      "css",
+      "javascript",
+      "mysql",
+      "python"
+    ],
+    "experience_years": 1,
+    "location": "india",
+    "salary_range": null
+  },
+  "status": "completed",
+  "created_at": "2025-11-28T01:19:31.323156",
+  "candidates": [
+    {
+      "candidate": {
+        "id": "58f588b508e091b44a326120950b0c59",
+        "name": "Mohan Palapi",
+        "email": null,
+        "phone": null,
+        "current_title": "Frontend Developer | ReactJs, Javascript, Redux, HTML, CSS",
+        "skills": [],
+        "experience_years": 8,
+        "education": null,
+        "location": "Bengaluru, Karnataka, India",
+        "profile_url": "https://www.linkedin.com/talent/profile/AEMAADb5kKYBPsYSpsl3Lcz8CHuj8QR4mmbbIVY?searchHistoryId=20788144124&highlightedPatternSource=%255Cbfrontend%2520developer%2520react%2520html%2520css%255Cb%257C%255Cbjavascript%255Cb%257C%255Cbdeveloper%255Cb%257C%255Cbfrontend%255Cb%257C%255Cbreact%255Cb%257C%255Cbmysql%255Cb%257C%255Cbhtml%255Cb%257C%255Cbcss%255Cb&trk=SEARCH_GLOBAL",
+        "source_portal": "LinkedIn Recruiter",
+        "summary": null,
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.8,
+      "match_breakdown": {
+        "skill_match": 0.6666666666666666,
+        "experience_match": 1.0,
+        "matched_skills": [
+          "javascript",
+          "react",
+          "html",
+          "css"
+        ],
+        "missing_skills": [
+          "python",
+          "mysql"
+        ],
+        "experience_gap": 0
+      },
+      "reasoning": "Skills: 4/6 matched, Experience: 100% match"
+    },
+    {
+      "candidate": {
+        "id": "95c1f0e786f8e2ab9fdc876079a2505b",
+        "name": "Sudarsana Raja Murugan K",
+        "email": null,
+        "phone": null,
+        "current_title": "Senior Frontend Developer | React | Redux | JavaScript | TypeScript | Office JS | Material UI | React Bootstrap | AI Agents | Langchain | OpenAI | Prompt Engineer",
+        "skills": [],
+        "experience_years": 12,
+        "education": null,
+        "location": "Tamil Nadu, India",
+        "profile_url": "https://www.linkedin.com/talent/profile/AEMAABymGF4BStFKJjd-Xz2VyrxJl1SVNYfCOL8?searchHistoryId=20788144124&highlightedPatternSource=%255Cbfrontend%2520developer%2520react%2520html%2520css%255Cb%257C%255Cbjavascript%255Cb%257C%255Cbdeveloper%255Cb%257C%255Cbfrontend%255Cb%257C%255Cbreact%255Cb%257C%255Cbmysql%255Cb%257C%255Cbhtml%255Cb%257C%255Cbcss%255Cb&trk=SEARCH_GLOBAL",
+        "source_portal": "LinkedIn Recruiter",
+        "summary": null,
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.6,
+      "match_breakdown": {
+        "skill_match": 0.3333333333333333,
+        "experience_match": 1.0,
+        "matched_skills": [
+          "javascript",
+          "react"
+        ],
+        "missing_skills": [
+          "python",
+          "mysql",
+          "html",
+          "css"
+        ],
+        "experience_gap": 0
+      },
+      "reasoning": "Skills: 2/6 matched, Experience: 100% match"
+    },
+    {
+      "candidate": {
+        "id": "fc41bb21a577456e20b34bbfcad00643",
+        "name": "Jay P.",
+        "email": null,
+        "phone": null,
+        "current_title": "Frontend Developer| Javascript | Angular | React | Vuejs | Ionic | Solution Provider",
+        "skills": [],
+        "experience_years": 12,
+        "education": null,
+        "location": "Mumbai, Maharashtra, India",
+        "profile_url": "https://www.linkedin.com/talent/profile/AEMAACADmpoBOWn0ZqRkydorRmNE2nzLQA5w8eA?searchHistoryId=20788144124&highlightedPatternSource=%255Cbfrontend%2520developer%2520react%2520html%2520css%255Cb%257C%255Cbjavascript%255Cb%257C%255Cbdeveloper%255Cb%257C%255Cbfrontend%255Cb%257C%255Cbreact%255Cb%257C%255Cbmysql%255Cb%257C%255Cbhtml%255Cb%257C%255Cbcss%255Cb&trk=SEARCH_GLOBAL",
+        "source_portal": "LinkedIn Recruiter",
+        "summary": null,
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.6,
+      "match_breakdown": {
+        "skill_match": 0.3333333333333333,
+        "experience_match": 1.0,
+        "matched_skills": [
+          "javascript",
+          "react"
+        ],
+        "missing_skills": [
+          "python",
+          "mysql",
+          "html",
+          "css"
+        ],
+        "experience_gap": 0
+      },
+      "reasoning": "Skills: 2/6 matched, Experience: 100% match"
+    },
+    {
+      "candidate": {
+        "id": "826fd0257966cd3e422c3604f3ba2d93",
+        "name": "Nitin Yadav",
+        "email": null,
+        "phone": null,
+        "current_title": "Python Software Developer",
+        "skills": [
+          "Python |",
+          "Django |",
+          "Django Framework |",
+          "Python Development |",
+          "Web Scraping |",
+          "Docker |",
+          "GIT |",
+          "Gitlab |",
+          "Github |",
+          "API |",
+          "Selenium |",
+          "Javascript |",
+          "HTML"
+        ],
+        "experience_years": null,
+        "education": null,
+        "location": "Jaipur",
+        "profile_url": "https://resdex.naukri.com/lite/preview?tabKey=profile&sid=2481927&paramString=8b485a994a0b1f7d419bf11cc53a6d4b13106&hfFlowName=rdxLiteSrp&totalResumes=500&requirementId=125289&requirementGroupId=125289&tupleIndex=13&storageKey=2481927-1&parentSid=2481927&sidGroupId=6a725c2900607e9d4c092addf9ccb689&title=UHl0aG9uIERldmVsb3Blcg==&uresid=0401125c358bf571b9ac2de3774f1cce5a5a0053421a0a160b02405f5b0d5248120c160a0243515d0a544b170d156&elasticType=es7&uniqId=ed404d632214a484bbd010b89745db930c095f5242110d180543420d595c054f4158110045450c5e0c594b450c43034752595a0f554911081404185209094f6",
+        "source_portal": "naukri_resdex",
+        "summary": "Current: Python Software Developer at Growth Grids Private Limited | Experience: 3y 0m | Salary: \u20b9 4.50 Lacs | Education: B.Tech/B.E. Jaipur National University, Jaipur 2023",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.18,
+      "match_breakdown": {
+        "skill_match": 0.16666666666666666,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "html"
+        ],
+        "missing_skills": [
+          "javascript",
+          "css",
+          "react",
+          "python",
+          "mysql"
+        ],
+        "experience_gap": 1
+      },
+      "reasoning": "Skills: 1/6 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "82527f8f64d4592b2730c614ed5974c6",
+        "name": "Nitin Yadav",
+        "email": null,
+        "phone": null,
+        "current_title": "Python Software Developer",
+        "skills": [
+          "Python |",
+          "Django |",
+          "Django Framework |",
+          "Python Development |",
+          "Web Scraping |",
+          "Docker |",
+          "GIT |",
+          "Gitlab |",
+          "Github |",
+          "API |",
+          "Selenium |",
+          "Javascript |",
+          "HTML"
+        ],
+        "experience_years": null,
+        "education": null,
+        "location": "Jaipur",
+        "profile_url": "https://resdex.naukri.com/lite/preview?tabKey=profile&sid=2481929&paramString=8b485a994a0b1f7d419bf11cc53a6d4b13106&hfFlowName=rdxLiteSrp&totalResumes=500&requirementId=125289&requirementGroupId=125289&tupleIndex=13&storageKey=2481929-1&parentSid=2481929&sidGroupId=376e9ecb2a7af60e2e67c936230efaf4&title=UHl0aG9uIERldmVsb3Blcg==&uresid=2d0d57ea5122a165d8baf870dce5c3ea5a5a0053421a0a160b02405f5b0d5248120c18040243515d0a544b170d156&elasticType=es7&uniqId=acd63d0560bb2dd11553d5a7c46872580c095f5242110d180543420d595c054f4158110045450c5e0c594b450c43034752595a0f55491108140a165209094f6",
+        "source_portal": "naukri_resdex",
+        "summary": "Current: Python Software Developer at Growth Grids Private Limited | Experience: 3y 0m | Salary: \u20b9 4.50 Lacs | Education: B.Tech/B.E. Jaipur National University, Jaipur 2023",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.18,
+      "match_breakdown": {
+        "skill_match": 0.16666666666666666,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "html"
+        ],
+        "missing_skills": [
+          "javascript",
+          "css",
+          "react",
+          "python",
+          "mysql"
+        ],
+        "experience_gap": 1
+      },
+      "reasoning": "Skills: 1/6 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "c73c89c05fae2e12712b3d750e16af5d",
+        "name": "Reactgular",
+        "email": null,
+        "phone": null,
+        "current_title": "Developer (Reputation: 55116)",
+        "skills": [
+          "react"
+        ],
+        "experience_years": null,
+        "education": null,
+        "location": "Markham, ON, Canada",
+        "profile_url": "https://stackoverflow.com/users/1031569/reactgular",
+        "source_portal": "stackoverflow",
+        "summary": "Reputation: 55116, Badges: 24 gold",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.18,
+      "match_breakdown": {
+        "skill_match": 0.16666666666666666,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "react"
+        ],
+        "missing_skills": [
+          "javascript",
+          "css",
+          "html",
+          "python",
+          "mysql"
+        ],
+        "experience_gap": 1
+      },
+      "reasoning": "Skills: 1/6 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "ad3971c6c892915c21f475dd35c05706",
+        "name": "Reactormonk",
+        "email": null,
+        "phone": null,
+        "current_title": "Developer (Reputation: 21800)",
+        "skills": [
+          "react"
+        ],
+        "experience_years": null,
+        "education": null,
+        "location": "",
+        "profile_url": "https://stackoverflow.com/users/411944/reactormonk",
+        "source_portal": "stackoverflow",
+        "summary": "Reputation: 21800, Badges: 16 gold",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.18,
+      "match_breakdown": {
+        "skill_match": 0.16666666666666666,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "react"
+        ],
+        "missing_skills": [
+          "javascript",
+          "css",
+          "html",
+          "python",
+          "mysql"
+        ],
+        "experience_gap": 1
+      },
+      "reasoning": "Skills: 1/6 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "f6e6e5771c34d4d50e80967dc8292de5",
+        "name": "ReactiveRaven",
+        "email": null,
+        "phone": null,
+        "current_title": "Developer (Reputation: 7649)",
+        "skills": [
+          "react"
+        ],
+        "experience_years": null,
+        "education": null,
+        "location": "Yorkshire",
+        "profile_url": "https://stackoverflow.com/users/390508/reactiveraven",
+        "source_portal": "stackoverflow",
+        "summary": "Reputation: 7649, Badges: 2 gold",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.18,
+      "match_breakdown": {
+        "skill_match": 0.16666666666666666,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "react"
+        ],
+        "missing_skills": [
+          "javascript",
+          "css",
+          "html",
+          "python",
+          "mysql"
+        ],
+        "experience_gap": 1
+      },
+      "reasoning": "Skills: 1/6 matched, Experience: 20% match"
+    }
+  ]
+}

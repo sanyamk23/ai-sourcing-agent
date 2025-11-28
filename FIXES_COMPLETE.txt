@@ -32,3 +32,68 @@
 └──────────────────────────────────────────────────────────────────────────────┘
 
 ┌──────────────────────────────────────────────────────────────────────────────┐
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    LATEST: Polling & Timeout Limits                          ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+✅ API polling now logs only every 10th call (reduces log noise)
+✅ LinkedIn scraping has 60 second timeout (forces move to next scraper)
+✅ Timeout checks during scrolling and candidate extraction
+✅ Browser closes immediately after LinkedIn completes
+
+Changes:
+1. API Server:
+   - Tracks poll count per job
+   - Logs every 10th poll: "📊 Job xxx polled 10 times"
+   - Reduces log spam from 100+ lines to ~10 lines
+
+2. LinkedIn Scraper:
+   - Max 60 seconds total scraping time
+   - Checks timeout during scrolling
+   - Checks timeout during candidate extraction
+   - Logs: "⏱️  LinkedIn scraping timeout - extracted X candidates"
+   - Browser closes after completion
+
+3. Scraper Flow:
+   Naukri (100 candidates) → 5s wait → LinkedIn (max 60s) → close browser → 5s wait → GitHub → 5s wait → StackOverflow
+
+Restart API server:
+  python3 run_api.py
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                  FINAL FIX: Browser Close & Polling Reduced                  ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+✅ Naukri browser now closes after scraping (was staying open)
+✅ Frontend polling reduced from 1s to 2s intervals
+✅ Max polling attempts reduced from 60 to 40
+✅ Total polling: 40 attempts × 2s = 80 seconds max
+
+Changes:
+1. Naukri Scraper (src/scrapers.py):
+   - Browser ALWAYS closes after scraping completes
+   - Prevents window staying open causing issues
+   - Logs: "�� Closing Naukri browser..."
+
+2. Frontend Polling (static/app.js):
+   - Interval: 1 second → 2 seconds (50% reduction)
+   - Max attempts: 60 → 40 (33% reduction)
+   - Total calls reduced from ~60 to ~40 per job
+
+3. Expected Behavior:
+   - Naukri scrapes → browser closes → 5s wait
+   - LinkedIn scrapes (max 60s) → browser closes → 5s wait
+   - GitHub scrapes → 5s wait
+   - StackOverflow scrapes → Done
+   - Frontend polls every 2s (max 40 times = 80s)
+
+Why polling happens:
+  - Frontend needs to check job status while scraping
+  - Normal behavior for async operations
+  - Now reduced by 50% to minimize server load
+
+Restart API server:
+  python3 run_api.py
+
+Then refresh browser to load new JavaScript.

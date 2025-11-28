@@ -20,25 +20,39 @@ class PersistentBrowser:
     
     def get_driver(self):
         """Get or create the persistent browser"""
-        if self._driver is None:
-            print(f"🌐 Creating persistent {self._portal_name} browser with saved profile...")
-            
-            # Create profile directory if it doesn't exist
-            Path(self._profile_dir).mkdir(exist_ok=True)
-            
-            # Configure Chrome with persistent profile
-            options = uc.ChromeOptions()
-            options.add_argument(f'--user-data-dir={os.path.abspath(self._profile_dir)}')
-            options.add_argument('--no-sandbox')
-            options.add_argument('--disable-dev-shm-usage')
-            options.add_argument('--disable-blink-features=AutomationControlled')
-            options.add_argument('--profile-directory=Default')
-            
-            # Create driver
-            self._driver = uc.Chrome(options=options)
-            print(f"✅ {self._portal_name} browser created with persistent profile")
-        else:
-            print(f"♻️  Reusing existing {self._portal_name} browser session")
+        # Check if existing driver is still alive
+        if self._driver is not None:
+            try:
+                # Test if driver is still responsive
+                _ = self._driver.current_url
+                print(f"♻️  Reusing existing {self._portal_name} browser session")
+                return self._driver
+            except:
+                # Driver is dead, clean up
+                print(f"⚠️  Previous {self._portal_name} browser session died, creating new one...")
+                try:
+                    self._driver.quit()
+                except:
+                    pass
+                self._driver = None
+        
+        # Create new driver
+        print(f"🌐 Creating persistent {self._portal_name} browser with saved profile...")
+        
+        # Create profile directory if it doesn't exist
+        Path(self._profile_dir).mkdir(exist_ok=True)
+        
+        # Configure Chrome with persistent profile
+        options = uc.ChromeOptions()
+        options.add_argument(f'--user-data-dir={os.path.abspath(self._profile_dir)}')
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
+        options.add_argument('--disable-blink-features=AutomationControlled')
+        options.add_argument('--profile-directory=Default')
+        
+        # Create driver
+        self._driver = uc.Chrome(options=options)
+        print(f"✅ {self._portal_name} browser created with persistent profile")
         
         return self._driver
     

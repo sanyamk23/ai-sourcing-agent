@@ -12,11 +12,12 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.models import JobDescription, Job, JobStatus, RankedCandidate, Candidate
 from src.agent import CandidateSourcingAgent
-from src.database import get_db, JobDB, CandidateDB
-from sqlalchemy.orm import Session
+from src.nosql_db import NoSQLJobDB
+from src.hard_matcher import HardMatcher
 import asyncio
 import logging
 import os
+import json
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -44,11 +45,16 @@ config['llm']['openai_api_key'] = os.getenv('OPENAI_API_KEY')
 config['linkedin']['username'] = os.getenv('LINKEDIN_USERNAME')
 config['linkedin']['password'] = os.getenv('LINKEDIN_PASSWORD')
 
-# Initialize agent
+# Initialize agent and databases
 agent = CandidateSourcingAgent(config)
+nosql_db = NoSQLJobDB()
+hard_matcher = HardMatcher()
 
-# In-memory storage for job status (use database for persistence)
+# In-memory storage for job status (for real-time updates)
 jobs_db = {}
+
+# Track polling count per job to prevent excessive calls
+job_poll_count = {}
 
 # API Routes - specific routes MUST come before parameterized routes
 @app.get("/health")
@@ -56,83 +62,138 @@ async def health_check():
     return {"status": "healthy"}
 
 @app.get("/api/candidates")
-async def get_all_candidates(db: Session = Depends(get_db)):
-    """Get all candidates from database"""
+async def get_all_candidates():
+    """Get all candidates from vector database"""
     try:
-        candidates = db.query(CandidateDB).all()
-        return [
-            {
-                "id": c.id,
-                "name": c.name,
-                "email": c.email,
-                "phone": c.phone,
-                "current_title": c.current_title,
-                "skills": c.skills,
-                "experience_years": c.experience_years,
-                "education": c.education,
-                "location": c.location,
-                "profile_url": c.profile_url,
-                "source_portal": c.source_portal,
-                "summary": c.summary,
-                "created_at": c.created_at,
-                "updated_at": c.updated_at
-            }
-            for c in candidates
-        ]
+        from src.vector_db import CandidateVectorDB
+        vector_db = CandidateVectorDB()
+        stats = vector_db.get_stats()
+        return {
+            "total": stats['total_candidates'],
+            "by_source": stats['by_source'],
+            "message": "Use /jobs/{job_id} to see matched candidates for a specific job"
+        }
     except Exception as e:
         logger.error(f"Error fetching candidates: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/api/jobs/all")
-async def get_all_jobs(db: Session = Depends(get_db)):
-    """Get all jobs with their candidates from database"""
+@app.get("/api/database/stats")
+async def get_database_stats():
+    """Get comprehensive database statistics"""
     try:
-        jobs = db.query(JobDB).order_by(JobDB.created_at.desc()).all()
+        from src.vector_db import CandidateVectorDB
+        from collections import Counter
+        
+        # Vector DB stats
+        vector_db = CandidateVectorDB()
+        vector_stats = vector_db.get_stats()
+        
+        # Get detailed vector DB info
+        results = vector_db.collection.get()
+        all_skills = []
+        titles = []
+        
+        for metadata in results['metadatas']:
+            skills_str = metadata.get('skills', '[]')
+            try:
+                if isinstance(skills_str, str):
+                    skills = json.loads(skills_str)
+                else:
+                    skills = skills_str
+                all_skills.extend(skills)
+            except:
+                pass
+            
+            title = metadata.get('title', 'N/A')
+            if title != 'N/A':
+                titles.append(title)
+        
+        skill_counts = Counter(all_skills)
+        title_counts = Counter(titles)
+        
+        # NoSQL DB stats
+        jobs = nosql_db.get_all_jobs()
+        total_matched = sum(len(job.candidates) for job in jobs)
+        
+        return {
+            "vector_db": {
+                "total_candidates": vector_stats['total_candidates'],
+                "by_source": vector_stats['by_source'],
+                "top_skills": dict(skill_counts.most_common(20)),
+                "top_titles": dict(title_counts.most_common(10))
+            },
+            "nosql_db": {
+                "total_jobs": len(jobs),
+                "total_matched_candidates": total_matched,
+                "average_matches_per_job": total_matched / len(jobs) if jobs else 0
+            },
+            "health": {
+                "vector_db_populated": vector_stats['total_candidates'] > 0,
+                "nosql_db_populated": len(jobs) > 0,
+                "match_rate": (total_matched / vector_stats['total_candidates'] * 100) if vector_stats['total_candidates'] > 0 else 0
+            }
+        }
+    except Exception as e:
+        logger.error(f"Error fetching database stats: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/jobs/all")
+async def get_all_jobs():
+    """Get all jobs from NoSQL database"""
+    try:
+        jobs = nosql_db.get_all_jobs()
         return [
             {
                 "id": j.id,
-                "title": j.title,
-                "description": j.description,
-                "required_skills": j.required_skills,
-                "experience_years": j.experience_years,
-                "location": j.location,
-                "status": j.status,
-                "candidates": j.candidates if j.candidates else [],
-                "created_at": j.created_at,
-                "updated_at": j.updated_at
+                "title": j.description.title,
+                "description": j.description.description,
+                "required_skills": j.description.required_skills,
+                "experience_years": j.description.experience_years,
+                "location": j.description.location,
+                "status": j.status.value if hasattr(j.status, 'value') else str(j.status),
+                "candidates": [c.dict() if hasattr(c, 'dict') else c for c in (j.candidates if j.candidates else [])],
+                "created_at": j.created_at.isoformat() if hasattr(j.created_at, 'isoformat') else str(j.created_at)
             }
             for j in jobs
         ]
     except Exception as e:
         logger.error(f"Error fetching jobs: {e}")
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/api/candidate/{candidate_id}/profile")
-async def get_candidate_profile(candidate_id: str, db: Session = Depends(get_db)):
-    """Get detailed candidate profile with experience"""
+async def get_candidate_profile(candidate_id: str):
+    """Get detailed candidate profile from vector database"""
     try:
-        candidate = db.query(CandidateDB).filter(CandidateDB.id == candidate_id).first()
-        if not candidate:
+        from src.vector_db import CandidateVectorDB
+        vector_db = CandidateVectorDB()
+        
+        candidate_data = vector_db.get_by_id(candidate_id)
+        if not candidate_data:
             raise HTTPException(status_code=404, detail="Candidate not found")
         
-        # Parse experience from summary or create mock data
-        experience_data = parse_experience_from_summary(candidate.summary or "")
+        metadata = candidate_data['metadata']
+        
+        # Parse experience from summary if available
+        experience_data = []
+        if metadata.get('summary'):
+            experience_data = parse_experience_from_summary(metadata['summary'])
         
         return {
-            "id": candidate.id,
-            "name": candidate.name,
-            "email": candidate.email,
-            "phone": candidate.phone,
-            "current_title": candidate.current_title,
-            "skills": candidate.skills,
-            "experience_years": candidate.experience_years,
-            "education": candidate.education,
-            "location": candidate.location,
-            "profile_url": candidate.profile_url,
-            "source_portal": candidate.source_portal,
-            "summary": candidate.summary,
-            "experience": experience_data,
-            "created_at": candidate.created_at
+            "id": candidate_id,
+            "name": metadata.get('name', 'N/A'),
+            "email": metadata.get('email', ''),
+            "phone": metadata.get('phone', ''),
+            "current_title": metadata.get('title', ''),
+            "skills": metadata.get('skills', '[]'),
+            "experience_years": metadata.get('experience_years', 0),
+            "education": metadata.get('education', ''),
+            "location": metadata.get('location', ''),
+            "profile_url": metadata.get('profile_url', ''),
+            "source_portal": metadata.get('source', ''),
+            "summary": metadata.get('summary', ''),
+            "experience": experience_data
         }
     except HTTPException:
         raise
@@ -190,7 +251,7 @@ async def create_job(job_description: JobDescription):
     return job
 
 async def process_job(job_id: str):
-    """Background task to process job - Two phase approach"""
+    """Background task to process job - Hard matching with balanced results"""
     try:
         job = jobs_db[job_id]
         job.status = JobStatus.PROCESSING
@@ -199,105 +260,142 @@ async def process_job(job_id: str):
         
         # PHASE 1: Scrape candidates from all portals
         logger.info(f"Phase 1: Scraping candidates...")
-        raw_candidates = await agent.scraper_manager.scrape_all(job.description)
+        raw_candidates = await agent.scraper_manager.scrape_all_sequential(job.description)
         logger.info(f"Found {len(raw_candidates)} raw candidates")
         
         if not raw_candidates:
             logger.warning("No candidates found from any portal")
             job.status = JobStatus.FAILED
+            job.candidates = []
+            nosql_db.save_job(job)
             return
         
-        # Skip enrichment for speed (can be enabled later if needed)
-        # Enrichment adds 10-20 seconds but provides minimal value
-        logger.info(f"Skipping enrichment for faster processing")
+        # PHASE 2: Semantic search in Vector DB for additional relevant candidates
+        logger.info(f"Phase 2: Searching Vector DB for relevant candidates...")
+        from src.vector_db import CandidateVectorDB
+        vector_db = CandidateVectorDB()
         
-        # Convert to RankedCandidate with basic info (for display)
-        from src.models import RankedCandidate
-        initial_candidates = []
-        for candidate in raw_candidates:
-            initial_candidates.append(RankedCandidate(
-                candidate=candidate,
-                match_score=0.5,  # Placeholder
-                match_breakdown={},
-                reasoning="Candidate found, matching in progress..."
-            ))
+        # Create search query from job description
+        search_query = f"{job.description.title} {' '.join(job.description.required_skills)} {job.description.description}"
         
-        # Update job with initial candidates (so frontend can show them)
-        job.candidates = initial_candidates
-        logger.info(f"Phase 1 complete: {len(initial_candidates)} candidates ready for matching")
+        # Search for similar candidates (get more than needed)
+        similar_candidates_data = vector_db.search_similar(search_query, n_results=50)
         
-        # Small delay to let frontend detect the candidates
-        await asyncio.sleep(1)  # Reduced from 2s to 1s
+        # Convert vector DB results to Candidate objects
+        from src.models import Candidate
+        vector_candidates = []
+        for result in similar_candidates_data:
+            metadata = result['metadata']
+            try:
+                # Parse skills
+                skills_str = metadata.get('skills', '[]')
+                if isinstance(skills_str, str):
+                    skills = json.loads(skills_str) if skills_str else []
+                else:
+                    skills = skills_str
+                
+                candidate = Candidate(
+                    id=result['id'],
+                    name=metadata.get('name', 'Unknown'),
+                    current_title=metadata.get('title', ''),
+                    skills=skills,
+                    experience_years=metadata.get('experience_years', 0),
+                    location=metadata.get('location', ''),
+                    profile_url=metadata.get('profile_url', ''),
+                    source_portal=metadata.get('source', 'unknown'),
+                    email=metadata.get('email'),
+                    phone=metadata.get('phone'),
+                    summary=metadata.get('summary')
+                )
+                vector_candidates.append(candidate)
+            except Exception as e:
+                logger.warning(f"Error converting vector DB result: {e}")
+                continue
         
-        # PHASE 2: Match and rank candidates
-        logger.info(f"Phase 2: Matching and ranking candidates...")
-        matched = agent.matcher.match_candidates(job.description, raw_candidates)
-        logger.info(f"Matched {len(matched)} candidates above threshold")
+        logger.info(f"Found {len(vector_candidates)} candidates from Vector DB search")
+        
+        # Combine scraped candidates with vector DB candidates (remove duplicates)
+        all_candidates = raw_candidates.copy()
+        existing_ids = {c.id for c in raw_candidates}
+        for vc in vector_candidates:
+            if vc.id not in existing_ids:
+                all_candidates.append(vc)
+                existing_ids.add(vc.id)
+        
+        logger.info(f"Total candidates for matching: {len(all_candidates)} (scraped + vector DB)")
+        
+        # PHASE 3: Hard match on skills and experience (VERY LENIENT)
+        logger.info(f"Phase 3: Hard matching on skills and experience...")
+        matched = hard_matcher.match_candidates(
+            job.description, 
+            all_candidates,
+            min_skill_match=0.1,  # At least 10% skills must match (very lenient)
+            min_experience_match=0.1  # At least 10% experience requirement (very lenient)
+        )
+        logger.info(f"Matched {len(matched)} candidates")
         
         if not matched:
-            logger.warning("No candidates matched the job requirements")
-            # Keep the raw candidates but mark as completed
+            logger.warning("No candidates matched the requirements")
+            job.candidates = []
             job.status = JobStatus.COMPLETED
+            nosql_db.save_job(job)
             return
         
-        # Rank candidates
-        ranked = agent.ranker.rank_candidates(job.description, matched)
-        logger.info(f"Ranked top {len(ranked)} candidates")
+        # PHASE 4: Balance results across sources (max 10 results)
+        logger.info(f"Phase 4: Balancing results across sources...")
+        balanced = hard_matcher.balance_by_source(
+            matched,
+            max_results=10,
+            sources=['naukri', 'linkedin', 'stackoverflow', 'github']
+        )
+        logger.info(f"Selected {len(balanced)} balanced candidates")
         
-        # Update with final ranked candidates
-        job.candidates = ranked
+        # Convert to RankedCandidate format
+        ranked_candidates = []
+        for match in balanced:
+            candidate = match['candidate']
+            ranked_candidates.append(RankedCandidate(
+                candidate=candidate,
+                match_score=match['combined_score'],
+                match_breakdown={
+                    'skill_match': match['skill_score'],
+                    'experience_match': match['experience_score'],
+                    'matched_skills': match['matched_skills'],
+                    'missing_skills': match['missing_skills'],
+                    'experience_gap': match['experience_gap']
+                },
+                reasoning=f"Skills: {len(match['matched_skills'])}/{len(job.description.required_skills)} matched, Experience: {match['experience_score']*100:.0f}% match"
+            ))
+        
+        # Update job with final results
+        job.candidates = ranked_candidates
         job.status = JobStatus.COMPLETED
-        logger.info(f"Job {job_id} completed with {len(ranked)} candidates")
+        logger.info(f"Job {job_id} completed with {len(ranked_candidates)} candidates")
         
-        # Save to database
-        from src.database import SessionLocal
-        db = SessionLocal()
-        try:
-            job_db = JobDB(
-                id=job_id,
-                title=job.description.title,
-                description=job.description.description,
-                required_skills=job.description.required_skills,
-                experience_years=job.description.experience_years,
-                location=job.description.location,
-                status=job.status.value,
-                candidates=[c.dict() for c in ranked]
-            )
-            db.merge(job_db)
-            
-            # Save candidates
-            for ranked_candidate in ranked:
-                candidate = ranked_candidate.candidate
-                candidate_db = CandidateDB(
-                    id=candidate.id,
-                    name=candidate.name,
-                    email=candidate.email,
-                    phone=candidate.phone,
-                    current_title=candidate.current_title,
-                    skills=candidate.skills,
-                    experience_years=candidate.experience_years,
-                    education=candidate.education,
-                    location=candidate.location,
-                    profile_url=candidate.profile_url,
-                    source_portal=candidate.source_portal,
-                    summary=candidate.summary
-                )
-                db.merge(candidate_db)
-            
-            db.commit()
-            logger.info(f"Saved job {job_id} to database")
-        finally:
-            db.close()
+        # Save to NoSQL database
+        nosql_db.save_job(job)
+        logger.info(f"💾 Saved job {job_id} to NoSQL database")
         
     except Exception as e:
         logger.error(f"Error processing job {job_id}: {e}", exc_info=True)
         jobs_db[job_id].status = JobStatus.FAILED
+        nosql_db.save_job(jobs_db[job_id])
 
 @app.get("/jobs/{job_id}", response_model=Job)
 async def get_job(job_id: str):
-    """Get job status and results"""
+    """Get job status and results (polled by frontend)"""
     if job_id not in jobs_db:
         raise HTTPException(status_code=404, detail="Job not found")
+    
+    # Track polling count
+    if job_id not in job_poll_count:
+        job_poll_count[job_id] = 0
+    job_poll_count[job_id] += 1
+    
+    # Log only every 10th poll to reduce noise
+    if job_poll_count[job_id] % 10 == 0:
+        logger.info(f"📊 Job {job_id[:8]}... polled {job_poll_count[job_id]} times (status: {jobs_db[job_id].status})")
+    
     return jobs_db[job_id]
 
 @app.get("/jobs/{job_id}/candidates", response_model=List[RankedCandidate])
