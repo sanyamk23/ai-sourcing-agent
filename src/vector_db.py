@@ -16,12 +16,12 @@ logger = logging.getLogger(__name__)
 class CandidateVectorDB:
     """Vector database for storing and searching candidates"""
     
-    def __init__(self, persist_directory: str = "./data/chroma_db"):
+    def __init__(self, persist_directory: str = "./chroma_db"):
         """Initialize ChromaDB"""
-        self.client = chromadb.Client(Settings(
-            persist_directory=persist_directory,
-            anonymized_telemetry=False
-        ))
+        self.client = chromadb.PersistentClient(
+            path=persist_directory,
+            settings=Settings(anonymized_telemetry=False)
+        )
         
         # Get or create collection
         self.collection = self.client.get_or_create_collection(
@@ -72,17 +72,17 @@ class CandidateVectorDB:
                 "summary": candidate.summary or ""
             })
         
-        # Add to collection (ChromaDB handles embeddings automatically)
+        # Upsert to collection (prevents duplicates by updating existing entries)
         try:
-            self.collection.add(
+            self.collection.upsert(
                 ids=ids,
                 documents=documents,
                 metadatas=metadatas
             )
-            logger.info(f"✅ Added {len(candidates)} candidates to vector DB")
+            logger.info(f"✅ Upserted {len(candidates)} candidates to vector DB (no duplicates)")
             return len(candidates)
         except Exception as e:
-            logger.error(f"Error adding candidates to vector DB: {e}")
+            logger.error(f"Error upserting candidates to vector DB: {e}")
             return 0
     
     def search_similar(self, query: str, n_results: int = 10, 

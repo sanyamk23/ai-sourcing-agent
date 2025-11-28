@@ -116,3 +116,39 @@ Provide a brief 2-3 sentence reasoning for this match."""
         if ranked:
             logger.info(f"Top 3 scores: {[f'{r.candidate.name}: {r.match_score:.2f}' for r in ranked[:3]]}")
         return ranked[:top_n]
+    
+    def rank_candidates_simple(self, job: JobDescription, candidates: List[Candidate], top_n: int = 50) -> List[RankedCandidate]:
+        """Rank candidates WITHOUT expensive LLM calls - much faster"""
+        logger.info(f"Ranking {len(candidates)} candidates (simple mode - no LLM)")
+        ranked = []
+        
+        for candidate in candidates:
+            # Calculate scores
+            scores = {
+                'skills_match': self._calculate_skills_match(job, candidate),
+                'experience_match': self._calculate_experience_match(job, candidate),
+                'location_match': self._calculate_location_match(job, candidate),
+            }
+            
+            # Calculate weighted score
+            total_score = sum(scores[k] * self.weights.get(k, 0.1) for k in scores.keys())
+            total_score = min(1.0, total_score)
+            
+            # Simple reasoning without LLM
+            reasoning = f"Match: {int(total_score*100)}% - Skills: {int(scores['skills_match']*100)}%, Experience: {int(scores['experience_match']*100)}%, Location: {int(scores['location_match']*100)}%"
+            
+            ranked_candidate = RankedCandidate(
+                candidate=candidate,
+                match_score=total_score,
+                match_breakdown=scores,
+                reasoning=reasoning
+            )
+            ranked.append(ranked_candidate)
+        
+        # Sort by score descending
+        ranked.sort(key=lambda x: x.match_score, reverse=True)
+        
+        logger.info(f"Ranked {len(ranked)} candidates (simple mode)")
+        if ranked:
+            logger.info(f"Top 3 scores: {[f'{r.candidate.name}: {r.match_score:.2f}' for r in ranked[:3]]}")
+        return ranked[:top_n]

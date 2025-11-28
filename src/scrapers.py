@@ -138,6 +138,8 @@ class LinkedInScraper(BasePortalScraper):
         """Scrape LinkedIn with Selenium - optimized for people search"""
         candidates = []
         driver = None
+        start_time = time.time()
+        max_duration = 60  # Maximum 60 seconds for LinkedIn scraping
         
         try:
             # Try persistent browser first
@@ -226,6 +228,10 @@ class LinkedInScraper(BasePortalScraper):
             # Scroll to load more results
             logger.info("Scrolling to load more results...")
             for i in range(3):
+                # Check timeout
+                if time.time() - start_time > max_duration:
+                    logger.warning(f"⏱️  LinkedIn scraping timeout ({max_duration}s) - moving on")
+                    break
                 driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
                 await asyncio.sleep(2)
                 logger.info(f"Scroll {i+1}/3 complete")
@@ -256,6 +262,11 @@ class LinkedInScraper(BasePortalScraper):
                 logger.info("   Saved to: linkedin_page_debug.html")
             
             for i, card in enumerate(profile_cards[:self.max_candidates]):
+                # Check timeout
+                if time.time() - start_time > max_duration:
+                    logger.warning(f"⏱️  LinkedIn scraping timeout - extracted {len(candidates)} candidates")
+                    break
+                
                 try:
                     # Extract name - try multiple selectors
                     name = "LinkedIn User"
@@ -346,9 +357,17 @@ class LinkedInScraper(BasePortalScraper):
             
         except Exception as e:
             logger.error(f"LinkedIn scraping error: {e}")
+        finally:
+            # TEMPORARY: Keep browser open for debugging
+            if driver:
+                logger.info("💡 Keeping LinkedIn browser open for debugging - close manually")
+                # try:
+                #     logger.info("🔒 Closing LinkedIn browser...")
+                #     driver.quit()
+                # except:
+                #     pass
         
         logger.info(f"✓ Found {len(candidates)} candidates from LinkedIn")
-        logger.info("💡 Browser window kept open for future searches")
         return candidates
 
 class IndeedScraper(BasePortalScraper):
@@ -967,12 +986,13 @@ class NaukriScraper(BasePortalScraper):
             import traceback
             traceback.print_exc()
         finally:
-            # Only close if we created a new browser
-            if should_close_driver and driver:
-                logger.info("🔒 Closing browser...")
-                driver.quit()
-            elif driver:
-                logger.info("💡 Browser session kept open for reuse")
+            # Always close browser after scraping to prevent polling issues
+            if driver:
+                try:
+                    logger.info("🔒 Closing Naukri browser...")
+                    driver.quit()
+                except:
+                    pass
         
         logger.info(f"✅ Found {len(candidates)} candidates from Naukri Resdex")
         return candidates
@@ -1050,8 +1070,9 @@ class PortalScraperManager:
                     except Exception as e:
                         logger.warning(f"⚠️  Could not save to vector DB: {e}")
                 
-                # Small delay between scrapers
-                await asyncio.sleep(2)
+                # Delay between scrapers to ensure proper completion
+                logger.info(f"⏸️  Waiting 5 seconds before next scraper...")
+                await asyncio.sleep(5)
                 
             except Exception as e:
                 logger.error(f"❌ Error scraping {scraper.portal_name}: {e}")

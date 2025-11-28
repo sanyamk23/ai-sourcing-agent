@@ -1169,6 +1169,23 @@ body {
     border: 1px solid rgba(5, 85, 200, 0.2);
 }
 
+.skill-tag.skill-matched {
+    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+    color: white;
+    border: 1px solid #059669;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+    animation: pulseMatch 2s ease-in-out infinite;
+}
+
+@keyframes pulseMatch {
+    0%, 100% {
+        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+    }
+    50% {
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.5);
+    }
+}
+
 .candidates-table {
     margin-top: 20px;
     overflow-x: auto;

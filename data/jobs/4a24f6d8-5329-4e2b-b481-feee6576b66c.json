@@ -1,0 +1,296 @@
+{
+  "id": "4a24f6d8-5329-4e2b-b481-feee6576b66c",
+  "description": {
+    "title": "python developer",
+    "description": "just do it",
+    "required_skills": [
+      "python",
+      "fastapi",
+      "django",
+      "github"
+    ],
+    "experience_years": 1,
+    "location": "india",
+    "salary_range": null
+  },
+  "status": "completed",
+  "created_at": "2025-11-28T01:09:38.280173",
+  "candidates": [
+    {
+      "candidate": {
+        "id": "5595f14b06aebd8afb2a5289f3acab41",
+        "name": "Sanyam Kumar",
+        "email": null,
+        "phone": null,
+        "current_title": "Python Software Developer",
+        "skills": [
+          "Python |",
+          "Django |",
+          "Django Framework |",
+          "Django Rest API |",
+          "MySQL |",
+          "Github"
+        ],
+        "experience_years": null,
+        "education": null,
+        "location": "Jaipur",
+        "profile_url": "https://resdex.naukri.com/lite/preview?tabKey=profile&sid=2481853&paramString=8b485a994a0b1f7d419bf11cc53a6d4b13106&hfFlowName=rdxLiteSrp&totalResumes=500&requirementId=125289&requirementGroupId=125289&tupleIndex=45&storageKey=2481853-1&parentSid=2481853&sidGroupId=dee9920d210fecdedc6963e62e16aa52&title=UHl0aG9uIERldmVsb3Blcg==&uresid=5e840a6b3c1dadbaa1e287188f1c144159540f594f100a160302405f5b0d52481300190602435854015343150e136&elasticType=es7&uniqId=e7ffa061c9592109e0736280941a90225c5958501b175b405612450c5908001b410e170142145e085b5543175844514352595a0f55491109180b145209094f6",
+        "source_portal": "naukri_resdex",
+        "summary": "Current: Python Software Developer at Appic softwares | Experience: 2y 0m | Salary: \u20b9 2.40 Lacs | Education: B.Tech/B.E. Modern Institute of Technology and Research Center 2022",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.23,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "github"
+        ],
+        "missing_skills": [
+          "fastapi",
+          "python",
+          "django"
+        ],
+        "experience_gap": 1
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "19351d36b49822d1e1aa8db57ee5ea96",
+        "name": "Sanyam Kumar",
+        "email": null,
+        "phone": null,
+        "current_title": "Python Software Developer",
+        "skills": [
+          "Python |",
+          "Django |",
+          "Django Framework |",
+          "Django Rest API |",
+          "MySQL |",
+          "Github"
+        ],
+        "experience_years": null,
+        "education": null,
+        "location": "Jaipur",
+        "profile_url": "https://resdex.naukri.com/lite/preview?tabKey=profile&sid=2481857&paramString=8b485a994a0b1f7d419bf11cc53a6d4b13106&hfFlowName=rdxLiteSrp&totalResumes=500&requirementId=125289&requirementGroupId=125289&tupleIndex=48&storageKey=2481857-1&parentSid=2481857&sidGroupId=961c010134f4a967b2a4bb9ca0625854&title=UHl0aG9uIERldmVsb3Blcg==&uresid=6ad2c45bb59e047ec402534bb9b3758159540f594f100a160302405f5b0d52481209110502435854015343150e136&elasticType=es7&uniqId=6fc8aec9fa58e4787cd4b6f3e448a0ad5c5958501b175b405612450c5908001b410e170142145e085b5543175844514352595a0f554911081103175209094f6",
+        "source_portal": "naukri_resdex",
+        "summary": "Current: Python Software Developer at Appic softwares | Experience: 2y 0m | Salary: \u20b9 2.40 Lacs | Education: B.Tech/B.E. Modern Institute of Technology and Research Center 2022",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.23,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "github"
+        ],
+        "missing_skills": [
+          "fastapi",
+          "python",
+          "django"
+        ],
+        "experience_gap": 1
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "88119638086af05a2cddbb163eadd2f4",
+        "name": "PythonProgrammi",
+        "email": null,
+        "phone": null,
+        "current_title": "Developer (Reputation: 23593)",
+        "skills": [
+          "python"
+        ],
+        "experience_years": null,
+        "education": null,
+        "location": "salerno",
+        "profile_url": "https://stackoverflow.com/users/6464947/pythonprogrammi",
+        "source_portal": "stackoverflow",
+        "summary": "Reputation: 23593, Badges: 3 gold",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.23,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "python"
+        ],
+        "missing_skills": [
+          "github",
+          "fastapi",
+          "django"
+        ],
+        "experience_gap": 1
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "9db74766827214b11400d9a7edccd323",
+        "name": "pythonic",
+        "email": null,
+        "phone": null,
+        "current_title": "Developer (Reputation: 21863)",
+        "skills": [
+          "python"
+        ],
+        "experience_years": null,
+        "education": null,
+        "location": "",
+        "profile_url": "https://stackoverflow.com/users/1018562/pythonic",
+        "source_portal": "stackoverflow",
+        "summary": "Reputation: 21863, Badges: 48 gold",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.23,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "python"
+        ],
+        "missing_skills": [
+          "github",
+          "fastapi",
+          "django"
+        ],
+        "experience_gap": 1
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "2abfa03c577ad941b070a22cd4372f4a",
+        "name": "MacPython",
+        "email": null,
+        "phone": null,
+        "current_title": "Developer (Reputation: 18451)",
+        "skills": [
+          "python"
+        ],
+        "experience_years": null,
+        "education": null,
+        "location": "",
+        "profile_url": "https://stackoverflow.com/users/337247/macpython",
+        "source_portal": "stackoverflow",
+        "summary": "Reputation: 18451, Badges: 12 gold",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.23,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "python"
+        ],
+        "missing_skills": [
+          "github",
+          "fastapi",
+          "django"
+        ],
+        "experience_gap": 1
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "7ffca171811ea097bebc67abed27dc64",
+        "name": "CPHPython",
+        "email": null,
+        "phone": null,
+        "current_title": "Developer (Reputation: 13889)",
+        "skills": [
+          "python"
+        ],
+        "experience_years": null,
+        "education": null,
+        "location": "",
+        "profile_url": "https://stackoverflow.com/users/6225838/cphpython",
+        "source_portal": "stackoverflow",
+        "summary": "Reputation: 13889, Badges: 5 gold",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.23,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "python"
+        ],
+        "missing_skills": [
+          "github",
+          "fastapi",
+          "django"
+        ],
+        "experience_gap": 1
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "b9df497b7af32b34f28f12ea8d631a22",
+        "name": "Pythonista",
+        "email": null,
+        "phone": null,
+        "current_title": "Developer (Reputation: 11685)",
+        "skills": [
+          "python"
+        ],
+        "experience_years": null,
+        "education": null,
+        "location": "",
+        "profile_url": "https://stackoverflow.com/users/5230901/pythonista",
+        "source_portal": "stackoverflow",
+        "summary": "Reputation: 11685, Badges: 2 gold",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.23,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "python"
+        ],
+        "missing_skills": [
+          "github",
+          "fastapi",
+          "django"
+        ],
+        "experience_gap": 1
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 20% match"
+    }
+  ]
+}

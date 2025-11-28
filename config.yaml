@@ -1,18 +1,14 @@
 job_portals:
-  # Active scrapers
+  # Active scrapers - ordered by priority
+  - name: naukri
+    enabled: true
+    base_url: https://www.naukri.com
+    search_url: https://www.naukri.com
   - name: linkedin
     enabled: true
     base_url: https://www.linkedin.com
     api_enabled: true
     search_url: https://www.linkedin.com/jobs/search/
-  - name: indeed
-    enabled: false  # Disabled - causing browser crashes
-    base_url: https://www.indeed.com
-    search_url: https://www.indeed.com/jobs
-  - name: naukri
-    enabled: true
-    base_url: https://www.naukri.com
-    search_url: https://www.naukri.com
   - name: github_jobs
     enabled: true
     base_url: https://github.com
@@ -20,6 +16,10 @@ job_portals:
   - name: stackoverflow
     enabled: true
     base_url: https://stackoverflow.com/jobs
+  - name: indeed
+    enabled: false  # Disabled - causing browser crashes
+    base_url: https://www.indeed.com
+    search_url: https://www.indeed.com/jobs
   
   # Disabled scrapers
   - name: glassdoor
@@ -39,6 +39,7 @@ linkedin:
   username: ${LINKEDIN_USERNAME}
   password: ${LINKEDIN_PASSWORD}
   use_api: true
+  use_recruiter: true  # Use LinkedIn Recruiter Lite for better results
 
 database:
   url: sqlite:///./candidates.db

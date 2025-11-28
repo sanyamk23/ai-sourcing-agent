@@ -173,7 +173,7 @@ function hideFactsModal() {
 
 // Poll Job Status
 async function pollJobStatus(jobId) {
-    const maxAttempts = 60;
+    const maxAttempts = 40;  // Reduced from 60
     let attempts = 0;
     let scrapingComplete = false;
     let previousCandidateCount = 0;
@@ -229,8 +229,8 @@ async function pollJobStatus(jobId) {
 
             attempts++;
             if (attempts < maxAttempts) {
-                // Poll very frequently (every 1 second) for instant updates
-                setTimeout(poll, 1000);
+                // Poll every 2 seconds (reduced from 1 second to minimize server load)
+                setTimeout(poll, 2000);
             } else {
                 hideFactsModal();
                 hideMatchingModal();
@@ -461,15 +461,20 @@ function displayJobs(jobs) {
                                                 (Array.isArray(cand.skills) ? cand.skills : JSON.parse(cand.skills)) : [];
                                             const platform = cand.source_portal || 'Unknown';
                                             
+                                            // Get matched skills from match_breakdown
+                                            const matchedSkills = candidate.match_breakdown?.matched_skills || [];
+                                            const matchedSkillsLower = matchedSkills.map(s => s.toLowerCase());
+                                            
                                             return `
                                                 <tr>
                                                     <td><strong>${cand.name || 'N/A'}</strong></td>
                                                     <td>${cand.current_title || 'N/A'}</td>
                                                     <td>
-                                                        ${candSkills.slice(0, 3).map(skill => 
-                                                            `<span class="skill-tag">${skill}</span>`
-                                                        ).join('')}
-                                                        ${candSkills.length > 3 ? `<span class="skill-tag">+${candSkills.length - 3}</span>` : ''}
+                                                        ${candSkills.slice(0, 5).map(skill => {
+                                                            const isMatched = matchedSkillsLower.includes(skill.toLowerCase());
+                                                            return `<span class="skill-tag ${isMatched ? 'skill-matched' : ''}" title="${isMatched ? 'Matches job requirement' : ''}">${skill}${isMatched ? ' ✓' : ''}</span>`;
+                                                        }).join('')}
+                                                        ${candSkills.length > 5 ? `<span class="skill-tag">+${candSkills.length - 5}</span>` : ''}
                                                     </td>
                                                     <td>${cand.experience_years || 0} years</td>
                                                     <td>${cand.location || 'N/A'}</td>
