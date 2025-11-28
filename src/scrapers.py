@@ -87,6 +87,13 @@ class LinkedInScraper(BasePortalScraper):
         super().__init__(portal_name, base_url, config)
         self.linkedin_username = os.getenv('LINKEDIN_USERNAME')
         self.linkedin_password = os.getenv('LINKEDIN_PASSWORD')
+        
+        # Try to import persistent browser manager
+        try:
+            from naukri_persistent_browser import linkedin_browser_manager
+            self.browser_manager = linkedin_browser_manager
+        except:
+            self.browser_manager = None
     
     def _get_or_create_driver(self):
         """Get existing driver or create a new one"""
@@ -130,10 +137,27 @@ class LinkedInScraper(BasePortalScraper):
     async def _scrape_with_selenium(self, job_description: JobDescription) -> List[Candidate]:
         """Scrape LinkedIn with Selenium - optimized for people search"""
         candidates = []
+        driver = None
         
         try:
-            # Use non-headless mode with saved profile for LinkedIn
-            driver = self._get_driver(headless=False, use_profile=True)
+            # Try persistent browser first
+            if self.browser_manager:
+                try:
+                    logger.info("♻️  Using persistent LinkedIn browser")
+                    driver = self.browser_manager.get_driver()
+                    # Mark as logged in if we got the driver
+                    if driver:
+                        self.browser_manager.set_logged_in(True)
+                except Exception as e:
+                    logger.warning(f"Could not use persistent browser: {e}")
+                    import traceback
+                    traceback.print_exc()
+                    driver = None
+            
+            # Fallback to profile-based driver
+            if not driver:
+                logger.info("Using Chrome profile with saved session")
+                driver = self._get_driver(headless=False, use_profile=True)
             
             # Check if already logged in (from saved cookies)
             logger.info("Checking LinkedIn login status...")
@@ -208,41 +232,46 @@ class LinkedInScraper(BasePortalScraper):
             
             # Find all profile cards - try multiple selectors
             profile_cards = []
-            selectors = [
-                "[data-chameleon-result-urn]",
-                ".reusable-search__result-container",
-                ".entity-result",
-                "li.reusable-search__result-container"
+            selectors_to_try = [
+                "li.reusable-search__result-container",  # New LinkedIn structure
+                "[data-chameleon-result-urn]",  # Old structure
+                "div.entity-result",  # Alternative
+                "li[class*='search-result']",  # Fallback
             ]
             
-            for selector in selectors:
-                profile_cards = driver.find_elements(By.CSS_SELECTOR, selector)
-                if profile_cards:
-                    logger.info(f"✓ Found {len(profile_cards)} profile cards using selector: {selector}")
-                    break
-                else:
-                    logger.warning(f"No results with selector: {selector}")
+            for selector in selectors_to_try:
+                try:
+                    profile_cards = driver.find_elements(By.CSS_SELECTOR, selector)
+                    if len(profile_cards) > 0:
+                        logger.info(f"Found {len(profile_cards)} profile cards using selector: {selector}")
+                        break
+                except:
+                    continue
             
             if not profile_cards:
-                logger.error("❌ No profile cards found with any selector!")
-                logger.info("Page source preview:")
-                logger.info(driver.page_source[:500])
-                return candidates
+                logger.warning("⚠️  No profile cards found with any selector")
+                logger.info("💾 Saving page source for debugging...")
+                with open("linkedin_page_debug.html", "w", encoding="utf-8") as f:
+                    f.write(driver.page_source)
+                logger.info("   Saved to: linkedin_page_debug.html")
             
             for i, card in enumerate(profile_cards[:self.max_candidates]):
                 try:
                     # Extract name - try multiple selectors
                     name = "LinkedIn User"
-                    for name_selector in [
-                        "span[aria-hidden='true']",
+                    name_selectors = [
+                        "span.entity-result__title-text a span[aria-hidden='true']",  # New structure
+                        ".entity-result__title-text span[aria-hidden='true']",
+                        "a.app-aware-link span[aria-hidden='true']",
+                        "span[dir='ltr'] span[aria-hidden='true']",
                         ".entity-result__title-text span",
                         "a span[dir='ltr']",
-                        "span[dir='ltr'] span[aria-hidden='true']"
-                    ]:
+                    ]
+                    for name_selector in name_selectors:
                         try:
                             name_elem = card.find_element(By.CSS_SELECTOR, name_selector)
                             name_text = name_elem.text.strip()
-                            if name_text and len(name_text) > 2:
+                            if name_text and len(name_text) > 2 and not name_text.startswith("View"):
                                 name = name_text
                                 break
                         except:
@@ -581,6 +610,375 @@ class StackOverflowScraper(BasePortalScraper):
         logger.info(f"Found {len(candidates)} candidates from StackOverflow")
         return candidates
 
+class NaukriScraper(BasePortalScraper):
+    """Scrape Naukri Resdex (Recruiter platform) for candidates"""
+    
+    # Class-level shared browser instance
+    _shared_driver = None
+    _is_logged_in = False
+    
+    def __init__(self, portal_name: str, base_url: str, config: dict):
+        super().__init__(portal_name, base_url, config)
+        self.resdex_cookies = os.getenv('NAUKRI_RESDEX_COOKIES', '')
+        self.requirement_id = os.getenv('NAUKRI_REQUIREMENT_ID', '125289')
+        
+        # Try to import persistent browser manager
+        try:
+            from naukri_persistent_browser import browser_manager
+            self.browser_manager = browser_manager
+        except:
+            self.browser_manager = None
+    
+    @classmethod
+    def set_shared_driver(cls, driver):
+        """Set a shared browser instance (called from setup script)"""
+        cls._shared_driver = driver
+        cls._is_logged_in = True
+        logger.info("✅ Shared browser session configured")
+    
+    @classmethod
+    def close_browser(cls):
+        """Manually close the persistent browser session"""
+        if cls._shared_driver:
+            logger.info("Closing persistent Naukri Resdex browser session...")
+            try:
+                cls._shared_driver.quit()
+            except:
+                pass
+            cls._shared_driver = None
+            cls._is_logged_in = False
+            logger.info("✓ Naukri Resdex browser closed")
+    
+    async def scrape(self, job_description: JobDescription) -> List[Candidate]:
+        """Scrape Naukri Resdex for candidates"""
+        logger.info(f"🔍 Scraping Naukri Resdex for: {job_description.title}")
+        candidates = []
+        driver = None
+        should_close_driver = False
+        
+        # Try persistent browser manager first
+        if self.browser_manager:
+            try:
+                logger.info("♻️  Using persistent browser manager")
+                driver = self.browser_manager.get_driver()
+                should_close_driver = False
+                self.browser_manager.set_logged_in(True)
+                
+                # Navigate to requirement
+                requirement_url = f"https://resdex.naukri.com/lite/candidatesearchresults?requirementId={self.requirement_id}&requirementGroupId={self.requirement_id}&resPerPage=50&pageNo=1&activeTab=potential"
+                logger.info(f"📍 Navigating to requirement: {self.requirement_id}")
+                driver.get(requirement_url)
+                await asyncio.sleep(3)
+                
+                # Successfully using persistent browser, skip cookie setup
+                logger.info("✅ Using persistent browser session")
+                
+            except Exception as e:
+                logger.warning(f"Could not use persistent browser: {e}")
+                import traceback
+                traceback.print_exc()
+                # Fall through to cookie-based method
+                self.browser_manager = None
+                driver = None
+        
+        # Check if we have a shared browser session (fallback)
+        if not driver and NaukriScraper._shared_driver and NaukriScraper._is_logged_in:
+            logger.info("♻️  Reusing existing browser session")
+            driver = NaukriScraper._shared_driver
+            should_close_driver = False
+        
+        # If no persistent browser, create new one with cookies
+        if not driver:
+            # Check configuration for cookie-based login
+            if not self.resdex_cookies or self.resdex_cookies == 'your_cookies_here':
+                logger.error("❌ NAUKRI_RESDEX_COOKIES not configured!")
+                logger.info("   Run: python3 setup_naukri_cookies.py")
+                return candidates
+            
+            if not self.requirement_id:
+                logger.error("❌ NAUKRI_REQUIREMENT_ID not configured!")
+                logger.info("   Set NAUKRI_REQUIREMENT_ID in .env")
+                return candidates
+            
+            # Create new browser with cookies
+            logger.info("🌐 Opening new browser with cookies...")
+            driver = self._get_driver(headless=False)
+            should_close_driver = True
+            
+            # Navigate to Resdex first
+            logger.info("📍 Loading Resdex...")
+            driver.get("https://resdex.naukri.com/lite")
+            await asyncio.sleep(2)
+            
+            # Add cookies - strip quotes from cookie string
+            logger.info("🍪 Adding authentication cookies...")
+            cookie_string = self.resdex_cookies.strip().strip("'").strip('"')
+            cookie_pairs = cookie_string.split(';')
+            cookies_added = 0
+            for pair in cookie_pairs:
+                if '=' in pair:
+                    name, value = pair.strip().split('=', 1)
+                    try:
+                        driver.add_cookie({
+                            'name': name.strip(),
+                            'value': value.strip(),
+                            'domain': '.naukri.com'
+                        })
+                        cookies_added += 1
+                    except Exception as e:
+                        logger.debug(f"Could not add cookie {name}: {e}")
+            
+            logger.info(f"✅ Added {cookies_added} cookies")
+            
+            # Navigate to requirement
+            search_url = f"https://resdex.naukri.com/lite/candidatesearchresults?requirementId={self.requirement_id}&requirementGroupId={self.requirement_id}&resPerPage=50&pageNo=1&activeTab=potential"
+            logger.info(f"📍 Opening requirement: {self.requirement_id}")
+            driver.get(search_url)
+            await asyncio.sleep(5)
+        
+        try:
+            
+            # Define search_url for use in extraction
+            search_url = f"https://resdex.naukri.com/lite/candidatesearchresults?requirementId={self.requirement_id}&requirementGroupId={self.requirement_id}&resPerPage=50&pageNo=1&activeTab=potential"
+            
+            # Check if we're logged in
+            current_url = driver.current_url
+            if "login" in current_url.lower() or "signin" in current_url.lower():
+                if should_close_driver:
+                    logger.error("❌ Cookies expired or invalid!")
+                    logger.info("   Run: python3 setup_naukri_cookies.py to get fresh cookies")
+                else:
+                    logger.error("❌ Session expired!")
+                    logger.info("   Please re-run: python3 setup_naukri_cookies.py")
+                    NaukriScraper._is_logged_in = False
+                return candidates
+            
+            logger.info(f"✅ Logged in successfully")
+            logger.info(f"📄 Current page: {driver.title}")
+            
+            # Determine how many pages to scrape
+            max_pages = 2  # Scrape 2 pages = 100 candidates (50 per page)
+            all_candidates = []
+            
+            for page_num in range(1, max_pages + 1):
+                logger.info(f"📄 Scraping page {page_num}/{max_pages}...")
+                
+                # Navigate to specific page
+                page_url = f"{search_url}&pageNo={page_num}"
+                if page_num > 1:
+                    driver.get(page_url)
+                    await asyncio.sleep(3)
+                
+                # Scroll to load all candidates on this page
+                logger.info("📜 Scrolling to load candidates...")
+                for i in range(3):
+                    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+                    await asyncio.sleep(1)
+            
+                # Wait for React app to load
+                logger.info("⏳ Waiting for page to load...")
+                await asyncio.sleep(2)
+                
+                # Find candidate cards - look for the actual structure
+                logger.info("🔍 Looking for candidate cards...")
+                candidate_elements = []
+            
+                # Try to find the candidate profile summary links (these contain the data)
+                try:
+                    candidate_elements = driver.find_elements(By.CSS_SELECTOR, "a.candidate-profile-summary")
+                    if candidate_elements:
+                        logger.info(f"✅ Found {len(candidate_elements)} candidates using profile summary selector")
+                except:
+                    pass
+                
+                # Fallback: try other selectors
+                if not candidate_elements:
+                    resdex_selectors = [
+                        "div[class*='candidate']",
+                        "div[class*='Card']",
+                        "article"
+                    ]
+                    
+                    for selector in resdex_selectors:
+                        try:
+                            candidate_elements = driver.find_elements(By.CSS_SELECTOR, selector)
+                            if len(candidate_elements) > 5:
+                                logger.info(f"✅ Found {len(candidate_elements)} elements with selector: {selector}")
+                                break
+                        except:
+                            continue
+                
+                if not candidate_elements or len(candidate_elements) < 1:
+                    logger.warning(f"⚠️  No candidate cards found on page {page_num}")
+                    if page_num == 1:
+                        # Save page source for debugging only on first page
+                        logger.info("💾 Saving page source for debugging...")
+                        with open("resdex_page_debug.html", "w", encoding="utf-8") as f:
+                            f.write(driver.page_source)
+                        logger.info("   Saved to: resdex_page_debug.html")
+                    continue
+            
+                # Extract candidate information
+                logger.info(f"📊 Extracting data from {len(candidate_elements)} candidates on page {page_num}...")
+                
+                # Find all candidate cards (the parent divs)
+                candidate_cards = driver.find_elements(By.CSS_SELECTOR, "div.left-section")
+            
+                if not candidate_cards:
+                    logger.warning("⚠️  Could not find candidate cards, trying alternative selector")
+                    candidate_cards = driver.find_elements(By.CSS_SELECTOR, "div[class*='left-section'], div[class*='candidate']")
+                
+                logger.info(f"📋 Found {len(candidate_cards)} candidate cards on page {page_num}")
+                
+                page_candidates = []
+                for i, card in enumerate(candidate_cards):
+                    try:
+                        # Extract name
+                        name = "Candidate"
+                        try:
+                            name_elem = card.find_element(By.CSS_SELECTOR, "a.candidate-name, [class*='candidate-name']")
+                            name = name_elem.text.strip()
+                        except:
+                            pass
+                        
+                        # Extract current title and company
+                        title = job_description.title
+                        company = ""
+                        try:
+                            current_elem = card.find_element(By.CSS_SELECTOR, "#currentEmp, [id='currentEmp']")
+                            current_text = current_elem.text.strip()
+                            # Parse "Python Developer at Company Name"
+                            if " at " in current_text:
+                                parts = current_text.split(" at ")
+                                title = parts[0].strip()
+                                company = parts[1].strip() if len(parts) > 1 else ""
+                            else:
+                                title = current_text
+                        except:
+                            pass
+                        
+                        # Extract experience
+                        experience = ""
+                        try:
+                            exp_elem = card.find_element(By.CSS_SELECTOR, "i.ico-work ~ span, [title*='Experience'] ~ span")
+                            experience = exp_elem.text.strip()
+                        except:
+                            pass
+                        
+                        # Extract salary
+                        salary = ""
+                        try:
+                            salary_elem = card.find_element(By.CSS_SELECTOR, "i.naukri-icon-account_balance_wallet ~ span")
+                            salary = salary_elem.text.strip()
+                        except:
+                            pass
+                        
+                        # Extract location
+                        location = job_description.location or ""
+                        try:
+                            location_elem = card.find_element(By.CSS_SELECTOR, "span.location, i.ico-place ~ span")
+                            location = location_elem.text.strip()
+                        except:
+                            pass
+                        
+                        # Extract education
+                        education = []
+                        try:
+                            edu_elems = card.find_elements(By.CSS_SELECTOR, "#education .education")
+                            for edu in edu_elems[:2]:
+                                education.append(edu.text.strip())
+                        except:
+                            pass
+                        
+                        # Extract key skills
+                        skills = []
+                        try:
+                            skill_elems = card.find_elements(By.CSS_SELECTOR, ".key-skills .cand-skill")
+                            for skill_elem in skill_elems:
+                                skill_text = skill_elem.text.strip().replace(" | ", "")
+                                if skill_text:
+                                    skills.append(skill_text)
+                        except:
+                            # Fallback to job description skills
+                            skills = job_description.required_skills[:3]
+                        
+                        # Extract preferred locations
+                        pref_locations = []
+                        try:
+                            pref_loc_elem = card.find_element(By.CSS_SELECTOR, "[title*='Hyderabad'], [title*='Bengaluru']")
+                            pref_loc_text = pref_loc_elem.get_attribute("title")
+                            if pref_loc_text:
+                                pref_locations = [loc.strip() for loc in pref_loc_text.split(',')][:5]
+                        except:
+                            pass
+                        
+                        # Get profile URL
+                        profile_url = search_url
+                        try:
+                            link_elem = card.find_element(By.CSS_SELECTOR, "a.candidate-name")
+                            profile_url = link_elem.get_attribute("href")
+                            if profile_url and not profile_url.startswith('http'):
+                                profile_url = f"https://resdex.naukri.com{profile_url}"
+                        except:
+                            pass
+                        
+                        # Build summary
+                        summary_parts = []
+                        if company:
+                            summary_parts.append(f"Current: {title} at {company}")
+                        if experience:
+                            summary_parts.append(f"Experience: {experience}")
+                        if salary:
+                            summary_parts.append(f"Salary: {salary}")
+                        if education:
+                            summary_parts.append(f"Education: {education[0]}")
+                        
+                        summary = " | ".join(summary_parts) if summary_parts else f"{title}"
+                        
+                        # Create candidate
+                        candidate = Candidate(
+                            id=hashlib.md5(f"naukri_resdex_{name}_{company}_{page_num}_{i}".encode()).hexdigest(),
+                            name=name,
+                            current_title=title,
+                            skills=skills[:15],
+                            location=location,
+                            profile_url=profile_url,
+                            source_portal="naukri_resdex",
+                            summary=summary[:300]
+                        )
+                        page_candidates.append(candidate)
+                        logger.info(f"  ✓ Page {page_num}.{i+1}. {name} - {title} ({len(skills)} skills)")
+                        
+                    except Exception as e:
+                        logger.error(f"Error extracting candidate {i} on page {page_num}: {e}")
+                        continue
+                
+                all_candidates.extend(page_candidates)
+                logger.info(f"✅ Extracted {len(page_candidates)} candidates from page {page_num}")
+                
+                # Small delay between pages
+                if page_num < max_pages:
+                    await asyncio.sleep(2)
+            
+            candidates = all_candidates
+            
+        except Exception as e:
+            logger.error(f"❌ Naukri Resdex scraping error: {e}")
+            import traceback
+            traceback.print_exc()
+        finally:
+            # Only close if we created a new browser
+            if should_close_driver and driver:
+                logger.info("🔒 Closing browser...")
+                driver.quit()
+            elif driver:
+                logger.info("💡 Browser session kept open for reuse")
+        
+        logger.info(f"✅ Found {len(candidates)} candidates from Naukri Resdex")
+        return candidates
+
+
+
 class PortalScraperManager:
     """Manages multiple portal scrapers"""
     
@@ -595,11 +993,13 @@ class PortalScraperManager:
         use_recruiter = self.config.get('linkedin', {}).get('use_recruiter', True)
         
         scraper_classes = {
-            'linkedin': LinkedInScraper,  # Will be replaced if use_recruiter=True
-            'indeed': IndeedScraper,
-            'glassdoor': GlassdoorScraper,
-            'github_jobs': GitHubJobsScraper,
-            'stackoverflow': StackOverflowScraper
+            'linkedin': LinkedInScraper,  # ACTIVE
+            # 'indeed': IndeedScraper,  # DISABLED - causing browser crashes
+            'naukri': NaukriScraper,  # ACTIVE - Indian job portal
+            'github_jobs': GitHubJobsScraper,  # ACTIVE
+            'stackoverflow': StackOverflowScraper,  # ACTIVE
+            # 'glassdoor': GlassdoorScraper,  # Disabled
+            # 'coresignal': CoresignalScraper,  # Removed - not using API
         }
         
         for portal in self.config['job_portals']:
@@ -619,6 +1019,46 @@ class PortalScraperManager:
                     logger.info(f"Initialized scraper: {portal['name']}")
         
         return scrapers
+    
+    async def scrape_all_sequential(self, job_description: JobDescription) -> List[Candidate]:
+        """Scrape all enabled portals sequentially (one at a time)"""
+        logger.info(f"Starting sequential scraping from {len(self.scrapers)} portals")
+        
+        all_candidates = []
+        seen_ids = set()
+        
+        for scraper in self.scrapers:
+            try:
+                logger.info(f"📍 Scraping {scraper.portal_name}...")
+                candidates = await scraper.scrape(job_description)
+                
+                # Add unique candidates
+                for candidate in candidates:
+                    if candidate.id not in seen_ids:
+                        all_candidates.append(candidate)
+                        seen_ids.add(candidate.id)
+                
+                logger.info(f"✅ {scraper.portal_name}: {len(candidates)} candidates")
+                
+                # Save to vector DB after each scraper
+                if candidates:
+                    try:
+                        from src.vector_db import CandidateVectorDB
+                        vector_db = CandidateVectorDB()
+                        vector_db.add_candidates(candidates)
+                        logger.info(f"💾 Saved {len(candidates)} candidates to vector DB")
+                    except Exception as e:
+                        logger.warning(f"⚠️  Could not save to vector DB: {e}")
+                
+                # Small delay between scrapers
+                await asyncio.sleep(2)
+                
+            except Exception as e:
+                logger.error(f"❌ Error scraping {scraper.portal_name}: {e}")
+                continue
+        
+        logger.info(f"✅ Total unique candidates: {len(all_candidates)}")
+        return all_candidates
     
     async def scrape_all(self, job_description: JobDescription) -> List[Candidate]:
         """Scrape all enabled portals concurrently"""

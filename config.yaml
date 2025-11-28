@@ -1,17 +1,18 @@
 job_portals:
+  # Active scrapers
   - name: linkedin
     enabled: true
     base_url: https://www.linkedin.com
     api_enabled: true
     search_url: https://www.linkedin.com/jobs/search/
   - name: indeed
-    enabled: true
+    enabled: false  # Disabled - causing browser crashes
     base_url: https://www.indeed.com
     search_url: https://www.indeed.com/jobs
-  - name: glassdoor
+  - name: naukri
     enabled: true
-    base_url: https://www.glassdoor.com
-    search_url: https://www.glassdoor.com/Job/jobs.htm
+    base_url: https://www.naukri.com
+    search_url: https://www.naukri.com
   - name: github_jobs
     enabled: true
     base_url: https://github.com
@@ -19,6 +20,12 @@ job_portals:
   - name: stackoverflow
     enabled: true
     base_url: https://stackoverflow.com/jobs
+  
+  # Disabled scrapers
+  - name: glassdoor
+    enabled: false
+    base_url: https://www.glassdoor.com
+    search_url: https://www.glassdoor.com/Job/jobs.htm
 
 llm:
   provider: groq  # Options: groq, openai
