@@ -1,0 +1,601 @@
+/**
+ * RIPPLE & INTERACTIVE EFFECTS
+ * Advanced click and hover effects
+ */
+
+/* ============================================
+   RIPPLE EFFECT SYSTEM
+   ============================================ */
+
+.ripple-effect {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+    pointer-events: none;
+    animation: rippleAnimation 600ms ease-out;
+}
+
+@keyframes rippleAnimation {
+    from {
+        transform: scale(0);
+        opacity: 1;
+    }
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* Button with built-in ripple container */
+.btn-with-ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+/* ============================================
+   ADVANCED HOVER STATES
+   ============================================ */
+
+/* Glow on Hover */
+.hover-glow {
+    position: relative;
+    transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-glow::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(45deg, #0555C8, #00D9FF, #0555C8);
+    background-size: 200% 200%;
+    border-radius: inherit;
+    opacity: 0;
+    z-index: -1;
+    filter: blur(10px);
+    transition: opacity 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-glow:hover::before {
+    opacity: 0.7;
+    animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* Spotlight Effect */
+.hover-spotlight {
+    position: relative;
+    overflow: hidden;
+}
+
+.hover-spotlight::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: width 400ms cubic-bezier(0.16, 1, 0.3, 1),
+                height 400ms cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+}
+
+.hover-spotlight:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Border Glow */
+.hover-border-glow {
+    position: relative;
+    border: 2px solid transparent;
+    transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-border-glow::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(45deg, #0555C8, #00D9FF);
+    border-radius: inherit;
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-border-glow:hover {
+    border-color: transparent;
+}
+
+.hover-border-glow:hover::before {
+    opacity: 1;
+}
+
+/* Shine Effect */
+.hover-shine {
+    position: relative;
+    overflow: hidden;
+}
+
+.hover-shine::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.4),
+        transparent
+    );
+    transition: left 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-shine:hover::after {
+    left: 100%;
+}
+
+/* ============================================
+   CLICK EFFECTS
+   ============================================ */
+
+/* Press Down */
+.click-press {
+    transition: transform 100ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.click-press:active {
+    transform: scale(0.95);
+}
+
+/* Bounce Click */
+.click-bounce:active {
+    animation: clickBounce 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes clickBounce {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.9);
+    }
+}
+
+/* Pulse Click */
+.click-pulse:active {
+    animation: clickPulse 600ms ease-out;
+}
+
+@keyframes clickPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(5, 85, 200, 0.7);
+    }
+    100% {
+        box-shadow: 0 0 0 20px rgba(5, 85, 200, 0);
+    }
+}
+
+/* ============================================
+   FOCUS STATES
+   ============================================ */
+
+/* Premium Focus Ring */
+.focus-premium:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(5, 85, 200, 0.2);
+    border-color: #0555C8;
+}
+
+/* Glow Focus */
+.focus-glow:focus {
+    outline: none;
+    box-shadow: 
+        0 0 0 4px rgba(5, 85, 200, 0.2),
+        0 0 20px rgba(5, 85, 200, 0.3);
+}
+
+/* Animated Focus */
+.focus-animated:focus {
+    outline: none;
+    animation: focusRing 1s ease-out infinite;
+}
+
+@keyframes focusRing {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(5, 85, 200, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 0 8px rgba(5, 85, 200, 0);
+    }
+}
+
+/* ============================================
+   SELECTION EFFECTS
+   ============================================ */
+
+/* Selected State */
+.selectable {
+    transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+}
+
+.selectable.selected {
+    background: linear-gradient(135deg, #0555C8 0%, #00D9FF 100%);
+    color: white;
+    transform: scale(1.02);
+    box-shadow: 0 8px 24px rgba(5, 85, 200, 0.3);
+}
+
+/* Checkbox Animation */
+.checkbox-animated {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #0555C8;
+    border-radius: 6px;
+    transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+}
+
+.checkbox-animated.checked {
+    background: #0555C8;
+    border-color: #0555C8;
+}
+
+.checkbox-animated.checked::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 7px;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    animation: checkmarkDraw 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes checkmarkDraw {
+    from {
+        height: 0;
+    }
+    to {
+        height: 12px;
+    }
+}
+
+/* ============================================
+   DRAG & DROP EFFECTS
+   ============================================ */
+
+/* Draggable Item */
+.draggable {
+    cursor: grab;
+    transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.draggable:active {
+    cursor: grabbing;
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    opacity: 0.9;
+}
+
+/* Drop Zone */
+.drop-zone {
+    border: 2px dashed #E2E8F0;
+    transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.drop-zone.drag-over {
+    border-color: #0555C8;
+    background: rgba(5, 85, 200, 0.05);
+    transform: scale(1.02);
+}
+
+/* ============================================
+   TOGGLE SWITCHES
+   ============================================ */
+
+.toggle-switch {
+    position: relative;
+    width: 50px;
+    height: 26px;
+    background: #E2E8F0;
+    border-radius: 13px;
+    cursor: pointer;
+    transition: background 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.toggle-switch::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: transform 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.toggle-switch.active {
+    background: linear-gradient(135deg, #0555C8 0%, #00D9FF 100%);
+}
+
+.toggle-switch.active::after {
+    transform: translateX(24px);
+}
+
+/* ============================================
+   SLIDER EFFECTS
+   ============================================ */
+
+.slider-animated {
+    position: relative;
+    width: 100%;
+    height: 6px;
+    background: #E2E8F0;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.slider-track {
+    position: absolute;
+    height: 100%;
+    background: linear-gradient(90deg, #0555C8, #00D9FF);
+    border-radius: 3px;
+    transition: width 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.slider-thumb {
+    position: absolute;
+    top: 50%;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border: 3px solid #0555C8;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    cursor: grab;
+    transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.slider-thumb:hover {
+    transform: translate(-50%, -50%) scale(1.2);
+    box-shadow: 0 4px 12px rgba(5, 85, 200, 0.3);
+}
+
+.slider-thumb:active {
+    cursor: grabbing;
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* ============================================
+   BADGE ANIMATIONS
+   ============================================ */
+
+.badge-animated {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    animation: badgePop 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes badgePop {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Notification Badge */
+.notification-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    min-width: 20px;
+    height: 20px;
+    background: #EF4444;
+    color: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+    }
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 6px rgba(239, 68, 68, 0);
+    }
+}
+
+/* ============================================
+   TOOLTIP ANIMATIONS
+   ============================================ */
+
+.tooltip {
+    position: absolute;
+    background: #1E293B;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(5px);
+    transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tooltip.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.tooltip::after {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-bottom-color: #1E293B;
+}
+
+/* ============================================
+   PROGRESS INDICATORS
+   ============================================ */
+
+/* Circular Progress */
+.circular-progress {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: conic-gradient(
+        #0555C8 0deg,
+        #00D9FF 180deg,
+        #E2E8F0 180deg
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    animation: rotateProgress 2s linear infinite;
+}
+
+.circular-progress::after {
+    content: '';
+    width: 50px;
+    height: 50px;
+    background: white;
+    border-radius: 50%;
+}
+
+@keyframes rotateProgress {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Linear Progress with Glow */
+.progress-glow {
+    position: relative;
+    width: 100%;
+    height: 8px;
+    background: #E2E8F0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-glow-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #0555C8, #00D9FF);
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(5, 85, 200, 0.5);
+    transition: width 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.progress-glow-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.5)
+    );
+    animation: progressShine 1.5s ease-in-out infinite;
+}
+
+@keyframes progressShine {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* ============================================
+   SKELETON LOADERS
+   ============================================ */
+
+.skeleton-card {
+    background: #F8FAFC;
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.skeleton-line {
+    height: 16px;
+    background: linear-gradient(
+        90deg,
+        #E2E8F0 0%,
+        #F8FAFC 50%,
+        #E2E8F0 100%
+    );
+    background-size: 200% 100%;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    animation: skeletonShimmer 1.5s ease-in-out infinite;
+}
+
+.skeleton-circle {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(
+        90deg,
+        #E2E8F0 0%,
+        #F8FAFC 50%,
+        #E2E8F0 100%
+    );
+    background-size: 200% 100%;
+    border-radius: 50%;
+    animation: skeletonShimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes skeletonShimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}

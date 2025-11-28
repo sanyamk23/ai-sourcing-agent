@@ -114,56 +114,10 @@ function showFactsModal() {
     document.getElementById('overallProgress').style.width = '0%';
     document.getElementById('progressText').textContent = 'Initializing AI agents...';
     
-    // Start workflow animation
-    animateWorkflow();
+    // Don't run fake animation - real progress will update via polling
 }
 
-// Animate Workflow Steps (FASTER)
-function animateWorkflow() {
-    const steps = [
-        { id: 1, name: 'Extractor Agent', duration: 2000, progress: 25, text: 'Analyzing job requirements...' },
-        { id: 2, name: 'Search Agent', duration: 5000, progress: 50, text: 'Scanning LinkedIn, Indeed, GitHub...' },
-        { id: 3, name: 'Data Builder', duration: 3000, progress: 75, text: 'Building candidate profiles...' },
-        { id: 4, name: 'AI Matching', duration: 2000, progress: 100, text: 'Ranking best candidates...' }
-    ];
-    
-    let currentStep = 0;
-    
-    function activateStep(stepIndex) {
-        if (stepIndex >= steps.length) return;
-        
-        const step = steps[stepIndex];
-        const stepElement = document.getElementById(`step${step.id}`);
-        const progressBar = document.getElementById('overallProgress');
-        const progressText = document.getElementById('progressText');
-        
-        // Activate current step
-        stepElement.classList.add('active');
-        stepElement.querySelector('.status-text').textContent = 'Processing...';
-        
-        // Update progress
-        progressBar.style.width = `${step.progress}%`;
-        progressText.textContent = step.text;
-        
-        // Complete step after duration
-        setTimeout(() => {
-            stepElement.classList.remove('active');
-            stepElement.classList.add('completed');
-            stepElement.querySelector('.status-text').textContent = 'Done';
-            
-            // Activate connector
-            if (step.id < 4) {
-                document.getElementById(`connector${step.id}`).classList.add('active');
-            }
-            
-            // Move to next step
-            activateStep(stepIndex + 1);
-        }, step.duration);
-    }
-    
-    // Start with first step
-    activateStep(0);
-}
+// Removed fake animation - now using real-time progress updates
 
 // Hide Facts Modal
 function hideFactsModal() {
@@ -171,7 +125,7 @@ function hideFactsModal() {
     modal.classList.remove('active');
 }
 
-// Poll Job Status
+// Poll Job Status with Real-Time Progress
 async function pollJobStatus(jobId) {
     const maxAttempts = 60;
     let attempts = 0;
@@ -180,8 +134,17 @@ async function pollJobStatus(jobId) {
 
     const poll = async () => {
         try {
-            const response = await fetch(`${API_BASE_URL}/jobs/${jobId}`);
-            const job = await response.json();
+            // Fetch both job status and progress
+            const [jobResponse, progressResponse] = await Promise.all([
+                fetch(`${API_BASE_URL}/jobs/${jobId}`),
+                fetch(`${API_BASE_URL}/jobs/${jobId}/progress`)
+            ]);
+            
+            const job = await jobResponse.json();
+            const progress = await progressResponse.json();
+            
+            // Update workflow animation based on real progress
+            updateWorkflowProgress(progress);
 
             // Check if scraping is done (candidates found but still processing)
             if (!scrapingComplete && job.candidates && job.candidates.length > 0 && job.status === 'processing') {
@@ -191,10 +154,6 @@ async function pollJobStatus(jobId) {
                 if (currentCount > previousCandidateCount) {
                     scrapingComplete = true;
                     previousCandidateCount = currentCount;
-                    
-                    // Show candidates immediately
-                    document.getElementById('overallProgress').style.width = '75%';
-                    document.getElementById('progressText').textContent = `✅ Found ${currentCount} candidates! Now matching...`;
                     
                     // Wait a moment, then show matching modal with smooth transition
                     setTimeout(() => {
@@ -229,8 +188,8 @@ async function pollJobStatus(jobId) {
 
             attempts++;
             if (attempts < maxAttempts) {
-                // Poll very frequently (every 1 second) for instant updates
-                setTimeout(poll, 1000);
+                // Poll very frequently (every 500ms) for instant updates
+                setTimeout(poll, 500);
             } else {
                 hideFactsModal();
                 hideMatchingModal();
@@ -246,6 +205,58 @@ async function pollJobStatus(jobId) {
 
     poll();
 }
+
+// Update Workflow Progress Based on Real Backend Status
+function updateWorkflowProgress(progress) {
+    const stepMap = {
+        'extracting': 1,
+        'searching': 2,
+        'building': 3,
+        'matching': 4,
+        'completed': 4
+    };
+    
+    const currentStep = stepMap[progress.step_name] || 1;
+    
+    // Update progress bar
+    document.getElementById('overallProgress').style.width = `${progress.progress}%`;
+    document.getElementById('progressText').textContent = progress.message;
+    
+    // Update step statuses
+    for (let i = 1; i <= 4; i++) {
+        const stepElement = document.getElementById(`step${i}`);
+        const statusText = stepElement.querySelector('.status-text');
+        
+        if (i < currentStep) {
+            // Completed steps
+            stepElement.classList.remove('active');
+            stepElement.classList.add('completed');
+            statusText.textContent = 'Done';
+            
+            // Activate connector
+            if (i < 4) {
+                document.getElementById(`connector${i}`).classList.add('active');
+            }
+        } else if (i === currentStep) {
+            // Current step
+            stepElement.classList.add('active');
+            stepElement.classList.remove('completed');
+            statusText.textContent = 'Processing...';
+        } else {
+            // Future steps
+            stepElement.classList.remove('active', 'completed');
+            statusText.textContent = 'Waiting...';
+        }
+    }
+    
+    // Show candidate count if available
+    if (progress.candidates_found > 0 && currentStep >= 3) {
+        const step3 = document.getElementById('step3');
+        const step3Text = step3.querySelector('.step-content p');
+        step3Text.textContent = `Found ${progress.candidates_found} candidates`;
+    }
+}
+
 
 // Show Matching Modal (Phase 2)
 function showMatchingModal(candidateCount) {
