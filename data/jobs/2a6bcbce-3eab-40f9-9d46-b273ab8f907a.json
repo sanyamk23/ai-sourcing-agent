@@ -1,0 +1,370 @@
+{
+  "id": "2a6bcbce-3eab-40f9-9d46-b273ab8f907a",
+  "description": {
+    "title": "python developer",
+    "description": "good work",
+    "required_skills": [
+      "python",
+      "fastapi",
+      "django",
+      "github"
+    ],
+    "experience_years": 2,
+    "location": "Pune",
+    "salary_range": null
+  },
+  "status": "completed",
+  "created_at": "2025-11-28T03:45:10.416618",
+  "candidates": [
+    {
+      "candidate": {
+        "id": "58527655099c5819cdda8f1fffa0efbd",
+        "name": "Noman Shaikh",
+        "email": "",
+        "phone": null,
+        "current_title": "Python Developer Working on Python 3|| Django || AWS || GCP || Flask || FastAPI || Rest Api || CSS3 || HTML5 || JavaScript || Angular || MYSQL || POSTGRESQL || GIT || GITHUB || Web Scraping || Automation || PANDAS ||",
+        "skills": [],
+        "experience_years": 0,
+        "education": null,
+        "location": "Mumbai, Maharashtra, India",
+        "profile_url": "https://www.linkedin.com/talent/profile/AEMAADNAZM8BAjCkaJPpcWrZ0VK5M3Ya7vM61tI?searchHistoryId=20788148892&highlightedPatternSource=%255Cbpython%2520developer%2520python%2520fastapi%2520django%255Cb%257C%255Cbdeveloper%255Cb%257C%255Cbfastapi%255Cb%257C%255Cbpython%255Cb%257C%255Cbdjango%255Cb%257C%255Cbgithub%255Cb&trk=SEARCH_GLOBAL",
+        "source_portal": "LinkedIn Recruiter",
+        "summary": "",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.6799999999999999,
+      "match_breakdown": {
+        "skill_match": 1.0,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "python",
+          "github",
+          "fastapi",
+          "django"
+        ],
+        "missing_skills": [],
+        "experience_gap": 2
+      },
+      "reasoning": "Skills: 4/4 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "42230ece0d922b7c96e1d6e65b595164",
+        "name": "Vishal Ghuge",
+        "email": null,
+        "phone": null,
+        "current_title": "Senior Python developer | Data engineer | Fintech Software Engineer | 6+ Years of experience",
+        "skills": [],
+        "experience_years": 11,
+        "education": null,
+        "location": "Pune, Maharashtra, India",
+        "profile_url": "https://www.linkedin.com/talent/profile/AEMAABMSm1QBcih-ahzfFrS9O-hIJMCEjpSpjtM?searchHistoryId=20788226748&highlightedPatternSource=%255Cbpython%2520developer%2520python%2520fastapi%2520django%255Cb%257C%255Cbdeveloper%255Cb%257C%255Cbfastapi%255Cb%257C%255Cbpython%255Cb%257C%255Cbdjango%255Cb%257C%255Cbgithub%255Cb&trk=SEARCH_GLOBAL",
+        "source_portal": "LinkedIn Recruiter",
+        "summary": null,
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.55,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 1.0,
+        "matched_skills": [
+          "python"
+        ],
+        "missing_skills": [
+          "github",
+          "fastapi",
+          "django"
+        ],
+        "experience_gap": 0
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 100% match"
+    },
+    {
+      "candidate": {
+        "id": "9ade8c314e2a7ae5ecce607568451f12",
+        "name": "Arpita Mundra",
+        "email": null,
+        "phone": null,
+        "current_title": "Tech Professional | Senior Software Engineer | Python Expert | Golang",
+        "skills": [],
+        "experience_years": 11,
+        "education": null,
+        "location": "Pune, Maharashtra, India",
+        "profile_url": "https://www.linkedin.com/talent/profile/AEMAACmwAg4B9SlpCS0SY4GbjuSWwpD3F3Y0Dq4?searchHistoryId=20788226748&highlightedPatternSource=%255Cbpython%2520developer%2520python%2520fastapi%2520django%255Cb%257C%255Cbdeveloper%255Cb%257C%255Cbfastapi%255Cb%257C%255Cbpython%255Cb%257C%255Cbdjango%255Cb%257C%255Cbgithub%255Cb&trk=SEARCH_GLOBAL",
+        "source_portal": "LinkedIn Recruiter",
+        "summary": null,
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.55,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 1.0,
+        "matched_skills": [
+          "python"
+        ],
+        "missing_skills": [
+          "github",
+          "fastapi",
+          "django"
+        ],
+        "experience_gap": 0
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 100% match"
+    },
+    {
+      "candidate": {
+        "id": "0831e0ac4cdaeadced908301d39f7312",
+        "name": "Sanyam Kumar",
+        "email": null,
+        "phone": null,
+        "current_title": "Python Software Developer",
+        "skills": [
+          "Python |",
+          "Django |",
+          "Django Framework |",
+          "Django Rest API |",
+          "MySQL |",
+          "Github"
+        ],
+        "experience_years": null,
+        "education": null,
+        "location": "Jaipur",
+        "profile_url": "https://resdex.naukri.com/lite/preview?tabKey=profile&sid=2483065&paramString=8b485a994a0b1f7d419bf11cc53a6d4b13106&hfFlowName=rdxLiteSrp&totalResumes=500&requirementId=125289&requirementGroupId=125289&tupleIndex=48&storageKey=2483065-1&parentSid=2483065&sidGroupId=1f3b2dcdf855e9207f3fe745585bfd3e&title=UHl0aG9uIERldmVsb3Blcg==&uresid=40e4d3c1d52554ef6311d477b7cab4d359540f594f100a160302405f5b0d5249130a100402435854015343150e136&elasticType=es7&uniqId=bdde2b39650eb92bf8976846d381e30b5c5958501b175b405612450c5908001b410e170142145e085b5543175844514352595a0f554910091202165209094f6",
+        "source_portal": "naukri_resdex",
+        "summary": "Current: Python Software Developer at Appic softwares | Experience: 2y 0m | Salary: \u20b9 2.40 Lacs | Education: B.Tech/B.E. Modern Institute of Technology and Research Center 2022",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.23,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "github"
+        ],
+        "missing_skills": [
+          "python",
+          "fastapi",
+          "django"
+        ],
+        "experience_gap": 2
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "7feb2b92d545c8c1f2114b2ce896d807",
+        "name": "Sanyam Kumar",
+        "email": null,
+        "phone": null,
+        "current_title": "Python Software Developer",
+        "skills": [
+          "Python |",
+          "Django |",
+          "Django Framework |",
+          "Django Rest API |",
+          "MySQL |",
+          "Github"
+        ],
+        "experience_years": null,
+        "education": null,
+        "location": "Jaipur",
+        "profile_url": "https://resdex.naukri.com/lite/preview?tabKey=profile&sid=2483069&paramString=8b485a994a0b1f7d419bf11cc53a6d4b13106&hfFlowName=rdxLiteSrp&totalResumes=500&requirementId=125289&requirementGroupId=125289&tupleIndex=49&storageKey=2483069-1&parentSid=2483069&sidGroupId=5d18eb7c8cdc25a640cde07b9388acb4&title=UHl0aG9uIERldmVsb3Blcg==&uresid=16673982c8e60bebe30eb988e27782fa59540f594f100a160302405f5b0d5249130a120602435854015343150e136&elasticType=es7&uniqId=5c3de8a588227c977a781d92151a11185c5958501b175b405612450c5908001b410e170142145e085b5543175844514352595a0f554910091200145209094f6",
+        "source_portal": "naukri_resdex",
+        "summary": "Current: Python Software Developer at Appic softwares | Experience: 2y 0m | Salary: \u20b9 2.40 Lacs | Education: B.Tech/B.E. Modern Institute of Technology and Research Center 2022",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.23,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "github"
+        ],
+        "missing_skills": [
+          "python",
+          "fastapi",
+          "django"
+        ],
+        "experience_gap": 2
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "f328179a62b0c71df269918440c0e93a",
+        "name": "Sanyam Kumar",
+        "email": "",
+        "phone": null,
+        "current_title": "Python Software Developer",
+        "skills": [
+          "Python |",
+          "Django |",
+          "Django Framework |",
+          "Django Rest API |",
+          "MySQL |",
+          "Github"
+        ],
+        "experience_years": 0,
+        "education": null,
+        "location": "Jaipur",
+        "profile_url": "https://resdex.naukri.com/lite/preview?tabKey=profile&sid=2482697&paramString=8b485a994a0b1f7d419bf11cc53a6d4b13106&hfFlowName=rdxLiteSrp&totalResumes=500&requirementId=125289&requirementGroupId=125289&tupleIndex=47&storageKey=2482697-1&parentSid=2482697&sidGroupId=1b4856ea8d6132b7f6ec326840559db5&title=UHl0aG9uIERldmVsb3Blcg==&uresid=f801a317588581dc6e63a528f6d8e2fa59540f594f100a160302405f5b0d52481400160102435854015343150e136&elasticType=es7&uniqId=e21e4f73ac497972e0302ec59a17e2335c5958501b175b405612450c5908001b410e170142145e085b5543175844514352595a0f5549110e1804135209094f6",
+        "source_portal": "naukri_resdex",
+        "summary": "Current: Python Software Developer at Appic softwares | Experience: 2y 0m | Salary: \u20b9 2.40 Lacs | Education: B.Tech/B.E. Modern Institute of Technology and Research Center 2022",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.23,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "github"
+        ],
+        "missing_skills": [
+          "python",
+          "fastapi",
+          "django"
+        ],
+        "experience_gap": 2
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "c6c0c97ff5c5807fdea162cdd614c0c1",
+        "name": "Mahmoud Ahmed",
+        "email": null,
+        "phone": null,
+        "current_title": "Fullstack Data Scientist & Instructor",
+        "skills": [
+          "python"
+        ],
+        "experience_years": null,
+        "education": null,
+        "location": "Egypt",
+        "profile_url": "https://github.com/Pythondeveloper6",
+        "source_portal": "github",
+        "summary": "GitHub: 124 repos, 3487 followers",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.23,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "python"
+        ],
+        "missing_skills": [
+          "github",
+          "fastapi",
+          "django"
+        ],
+        "experience_gap": 2
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "643da7c10df1931a65b5da566bd6350c",
+        "name": "PythonToday",
+        "email": null,
+        "phone": null,
+        "current_title": "https://www.youtube.com/c/PythonToday",
+        "skills": [
+          "python"
+        ],
+        "experience_years": null,
+        "education": null,
+        "location": "",
+        "profile_url": "https://github.com/pythontoday",
+        "source_portal": "github",
+        "summary": "GitHub: 82 repos, 2321 followers",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.23,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "python"
+        ],
+        "missing_skills": [
+          "github",
+          "fastapi",
+          "django"
+        ],
+        "experience_gap": 2
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "c5866636a6c0a839940c041914537287",
+        "name": "Python Code",
+        "email": null,
+        "phone": null,
+        "current_title": "C\u00f3digos Python postados na p\u00e1gina do Instagram @pycodebr",
+        "skills": [
+          "python"
+        ],
+        "experience_years": null,
+        "education": null,
+        "location": "",
+        "profile_url": "https://github.com/pycodebr",
+        "source_portal": "github",
+        "summary": "GitHub: 79 repos, 2784 followers",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.23,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "python"
+        ],
+        "missing_skills": [
+          "github",
+          "fastapi",
+          "django"
+        ],
+        "experience_gap": 2
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 20% match"
+    }
+  ]
+}

@@ -1,0 +1,472 @@
+{
+  "id": "cec68381-bb14-499d-9eb4-03cc6aedd56e",
+  "description": {
+    "title": "software developer",
+    "description": "person who is hardworking",
+    "required_skills": [
+      "react",
+      "html",
+      "css",
+      "javascript",
+      "python",
+      "fastapi",
+      "django",
+      "github"
+    ],
+    "experience_years": 1,
+    "location": "india",
+    "salary_range": null
+  },
+  "status": "completed",
+  "created_at": "2025-11-28T03:25:08.901913",
+  "candidates": [
+    {
+      "candidate": {
+        "id": "224e7ce1cb5edd5705a7d77fbea22bf9",
+        "name": "Roshan Kumar",
+        "email": null,
+        "phone": null,
+        "current_title": "Senior Lead Software Developer (12+ Yrs) | Node.js, Python, .NET (C#),| React.js, Next.js, Vue.js | FastAPI | ElasticSearch | Cloud & Databases | Problem-Solving Mindset I Open to Remote Roles",
+        "skills": [],
+        "experience_years": 12,
+        "education": null,
+        "location": "Chandigarh, India",
+        "profile_url": "https://www.linkedin.com/talent/profile/AEMAAC7_kXQBwzdVh-U_3YIxAgzHKJ_OzdBpGAo?searchHistoryId=20788197636&highlightedPatternSource=%255Cbsoftware%2520developer%2520react%2520html%2520css%255Cb%257C%255Cbdeveloper%255Cb%257C%255Cbsoftware%255Cb&trk=SEARCH_GLOBAL",
+        "source_portal": "LinkedIn Recruiter",
+        "summary": null,
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.625,
+      "match_breakdown": {
+        "skill_match": 0.375,
+        "experience_match": 1.0,
+        "matched_skills": [
+          "react",
+          "fastapi",
+          "python"
+        ],
+        "missing_skills": [
+          "javascript",
+          "github",
+          "css",
+          "django",
+          "html"
+        ],
+        "experience_gap": 0
+      },
+      "reasoning": "Skills: 3/8 matched, Experience: 100% match"
+    },
+    {
+      "candidate": {
+        "id": "709bbf074e1718a4f576617e3b41e023",
+        "name": "Hitendra Patil",
+        "email": null,
+        "phone": null,
+        "current_title": "Full-Stack Developer | Angular | Node.js | Python | MySQL | React | JavaScript | TypeScript",
+        "skills": [],
+        "experience_years": 9,
+        "education": null,
+        "location": "Pune, Maharashtra, India",
+        "profile_url": "https://www.linkedin.com/talent/profile/AEMAACHkq9QB_4ucnQHI1ZE8pEdP2NjLcSYAF8g?searchHistoryId=20788197636&highlightedPatternSource=%255Cbsoftware%2520developer%2520react%2520html%2520css%255Cb%257C%255Cbdeveloper%255Cb%257C%255Cbsoftware%255Cb&trk=SEARCH_GLOBAL",
+        "source_portal": "LinkedIn Recruiter",
+        "summary": null,
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.625,
+      "match_breakdown": {
+        "skill_match": 0.375,
+        "experience_match": 1.0,
+        "matched_skills": [
+          "javascript",
+          "react",
+          "python"
+        ],
+        "missing_skills": [
+          "github",
+          "css",
+          "fastapi",
+          "django",
+          "html"
+        ],
+        "experience_gap": 0
+      },
+      "reasoning": "Skills: 3/8 matched, Experience: 100% match"
+    },
+    {
+      "candidate": {
+        "id": "58527655099c5819cdda8f1fffa0efbd",
+        "name": "Noman Shaikh",
+        "email": "",
+        "phone": null,
+        "current_title": "Python Developer Working on Python 3|| Django || AWS || GCP || Flask || FastAPI || Rest Api || CSS3 || HTML5 || JavaScript || Angular || MYSQL || POSTGRESQL || GIT || GITHUB || Web Scraping || Automation || PANDAS ||",
+        "skills": [],
+        "experience_years": 0,
+        "education": null,
+        "location": "Mumbai, Maharashtra, India",
+        "profile_url": "https://www.linkedin.com/talent/profile/AEMAADNAZM8BAjCkaJPpcWrZ0VK5M3Ya7vM61tI?searchHistoryId=20788148892&highlightedPatternSource=%255Cbpython%2520developer%2520python%2520fastapi%2520django%255Cb%257C%255Cbdeveloper%255Cb%257C%255Cbfastapi%255Cb%257C%255Cbpython%255Cb%257C%255Cbdjango%255Cb%257C%255Cbgithub%255Cb&trk=SEARCH_GLOBAL",
+        "source_portal": "LinkedIn Recruiter",
+        "summary": "",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.605,
+      "match_breakdown": {
+        "skill_match": 0.875,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "javascript",
+          "github",
+          "css",
+          "fastapi",
+          "python",
+          "django",
+          "html"
+        ],
+        "missing_skills": [
+          "react"
+        ],
+        "experience_gap": 1
+      },
+      "reasoning": "Skills: 7/8 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "826fd0257966cd3e422c3604f3ba2d93",
+        "name": "Nitin Yadav",
+        "email": null,
+        "phone": null,
+        "current_title": "Python Software Developer",
+        "skills": [
+          "Python |",
+          "Django |",
+          "Django Framework |",
+          "Python Development |",
+          "Web Scraping |",
+          "Docker |",
+          "GIT |",
+          "Gitlab |",
+          "Github |",
+          "API |",
+          "Selenium |",
+          "Javascript |",
+          "HTML"
+        ],
+        "experience_years": null,
+        "education": null,
+        "location": "Jaipur",
+        "profile_url": "https://resdex.naukri.com/lite/preview?tabKey=profile&sid=2482893&paramString=8b485a994a0b1f7d419bf11cc53a6d4b13106&hfFlowName=rdxLiteSrp&totalResumes=500&requirementId=125289&requirementGroupId=125289&tupleIndex=13&storageKey=2482893-1&parentSid=2482893&sidGroupId=6f121c49efd59b3306d4421f849326e0&title=UHl0aG9uIERldmVsb3Blcg==&uresid=dfda40af5cb0ae209ceb2ace246c6d1e5a5a0053421a0a160b02405f5b0d52481a0810040243515d0a544b170d156&elasticType=es7&uniqId=b24a73236a795d764926a83c6a0a9bcc0c095f5242110d180543420d595c054f4158110045450c5e0c594b450c43034752595a0f554911001002165209094f6",
+        "source_portal": "naukri_resdex",
+        "summary": "Current: Python Software Developer at Growth Grids Private Limited | Experience: 3y 0m | Salary: \u20b9 4.50 Lacs | Education: B.Tech/B.E. Jaipur National University, Jaipur 2023",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.15500000000000003,
+      "match_breakdown": {
+        "skill_match": 0.125,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "html"
+        ],
+        "missing_skills": [
+          "javascript",
+          "github",
+          "css",
+          "react",
+          "fastapi",
+          "python",
+          "django"
+        ],
+        "experience_gap": 1
+      },
+      "reasoning": "Skills: 1/8 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "5595f14b06aebd8afb2a5289f3acab41",
+        "name": "Sanyam Kumar",
+        "email": null,
+        "phone": null,
+        "current_title": "Python Software Developer",
+        "skills": [
+          "Python |",
+          "Django |",
+          "Django Framework |",
+          "Django Rest API |",
+          "MySQL |",
+          "Github"
+        ],
+        "experience_years": null,
+        "education": null,
+        "location": "Jaipur",
+        "profile_url": "https://resdex.naukri.com/lite/preview?tabKey=profile&sid=2482893&paramString=8b485a994a0b1f7d419bf11cc53a6d4b13106&hfFlowName=rdxLiteSrp&totalResumes=500&requirementId=125289&requirementGroupId=125289&tupleIndex=45&storageKey=2482893-1&parentSid=2482893&sidGroupId=6f121c49efd59b3306d4421f849326e0&title=UHl0aG9uIERldmVsb3Blcg==&uresid=d8a7776e6c1a84815389630f907b0fbd59540f594f100a160302405f5b0d52481a08100402435854015343150e136&elasticType=es7&uniqId=93639c10b1cad6c2b73adce43f55c9e75c5958501b175b405612450c5908001b410e170142145e085b5543175844514352595a0f554911001002165209094f6",
+        "source_portal": "naukri_resdex",
+        "summary": "Current: Python Software Developer at Appic softwares | Experience: 2y 0m | Salary: \u20b9 2.40 Lacs | Education: B.Tech/B.E. Modern Institute of Technology and Research Center 2022",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.15500000000000003,
+      "match_breakdown": {
+        "skill_match": 0.125,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "github"
+        ],
+        "missing_skills": [
+          "javascript",
+          "css",
+          "react",
+          "fastapi",
+          "python",
+          "django",
+          "html"
+        ],
+        "experience_gap": 1
+      },
+      "reasoning": "Skills: 1/8 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "82527f8f64d4592b2730c614ed5974c6",
+        "name": "Nitin Yadav",
+        "email": null,
+        "phone": null,
+        "current_title": "Python Software Developer",
+        "skills": [
+          "Python |",
+          "Django |",
+          "Django Framework |",
+          "Python Development |",
+          "Web Scraping |",
+          "Docker |",
+          "GIT |",
+          "Gitlab |",
+          "Github |",
+          "API |",
+          "Selenium |",
+          "Javascript |",
+          "HTML"
+        ],
+        "experience_years": null,
+        "education": null,
+        "location": "Jaipur",
+        "profile_url": "https://resdex.naukri.com/lite/preview?tabKey=profile&sid=2482897&paramString=8b485a994a0b1f7d419bf11cc53a6d4b13106&hfFlowName=rdxLiteSrp&totalResumes=500&requirementId=125289&requirementGroupId=125289&tupleIndex=13&storageKey=2482897-1&parentSid=2482897&sidGroupId=e9536958ea4765dc0a6d5ee9d050d6fb&title=UHl0aG9uIERldmVsb3Blcg==&uresid=20f7d3cc96538c1bfe0223fcef7a2f635a5a0053421a0a160b02405f5b0d52481a0812050243515d0a544b170d156&elasticType=es7&uniqId=fbb6ee906410b2ea12caf4ce367bece70c095f5242110d180543420d595c054f4158110045450c5e0c594b450c43034752595a0f554911001000175209094f6",
+        "source_portal": "naukri_resdex",
+        "summary": "Current: Python Software Developer at Growth Grids Private Limited | Experience: 3y 0m | Salary: \u20b9 4.50 Lacs | Education: B.Tech/B.E. Jaipur National University, Jaipur 2023",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.15500000000000003,
+      "match_breakdown": {
+        "skill_match": 0.125,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "html"
+        ],
+        "missing_skills": [
+          "javascript",
+          "github",
+          "css",
+          "react",
+          "fastapi",
+          "python",
+          "django"
+        ],
+        "experience_gap": 1
+      },
+      "reasoning": "Skills: 1/8 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "6c1a5e9b52b465b9c8a91da0a2180838",
+        "name": "Sanyam Kumar",
+        "email": null,
+        "phone": null,
+        "current_title": "Python Software Developer",
+        "skills": [
+          "Python |",
+          "Django |",
+          "Django Framework |",
+          "Django Rest API |",
+          "MySQL |",
+          "Github"
+        ],
+        "experience_years": null,
+        "education": null,
+        "location": "Jaipur",
+        "profile_url": "https://resdex.naukri.com/lite/preview?tabKey=profile&sid=2482897&paramString=8b485a994a0b1f7d419bf11cc53a6d4b13106&hfFlowName=rdxLiteSrp&totalResumes=500&requirementId=125289&requirementGroupId=125289&tupleIndex=45&storageKey=2482897-1&parentSid=2482897&sidGroupId=e9536958ea4765dc0a6d5ee9d050d6fb&title=UHl0aG9uIERldmVsb3Blcg==&uresid=5526e646575267ede275bf710e327a1a59540f594f100a160302405f5b0d52481a08120502435854015343150e136&elasticType=es7&uniqId=925eed25862b171fe549ba11f408022b5c5958501b175b405612450c5908001b410e170142145e085b5543175844514352595a0f554911001000175209094f6",
+        "source_portal": "naukri_resdex",
+        "summary": "Current: Python Software Developer at Appic softwares | Experience: 2y 0m | Salary: \u20b9 2.40 Lacs | Education: B.Tech/B.E. Modern Institute of Technology and Research Center 2022",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.15500000000000003,
+      "match_breakdown": {
+        "skill_match": 0.125,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "github"
+        ],
+        "missing_skills": [
+          "javascript",
+          "css",
+          "react",
+          "fastapi",
+          "python",
+          "django",
+          "html"
+        ],
+        "experience_gap": 1
+      },
+      "reasoning": "Skills: 1/8 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "e9c45fc1283c8d52b80a6a590056ccc7",
+        "name": "Django&React Developer",
+        "email": "",
+        "phone": null,
+        "current_title": "Developer",
+        "skills": [
+          "react"
+        ],
+        "experience_years": 0,
+        "education": null,
+        "location": "",
+        "profile_url": "https://github.com/TechStart1022",
+        "source_portal": "github",
+        "summary": "GitHub: 17 repos, 362 followers",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.15500000000000003,
+      "match_breakdown": {
+        "skill_match": 0.125,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "react"
+        ],
+        "missing_skills": [
+          "javascript",
+          "github",
+          "css",
+          "fastapi",
+          "python",
+          "django",
+          "html"
+        ],
+        "experience_gap": 1
+      },
+      "reasoning": "Skills: 1/8 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "7c30a6a150f0008b7244f8c63b8559a5",
+        "name": "Genius Space HTML/CSS",
+        "email": "",
+        "phone": null,
+        "current_title": "Developer",
+        "skills": [
+          "html"
+        ],
+        "experience_years": 0,
+        "education": null,
+        "location": "",
+        "profile_url": "https://github.com/genius-space",
+        "source_portal": "github",
+        "summary": "GitHub: 7 repos, 2069 followers",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.15500000000000003,
+      "match_breakdown": {
+        "skill_match": 0.125,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "html"
+        ],
+        "missing_skills": [
+          "javascript",
+          "github",
+          "css",
+          "react",
+          "fastapi",
+          "python",
+          "django"
+        ],
+        "experience_gap": 1
+      },
+      "reasoning": "Skills: 1/8 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "b95e305349dca5505dc5e1d474958bac",
+        "name": "Head",
+        "email": "",
+        "phone": null,
+        "current_title": "Hello! \ud83d\ude00\r\n\u2605 Javascript, React\r\n",
+        "skills": [
+          "html"
+        ],
+        "experience_years": 0,
+        "education": null,
+        "location": "Seoul",
+        "profile_url": "https://github.com/HTMLhead",
+        "source_portal": "github",
+        "summary": "GitHub: 68 repos, 84 followers",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.15500000000000003,
+      "match_breakdown": {
+        "skill_match": 0.125,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "html"
+        ],
+        "missing_skills": [
+          "javascript",
+          "github",
+          "css",
+          "react",
+          "fastapi",
+          "python",
+          "django"
+        ],
+        "experience_gap": 1
+      },
+      "reasoning": "Skills: 1/8 matched, Experience: 20% match"
+    }
+  ]
+}

@@ -163,18 +163,17 @@
                         <p class="workflow-subtitle">Our intelligent agents are finding the perfect candidates for you</p>
                         
                         <div class="workflow-container">
-                            <!-- Step 1: Extractor Agent -->
+                            <!-- Step 1: Scraping Portals -->
                             <div class="workflow-step" id="step1">
                                 <div class="step-icon">
                                     <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
-                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        <polyline points="3.27 6.96 12 12.01 20.73 6.96" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        <line x1="12" y1="22.08" x2="12" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
                                 </div>
                                 <div class="step-content">
-                                    <h3>Extractor Agent</h3>
-                                    <p>Analyzing job requirements</p>
+                                    <h3>Phase 1: Scraping</h3>
+                                    <p>Naukri, LinkedIn, StackOverflow, GitHub</p>
                                 </div>
                                 <div class="step-status">
                                     <div class="status-spinner"></div>
@@ -185,17 +184,18 @@
                             <!-- Connector -->
                             <div class="workflow-connector" id="connector1"></div>
 
-                            <!-- Step 2: Search Agent -->
+                            <!-- Step 2: Vector DB Search -->
                             <div class="workflow-step" id="step2">
                                 <div class="step-icon">
                                     <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
-                                        <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <polyline points="3.27 6.96 12 12.01 20.73 6.96" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <line x1="12" y1="22.08" x2="12" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
                                 </div>
                                 <div class="step-content">
-                                    <h3>Search Agent</h3>
-                                    <p>Scanning multiple platforms</p>
+                                    <h3>Phase 2: Vector Search</h3>
+                                    <p>Semantic search in database</p>
                                 </div>
                                 <div class="step-status">
                                     <div class="status-spinner"></div>
@@ -206,16 +206,17 @@
                             <!-- Connector -->
                             <div class="workflow-connector" id="connector2"></div>
 
-                            <!-- Step 3: Data Builder -->
+                            <!-- Step 3: Hard Matching -->
                             <div class="workflow-step" id="step3">
                                 <div class="step-icon">
                                     <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
-                                        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <polyline points="22 4 12 14.01 9 11.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
                                 </div>
                                 <div class="step-content">
-                                    <h3>Data Builder</h3>
-                                    <p>Enriching candidate profiles</p>
+                                    <h3>Phase 3: Hard Matching</h3>
+                                    <p>Skills and experience validation</p>
                                 </div>
                                 <div class="step-status">
                                     <div class="status-spinner"></div>
@@ -226,7 +227,7 @@
                             <!-- Connector -->
                             <div class="workflow-connector" id="connector3"></div>
 
-                            <!-- Step 4: Matching & Ranking -->
+                            <!-- Step 4: Balancing Results -->
                             <div class="workflow-step" id="step4">
                                 <div class="step-icon">
                                     <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
@@ -234,8 +235,8 @@
                                     </svg>
                                 </div>
                                 <div class="step-content">
-                                    <h3>AI Matching</h3>
-                                    <p>Ranking best candidates</p>
+                                    <h3>Phase 4: Balancing</h3>
+                                    <p>Equal representation across sources</p>
                                 </div>
                                 <div class="step-status">
                                     <div class="status-spinner"></div>

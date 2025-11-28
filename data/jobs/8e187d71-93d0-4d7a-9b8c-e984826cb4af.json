@@ -1,0 +1,822 @@
+{
+  "id": "8e187d71-93d0-4d7a-9b8c-e984826cb4af",
+  "description": {
+    "title": "python developer",
+    "description": "good work",
+    "required_skills": [
+      "python",
+      "fastapi",
+      "django",
+      "github"
+    ],
+    "experience_years": 2,
+    "location": "Pune",
+    "salary_range": null
+  },
+  "status": "completed",
+  "created_at": "2025-11-28T03:50:35.569264",
+  "candidates": [
+    {
+      "candidate": {
+        "id": "5009a5e9a8a03fb0243d8feb2b36b41b",
+        "name": "Navneet Dhamal",
+        "email": null,
+        "phone": null,
+        "current_title": "Python | AI | SQL | FastAPI | Docker | Computer Vision",
+        "skills": [],
+        "experience_years": 9,
+        "education": null,
+        "location": "Pune, Maharashtra, India",
+        "profile_url": "https://www.linkedin.com/talent/profile/AEMAAEAF_B0BYGuXRKdtKyQKhWOSMTSRgM75dfk?searchHistoryId=20788221956&highlightedPatternSource=%255Cbpython%2520developer%2520python%2520fastapi%2520django%255Cb%257C%255Cbdeveloper%255Cb%257C%255Cbfastapi%255Cb%257C%255Cbpython%255Cb%257C%255Cbdjango%255Cb%257C%255Cbgithub%255Cb&trk=SEARCH_GLOBAL",
+        "source_portal": "LinkedIn Recruiter",
+        "summary": null,
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.7,
+      "match_breakdown": {
+        "skill_match": 0.5,
+        "experience_match": 1.0,
+        "matched_skills": [
+          "python",
+          "fastapi"
+        ],
+        "missing_skills": [
+          "django",
+          "github"
+        ],
+        "experience_gap": 0,
+        "is_top_3": true,
+        "rank": 1
+      },
+      "reasoning": "\ud83c\udfc6 TOP MATCH - Skills: 2/4 matched, Experience: 100% match"
+    },
+    {
+      "candidate": {
+        "id": "58527655099c5819cdda8f1fffa0efbd",
+        "name": "Noman Shaikh",
+        "email": "",
+        "phone": null,
+        "current_title": "Python Developer Working on Python 3|| Django || AWS || GCP || Flask || FastAPI || Rest Api || CSS3 || HTML5 || JavaScript || Angular || MYSQL || POSTGRESQL || GIT || GITHUB || Web Scraping || Automation || PANDAS ||",
+        "skills": [],
+        "experience_years": 0,
+        "education": null,
+        "location": "Mumbai, Maharashtra, India",
+        "profile_url": "https://www.linkedin.com/talent/profile/AEMAADNAZM8BAjCkaJPpcWrZ0VK5M3Ya7vM61tI?searchHistoryId=20788148892&highlightedPatternSource=%255Cbpython%2520developer%2520python%2520fastapi%2520django%255Cb%257C%255Cbdeveloper%255Cb%257C%255Cbfastapi%255Cb%257C%255Cbpython%255Cb%257C%255Cbdjango%255Cb%257C%255Cbgithub%255Cb&trk=SEARCH_GLOBAL",
+        "source_portal": "LinkedIn Recruiter",
+        "summary": "",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.6799999999999999,
+      "match_breakdown": {
+        "skill_match": 1.0,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "python",
+          "django",
+          "fastapi",
+          "github"
+        ],
+        "missing_skills": [],
+        "experience_gap": 2,
+        "is_top_3": true,
+        "rank": 2
+      },
+      "reasoning": "\ud83c\udfc6 TOP MATCH - Skills: 4/4 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "42230ece0d922b7c96e1d6e65b595164",
+        "name": "Vishal Ghuge",
+        "email": null,
+        "phone": null,
+        "current_title": "Senior Python developer | Data engineer | Fintech Software Engineer | 6+ Years of experience",
+        "skills": [],
+        "experience_years": 11,
+        "education": null,
+        "location": "Pune, Maharashtra, India",
+        "profile_url": "https://www.linkedin.com/talent/profile/AEMAABMSm1QBcih-ahzfFrS9O-hIJMCEjpSpjtM?searchHistoryId=20788221956&highlightedPatternSource=%255Cbpython%2520developer%2520python%2520fastapi%2520django%255Cb%257C%255Cbdeveloper%255Cb%257C%255Cbfastapi%255Cb%257C%255Cbpython%255Cb%257C%255Cbdjango%255Cb%257C%255Cbgithub%255Cb&trk=SEARCH_GLOBAL",
+        "source_portal": "LinkedIn Recruiter",
+        "summary": null,
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.55,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 1.0,
+        "matched_skills": [
+          "python"
+        ],
+        "missing_skills": [
+          "django",
+          "fastapi",
+          "github"
+        ],
+        "experience_gap": 0,
+        "is_top_3": true,
+        "rank": 3
+      },
+      "reasoning": "\ud83c\udfc6 TOP MATCH - Skills: 1/4 matched, Experience: 100% match"
+    },
+    {
+      "candidate": {
+        "id": "9ade8c314e2a7ae5ecce607568451f12",
+        "name": "Arpita Mundra",
+        "email": null,
+        "phone": null,
+        "current_title": "Tech Professional | Senior Software Engineer | Python Expert | Golang",
+        "skills": [],
+        "experience_years": 11,
+        "education": null,
+        "location": "Pune, Maharashtra, India",
+        "profile_url": "https://www.linkedin.com/talent/profile/AEMAACmwAg4B9SlpCS0SY4GbjuSWwpD3F3Y0Dq4?searchHistoryId=20788221956&highlightedPatternSource=%255Cbpython%2520developer%2520python%2520fastapi%2520django%255Cb%257C%255Cbdeveloper%255Cb%257C%255Cbfastapi%255Cb%257C%255Cbpython%255Cb%257C%255Cbdjango%255Cb%257C%255Cbgithub%255Cb&trk=SEARCH_GLOBAL",
+        "source_portal": "LinkedIn Recruiter",
+        "summary": null,
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.55,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 1.0,
+        "matched_skills": [
+          "python"
+        ],
+        "missing_skills": [
+          "django",
+          "fastapi",
+          "github"
+        ],
+        "experience_gap": 0,
+        "is_top_3": false,
+        "rank": 4
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 100% match"
+    },
+    {
+      "candidate": {
+        "id": "4060894610c4d92ea584b307346c85a0",
+        "name": "Sahil Kinjalkar",
+        "email": null,
+        "phone": null,
+        "current_title": "Python Developer | Building Scalable Web Applications | API Integration",
+        "skills": [],
+        "experience_years": 3,
+        "education": null,
+        "location": "Pune, Maharashtra, India",
+        "profile_url": "https://www.linkedin.com/talent/profile/AEMAAEux9PgBbS7HF1U7TU23Mqp9dnzEXLubtvY?searchHistoryId=20788221956&highlightedPatternSource=%255Cbpython%2520developer%2520python%2520fastapi%2520django%255Cb%257C%255Cbdeveloper%255Cb%257C%255Cbfastapi%255Cb%257C%255Cbpython%255Cb%257C%255Cbdjango%255Cb%257C%255Cbgithub%255Cb&trk=SEARCH_GLOBAL",
+        "source_portal": "LinkedIn Recruiter",
+        "summary": null,
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.55,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 1.0,
+        "matched_skills": [
+          "python"
+        ],
+        "missing_skills": [
+          "django",
+          "fastapi",
+          "github"
+        ],
+        "experience_gap": 0,
+        "is_top_3": false,
+        "rank": 5
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 100% match"
+    },
+    {
+      "candidate": {
+        "id": "c734ecda85afe402832fcebdaa9a04b8",
+        "name": "Harsh Thakkar",
+        "email": "",
+        "phone": null,
+        "current_title": "Senior Python Developer | Python | Django | FastApi | AWS | Docker",
+        "skills": [],
+        "experience_years": 0,
+        "education": null,
+        "location": "Ahmedabad, Gujarat, India",
+        "profile_url": "https://www.linkedin.com/talent/profile/AEMAAB-u-OgBQYJxgkb85inmBmBqSGVGnWrDzLQ?searchHistoryId=20788148892&highlightedPatternSource=%255Cbpython%2520developer%2520python%2520fastapi%2520django%255Cb%257C%255Cbdeveloper%255Cb%257C%255Cbfastapi%255Cb%257C%255Cbpython%255Cb%257C%255Cbdjango%255Cb%257C%255Cbgithub%255Cb&trk=SEARCH_GLOBAL",
+        "source_portal": "LinkedIn Recruiter",
+        "summary": "",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.53,
+      "match_breakdown": {
+        "skill_match": 0.75,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "python",
+          "django",
+          "fastapi"
+        ],
+        "missing_skills": [
+          "github"
+        ],
+        "experience_gap": 2,
+        "is_top_3": false,
+        "rank": 6
+      },
+      "reasoning": "Skills: 3/4 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "0831e0ac4cdaeadced908301d39f7312",
+        "name": "Sanyam Kumar",
+        "email": null,
+        "phone": null,
+        "current_title": "Python Software Developer",
+        "skills": [
+          "Python |",
+          "Django |",
+          "Django Framework |",
+          "Django Rest API |",
+          "MySQL |",
+          "Github"
+        ],
+        "experience_years": null,
+        "education": null,
+        "location": "Jaipur",
+        "profile_url": "https://resdex.naukri.com/lite/preview?tabKey=profile&sid=2483099&paramString=8b485a994a0b1f7d419bf11cc53a6d4b13106&hfFlowName=rdxLiteSrp&totalResumes=500&requirementId=125289&requirementGroupId=125289&tupleIndex=48&storageKey=2483099-1&parentSid=2483099&sidGroupId=1ffbb07ec18907fc48acfacbed26235a&title=UHl0aG9uIERldmVsb3Blcg==&uresid=5218f0d98d80ae55f2150bba6308d97659540f594f100a160302405f5b0d5249130f150702435854015343150e136&elasticType=es7&uniqId=256e661ed0c1a341db00657e594724085c5958501b175b405612450c5908001b410e170142145e085b5543175844514352595a0f554910091707155209094f6",
+        "source_portal": "naukri_resdex",
+        "summary": "Current: Python Software Developer at Appic softwares | Experience: 2y 0m | Salary: \u20b9 2.40 Lacs | Education: B.Tech/B.E. Modern Institute of Technology and Research Center 2022",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.23,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "github"
+        ],
+        "missing_skills": [
+          "python",
+          "django",
+          "fastapi"
+        ],
+        "experience_gap": 2,
+        "is_top_3": false,
+        "rank": 7
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "6c1a5e9b52b465b9c8a91da0a2180838",
+        "name": "Sanyam Kumar",
+        "email": null,
+        "phone": null,
+        "current_title": "Python Software Developer",
+        "skills": [
+          "Python |",
+          "Django |",
+          "Django Framework |",
+          "Django Rest API |",
+          "MySQL |",
+          "Github"
+        ],
+        "experience_years": null,
+        "education": null,
+        "location": "Jaipur",
+        "profile_url": "https://resdex.naukri.com/lite/preview?tabKey=profile&sid=2483101&paramString=8b485a994a0b1f7d419bf11cc53a6d4b13106&hfFlowName=rdxLiteSrp&totalResumes=500&requirementId=125289&requirementGroupId=125289&tupleIndex=45&storageKey=2483101-1&parentSid=2483101&sidGroupId=9b8962b8ed8c0c9cb20bc3c78a0575ee&title=UHl0aG9uIERldmVsb3Blcg==&uresid=9443d109a029aa6376df5a7342b42c3c59540f594f100a160302405f5b0d5249130f170202435854015343150e136&elasticType=es7&uniqId=663f43c6d49cf7397d4032aca1d426985c5958501b175b405612450c5908001b410e170142145e085b5543175844514352595a0f554910091705105209094f6",
+        "source_portal": "naukri_resdex",
+        "summary": "Current: Python Software Developer at Appic softwares | Experience: 2y 0m | Salary: \u20b9 2.40 Lacs | Education: B.Tech/B.E. Modern Institute of Technology and Research Center 2022",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.23,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "github"
+        ],
+        "missing_skills": [
+          "python",
+          "django",
+          "fastapi"
+        ],
+        "experience_gap": 2,
+        "is_top_3": false,
+        "rank": 8
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "19351d36b49822d1e1aa8db57ee5ea96",
+        "name": "Sanyam Kumar",
+        "email": "",
+        "phone": null,
+        "current_title": "Python Software Developer",
+        "skills": [
+          "Python |",
+          "Django |",
+          "Django Framework |",
+          "Django Rest API |",
+          "MySQL |",
+          "Github"
+        ],
+        "experience_years": 0,
+        "education": null,
+        "location": "Jaipur",
+        "profile_url": "https://resdex.naukri.com/lite/preview?tabKey=profile&sid=2482507&paramString=8b485a994a0b1f7d419bf11cc53a6d4b13106&hfFlowName=rdxLiteSrp&totalResumes=500&requirementId=125289&requirementGroupId=125289&tupleIndex=48&storageKey=2482507-1&parentSid=2482507&sidGroupId=9684131671f9da7498b1d12a473b14c3&title=UHl0aG9uIERldmVsb3Blcg==&uresid=89b3884e4c5b7f151a885731e9be466b59540f594f100a160302405f5b0d52481500190b02435854015343150e136&elasticType=es7&uniqId=3d29c6c5cc85c3207c0e28d479d80de15c5958501b175b405612450c5908001b410e170142145e085b5543175844514352595a0f5549110f180b195209094f6",
+        "source_portal": "naukri_resdex",
+        "summary": "Current: Python Software Developer at Appic softwares | Experience: 2y 0m | Salary: \u20b9 2.40 Lacs | Education: B.Tech/B.E. Modern Institute of Technology and Research Center 2022",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.23,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "github"
+        ],
+        "missing_skills": [
+          "python",
+          "django",
+          "fastapi"
+        ],
+        "experience_gap": 2,
+        "is_top_3": false,
+        "rank": 9
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "b50d5ff04cfc35f8aca1c8a7f5228cd8",
+        "name": "faridhavasi",
+        "email": "",
+        "phone": null,
+        "current_title": "python_Backend_developer = ('fastapi', 'django')",
+        "skills": [
+          "fastapi"
+        ],
+        "experience_years": 0,
+        "education": null,
+        "location": "iran/karaj",
+        "profile_url": "https://github.com/faridhaavasi",
+        "source_portal": "github",
+        "summary": "GitHub: 44 repos, 288 followers",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.23,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "fastapi"
+        ],
+        "missing_skills": [
+          "python",
+          "django",
+          "github"
+        ],
+        "experience_gap": 2,
+        "is_top_3": false,
+        "rank": 10
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "01650125b1ddcca36a6bf16fd1343879",
+        "name": "Francisco Andr\u00e9",
+        "email": "",
+        "phone": null,
+        "current_title": "Desenvolvedor Backend Python - Django/FastAPI",
+        "skills": [
+          "fastapi"
+        ],
+        "experience_years": 0,
+        "education": null,
+        "location": "Teresina/PI",
+        "profile_url": "https://github.com/fandrefh",
+        "source_portal": "github",
+        "summary": "GitHub: 67 repos, 47 followers",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.23,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "fastapi"
+        ],
+        "missing_skills": [
+          "python",
+          "django",
+          "github"
+        ],
+        "experience_gap": 2,
+        "is_top_3": false,
+        "rank": 11
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "4e6bb07c7edaea20957f8af98b8b1ad3",
+        "name": "Otter",
+        "email": "",
+        "phone": null,
+        "current_title": "Amazing Python(Django | FastApi | Flask)",
+        "skills": [
+          "fastapi"
+        ],
+        "experience_years": 0,
+        "education": null,
+        "location": "",
+        "profile_url": "https://github.com/fun-loving-otter",
+        "source_portal": "github",
+        "summary": "GitHub: 13 repos, 407 followers",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.23,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "fastapi"
+        ],
+        "missing_skills": [
+          "python",
+          "django",
+          "github"
+        ],
+        "experience_gap": 2,
+        "is_top_3": false,
+        "rank": 12
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "83ecea1e2e6e67e5d9d34ff348a8b69a",
+        "name": "Mohammad Erfan Pouladzadeh",
+        "email": "",
+        "phone": null,
+        "current_title": "BackEnd Developer ( Django, FastAPI, Flask) ",
+        "skills": [
+          "fastapi"
+        ],
+        "experience_years": 0,
+        "education": null,
+        "location": "Iran, Tehran",
+        "profile_url": "https://github.com/MErfanPld",
+        "source_portal": "github",
+        "summary": "GitHub: 39 repos, 102 followers",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.23,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "fastapi"
+        ],
+        "missing_skills": [
+          "python",
+          "django",
+          "github"
+        ],
+        "experience_gap": 2,
+        "is_top_3": false,
+        "rank": 13
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "c217feb7c1d684b52d6b544c33606cc8",
+        "name": "Diogo Alves",
+        "email": "",
+        "phone": null,
+        "current_title": "Backend developer | Python | Django | FastAPI",
+        "skills": [
+          "fastapi"
+        ],
+        "experience_years": 0,
+        "education": null,
+        "location": "Macei\u00f3, Alagoas, Brazil",
+        "profile_url": "https://github.com/diogo-alves",
+        "source_portal": "github",
+        "summary": "GitHub: 28 repos, 113 followers",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.23,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "fastapi"
+        ],
+        "missing_skills": [
+          "python",
+          "django",
+          "github"
+        ],
+        "experience_gap": 2,
+        "is_top_3": false,
+        "rank": 14
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "15e704f4c2c7526eb7a9680d7149e0ee",
+        "name": "Tareq Monwer",
+        "email": "",
+        "phone": null,
+        "current_title": "Software Engineer @ Django, FastAPI, JavaScript, AWS, CI/CD\r\n",
+        "skills": [
+          "fastapi"
+        ],
+        "experience_years": 0,
+        "education": null,
+        "location": "Dhaka, Bangladesh",
+        "profile_url": "https://github.com/TareqMonwer",
+        "source_portal": "github",
+        "summary": "GitHub: 223 repos, 232 followers",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.23,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "fastapi"
+        ],
+        "missing_skills": [
+          "python",
+          "django",
+          "github"
+        ],
+        "experience_gap": 2,
+        "is_top_3": false,
+        "rank": 15
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "f5be1c2e1cf1f2ac772f20ebe4314089",
+        "name": "Iyanuoluwa Ajao",
+        "email": "",
+        "phone": null,
+        "current_title": "Python/Django/FastAPI\r\n and JavaScript/Vuejs",
+        "skills": [
+          "fastapi"
+        ],
+        "experience_years": 0,
+        "education": null,
+        "location": "Remote",
+        "profile_url": "https://github.com/iyanuashiri",
+        "source_portal": "github",
+        "summary": "GitHub: 61 repos, 170 followers",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.23,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "fastapi"
+        ],
+        "missing_skills": [
+          "python",
+          "django",
+          "github"
+        ],
+        "experience_gap": 2,
+        "is_top_3": false,
+        "rank": 16
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "1059190eeb4b8ec1cc51d557b42ca89e",
+        "name": "Maxson Ferovante",
+        "email": "",
+        "phone": null,
+        "current_title": "Backend Developer | Python | FastAPI | Django| Java | Spring ",
+        "skills": [
+          "fastapi"
+        ],
+        "experience_years": 0,
+        "education": null,
+        "location": "",
+        "profile_url": "https://github.com/maxsonferovante",
+        "source_portal": "github",
+        "summary": "GitHub: 78 repos, 125 followers",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.23,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "fastapi"
+        ],
+        "missing_skills": [
+          "python",
+          "django",
+          "github"
+        ],
+        "experience_gap": 2,
+        "is_top_3": false,
+        "rank": 17
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "75c7b878d7176425682c65ef6c50e5c1",
+        "name": "zxenonx",
+        "email": "",
+        "phone": null,
+        "current_title": "Software Developer -  Python | FastAPI | Django | Js | Vue.js ",
+        "skills": [
+          "fastapi"
+        ],
+        "experience_years": 0,
+        "education": null,
+        "location": "",
+        "profile_url": "https://github.com/zxenonx",
+        "source_portal": "github",
+        "summary": "GitHub: 108 repos, 139 followers",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.23,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "fastapi"
+        ],
+        "missing_skills": [
+          "python",
+          "django",
+          "github"
+        ],
+        "experience_gap": 2,
+        "is_top_3": false,
+        "rank": 18
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "2da22222edf2326e27d7d3d735913b56",
+        "name": "ridwanray",
+        "email": "",
+        "phone": null,
+        "current_title": "Software Engineer || Backend || Python (Django, FastAPI)||",
+        "skills": [
+          "fastapi"
+        ],
+        "experience_years": 0,
+        "education": null,
+        "location": "Earth ",
+        "profile_url": "https://github.com/ridwanray",
+        "source_portal": "github",
+        "summary": "GitHub: 491 repos, 65 followers",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.23,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "fastapi"
+        ],
+        "missing_skills": [
+          "python",
+          "django",
+          "github"
+        ],
+        "experience_gap": 2,
+        "is_top_3": false,
+        "rank": 19
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 20% match"
+    },
+    {
+      "candidate": {
+        "id": "8089fed8b0e220de6144d402aadb7662",
+        "name": "Django",
+        "email": "",
+        "phone": null,
+        "current_title": "Developer",
+        "skills": [
+          "django"
+        ],
+        "experience_years": 0,
+        "education": null,
+        "location": "North Houston",
+        "profile_url": "https://github.com/DjangoKerger",
+        "source_portal": "github",
+        "summary": "GitHub: 65 repos, 14 followers",
+        "keyword_match_score": null,
+        "semantic_match_score": null,
+        "combined_match_score": null,
+        "matched_skills": null,
+        "missing_skills": null
+      },
+      "match_score": 0.23,
+      "match_breakdown": {
+        "skill_match": 0.25,
+        "experience_match": 0.2,
+        "matched_skills": [
+          "django"
+        ],
+        "missing_skills": [
+          "python",
+          "fastapi",
+          "github"
+        ],
+        "experience_gap": 2,
+        "is_top_3": false,
+        "rank": 20
+      },
+      "reasoning": "Skills: 1/4 matched, Experience: 20% match"
+    }
+  ]
+}

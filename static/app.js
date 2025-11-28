@@ -121,10 +121,10 @@ function showFactsModal() {
 // Animate Workflow Steps (FASTER)
 function animateWorkflow() {
     const steps = [
-        { id: 1, name: 'Extractor Agent', duration: 2000, progress: 25, text: 'Analyzing job requirements...' },
-        { id: 2, name: 'Search Agent', duration: 5000, progress: 50, text: 'Scanning LinkedIn, Indeed, GitHub...' },
-        { id: 3, name: 'Data Builder', duration: 3000, progress: 75, text: 'Building candidate profiles...' },
-        { id: 4, name: 'AI Matching', duration: 2000, progress: 100, text: 'Ranking best candidates...' }
+        { id: 1, name: 'Phase 1: Scraping', duration: 30000, progress: 40, text: 'Scraping Naukri, LinkedIn, StackOverflow, GitHub...' },
+        { id: 2, name: 'Phase 2: Vector Search', duration: 3000, progress: 60, text: 'Searching Vector DB for relevant candidates...' },
+        { id: 3, name: 'Phase 3: Hard Matching', duration: 5000, progress: 80, text: 'Matching skills and experience requirements...' },
+        { id: 4, name: 'Phase 4: Balancing', duration: 2000, progress: 100, text: 'Balancing results across sources...' }
     ];
     
     let currentStep = 0;
@@ -168,12 +168,16 @@ function animateWorkflow() {
 // Hide Facts Modal
 function hideFactsModal() {
     const modal = document.getElementById('factsModal');
-    modal.classList.remove('active');
+    if (modal) {
+        modal.classList.remove('active');
+        modal.style.display = 'none'; // Force hide
+        setTimeout(() => modal.style.display = '', 100); // Reset after animation
+    }
 }
 
 // Poll Job Status
 async function pollJobStatus(jobId) {
-    const maxAttempts = 40;  // Reduced from 60
+    const maxAttempts = 90;  // Increased to 90 (3 minutes total: 90 * 2s = 180s)
     let attempts = 0;
     let scrapingComplete = false;
     let previousCandidateCount = 0;
@@ -205,7 +209,8 @@ async function pollJobStatus(jobId) {
             }
 
             if (job.status === 'completed') {
-                // Close matching modal if open
+                // Close ALL modals
+                hideFactsModal();
                 hideMatchingModal();
                 
                 // Reset form and load jobs
@@ -229,12 +234,14 @@ async function pollJobStatus(jobId) {
 
             attempts++;
             if (attempts < maxAttempts) {
-                // Poll every 2 seconds (reduced from 1 second to minimize server load)
+                // Poll every 2 seconds
                 setTimeout(poll, 2000);
             } else {
                 hideFactsModal();
                 hideMatchingModal();
-                showNotification('⏱️ Job is taking longer than expected. Check back later.', 'warning');
+                showNotification('⏱️ Job is still processing. Refresh the page in a minute to see results.', 'warning');
+                // Still load jobs to show the in-progress job
+                await loadJobs();
             }
         } catch (error) {
             console.error('Polling error:', error);
@@ -318,7 +325,11 @@ function animateCounter(elementId, start, end, duration) {
 // Hide Matching Modal
 function hideMatchingModal() {
     const modal = document.getElementById('matchingModal');
-    modal.classList.remove('active');
+    if (modal) {
+        modal.classList.remove('active');
+        modal.style.display = 'none'; // Force hide
+        setTimeout(() => modal.style.display = '', 100); // Reset after animation
+    }
 }
 
 // Show Notification (Toast)
@@ -441,32 +452,46 @@ function displayJobs(jobs) {
                         ` : ''}
                         
                         ${candidates.length > 0 ? `
+                            <div class="selection-note">
+                                <div class="note-icon">ℹ️</div>
+                                <div class="note-content">
+                                    <strong>Selection Process:</strong> Showing all ${candidates.length} candidates from our vetted pool who passed the criteria 
+                                    (min 10% skill match + 10% experience match). Results are balanced across Naukri, LinkedIn, StackOverflow, and GitHub. 
+                                    <span class="top-3-badge">🏆 Top 3</span> matches are highlighted below.
+                                </div>
+                            </div>
                             <div class="candidates-table">
                                 <table>
                                     <thead>
                                         <tr>
+                                            <th>Rank</th>
                                             <th>Name</th>
                                             <th>Title</th>
                                             <th>Skills</th>
                                             <th>Experience</th>
                                             <th>Location</th>
                                             <th>Source</th>
+                                            <th>Score</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        ${paginatedCandidates.map(candidate => {
+                                        ${paginatedCandidates.map((candidate, idx) => {
                                             const cand = candidate.candidate || candidate;
                                             const candSkills = cand.skills ? 
                                                 (Array.isArray(cand.skills) ? cand.skills : JSON.parse(cand.skills)) : [];
                                             const platform = cand.source_portal || 'Unknown';
                                             
-                                            // Get matched skills from match_breakdown
+                                            // Get match details
                                             const matchedSkills = candidate.match_breakdown?.matched_skills || [];
                                             const matchedSkillsLower = matchedSkills.map(s => s.toLowerCase());
+                                            const isTop3 = candidate.match_breakdown?.is_top_3 || false;
+                                            const rank = candidate.match_breakdown?.rank || (startIdx + idx + 1);
+                                            const score = candidate.match_score || 0;
                                             
                                             return `
-                                                <tr>
+                                                <tr class="${isTop3 ? 'top-3-row' : ''}">
+                                                    <td><strong>${isTop3 ? '🏆 ' : ''}#${rank}</strong></td>
                                                     <td><strong>${cand.name || 'N/A'}</strong></td>
                                                     <td>${cand.current_title || 'N/A'}</td>
                                                     <td>
@@ -484,6 +509,7 @@ function displayJobs(jobs) {
                                                             ${platform}
                                                         </span>
                                                     </td>
+                                                    <td><strong>${(score * 100).toFixed(0)}%</strong></td>
                                                     <td>
                                                         <button class="btn-view" onclick='viewCandidate(${JSON.stringify(cand).replace(/'/g, "&apos;")})'>View</button>
                                                     </td>

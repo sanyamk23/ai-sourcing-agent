@@ -341,19 +341,21 @@ async def process_job(job_id: str):
             nosql_db.save_job(job)
             return
         
-        # PHASE 4: Balance results across sources (max 10 results)
+        # PHASE 4: Balance results across sources (show ALL matched candidates)
         logger.info(f"Phase 4: Balancing results across sources...")
         balanced = hard_matcher.balance_by_source(
             matched,
-            max_results=10,
+            max_results=len(matched),  # Show ALL candidates who passed
             sources=['naukri', 'linkedin', 'stackoverflow', 'github']
         )
-        logger.info(f"Selected {len(balanced)} balanced candidates")
+        logger.info(f"Selected {len(balanced)} balanced candidates (showing all who passed criteria)")
         
-        # Convert to RankedCandidate format
+        # Convert to RankedCandidate format and mark top 3
         ranked_candidates = []
-        for match in balanced:
+        for i, match in enumerate(balanced):
             candidate = match['candidate']
+            is_top_3 = i < 3  # Mark top 3 candidates
+            
             ranked_candidates.append(RankedCandidate(
                 candidate=candidate,
                 match_score=match['combined_score'],
@@ -362,9 +364,11 @@ async def process_job(job_id: str):
                     'experience_match': match['experience_score'],
                     'matched_skills': match['matched_skills'],
                     'missing_skills': match['missing_skills'],
-                    'experience_gap': match['experience_gap']
+                    'experience_gap': match['experience_gap'],
+                    'is_top_3': is_top_3,  # Flag for UI highlighting
+                    'rank': i + 1  # Add rank number
                 },
-                reasoning=f"Skills: {len(match['matched_skills'])}/{len(job.description.required_skills)} matched, Experience: {match['experience_score']*100:.0f}% match"
+                reasoning=f"{'🏆 TOP MATCH - ' if is_top_3 else ''}Skills: {len(match['matched_skills'])}/{len(job.description.required_skills)} matched, Experience: {match['experience_score']*100:.0f}% match"
             ))
         
         # Update job with final results
