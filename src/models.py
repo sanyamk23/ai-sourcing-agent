@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, Any
 from datetime import datetime
 from enum import Enum
 
@@ -31,10 +31,20 @@ class Candidate(BaseModel):
     source_portal: str
     summary: Optional[str] = None
     
+    # Matching scores (added dynamically during matching)
+    keyword_match_score: Optional[float] = None
+    semantic_match_score: Optional[float] = None
+    combined_match_score: Optional[float] = None
+    matched_skills: Optional[List[str]] = None
+    missing_skills: Optional[List[str]] = None
+    
+    class Config:
+        arbitrary_types_allowed = True
+    
 class RankedCandidate(BaseModel):
     candidate: Candidate
     match_score: float = Field(ge=0.0, le=1.0)
-    match_breakdown: Dict[str, float]
+    match_breakdown: Dict[str, Any]  # Can contain floats, lists, etc.
     reasoning: str
 
 class Job(BaseModel):

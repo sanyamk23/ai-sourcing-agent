@@ -22,6 +22,7 @@ class LinkedInRecruiterScraper:
     
     def __init__(self, config: dict):
         self.config = config
+        self.portal_name = "linkedin"  # Add portal_name for compatibility
         self.driver = None
         self.is_logged_in = False
     
